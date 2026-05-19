@@ -1,0 +1,3373 @@
+# code-test<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>高中生程式能力測試（非官方）</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=Noto+Serif+TC:wght@700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--ink:#1a1a2e;--dim:#4a4a6a;--muted:#8a8aaa;--line:#e0e0f0;--bg:#f5f4f0;--green:#1d5c3a;--greenl:#2d8a5a;--greenll:#e8f5ee;--blue:#1a3f7a;--bluell:#e5edf8;--red:#b52a2a;--redl:#fce8e8;--orange:#c47800;--violet:#7c3aed;--code-bg:#0d1117;--code-text:#c9d1d9;--shadow:0 2px 16px rgba(0,0,0,.08);--radius:14px}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;font-size:14px}
+button{cursor:pointer;font-family:inherit}
+.hidden{display:none!important}
+#topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:400;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+#topbar-inner{max-width:1060px;margin:0 auto;padding:0 20px;height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{font-family:'Noto Serif TC',serif;font-size:17px;font-weight:700;color:var(--green);display:flex;align-items:center;gap:8px;white-space:nowrap}
+.logo-badge{font-size:10px;background:var(--greenll);color:var(--green);border-radius:5px;padding:2px 7px;font-weight:700;font-family:'Noto Sans TC',sans-serif}
+#nav{display:flex;gap:2px;flex-wrap:wrap}
+.ntab{padding:7px 12px;border-radius:8px;border:none;background:none;font-size:13px;font-weight:600;color:var(--dim);transition:all .15s;white-space:nowrap}
+.ntab.on{background:var(--greenll);color:var(--green)}
+.ntab:hover:not(.on){background:#f0f0f0}
+.user-wrap{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.chip{font-size:12px;padding:4px 10px;border-radius:16px;background:#f0f0f0;color:var(--dim)}
+.chip.t{background:var(--bluell);color:var(--blue)}
+#wrap{max-width:1060px;margin:0 auto;padding:22px 20px 90px}
+.page{display:none}.page.on{display:block}
+#login-screen{position:relative;min-height:100vh;background:linear-gradient(160deg,#0a0f1e,#162435,#1a3a2a);display:flex;align-items:center;justify-content:center;padding:20px}
+.cover-views{position:absolute;top:18px;right:20px;display:flex;align-items:center;gap:8px;padding:7px 13px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;font-size:11px;font-weight:600;color:rgba(255,255,255,.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:10}
+.cover-views img{display:block;height:18px}
+@media(max-width:600px){.cover-views{top:12px;right:12px;padding:5px 10px;font-size:10px}.cover-views img{height:16px}}
+.lbox{width:100%;max-width:460px}
+.licon{font-size:56px;text-align:center;margin-bottom:10px}
+.ltitle{font-family:'Noto Serif TC',serif;font-size:26px;color:#e8f4f0;text-align:center;margin-bottom:4px}
+.lsub{font-size:13px;color:#6abea0;text-align:center;margin-bottom:24px}
+.lcard{background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:2rem}
+.llbl{color:#90c8b4;font-size:12px;font-weight:700;margin-bottom:8px;display:block;letter-spacing:.05em;text-transform:uppercase}
+.role-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+.rbtn{padding:14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.18);background:transparent;color:#90bdb0;font-weight:700;font-size:14px;transition:all .2s;text-align:center}
+.rbtn .ri{font-size:26px;margin-bottom:4px;display:block}
+.rbtn.on{border-color:#4ade80;background:rgba(74,222,128,.15);color:#4ade80}
+.linp{width:100%;padding:12px 16px;border-radius:11px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);color:#e8f4f0;font-size:15px;outline:none;font-family:inherit;margin-bottom:14px}
+.linp::placeholder{color:rgba(255,255,255,.3)}
+.lgo{width:100%;padding:14px;border-radius:11px;border:none;background:linear-gradient(135deg,#1d5c3a,#2d8a5a);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+.lgo:disabled{opacity:.35;cursor:not-allowed}
+.lstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.lstat{text-align:center;color:rgba(255,255,255,.5)}
+.lstat .v{font-size:20px;font-weight:700;color:#e8f4f0;display:block}
+.lstat .l{font-size:12px;margin-top:2px}
+.card{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem}
+.stitle{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.divider{height:1px;background:var(--line);margin:20px 0}
+.between{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 22px;border-radius:10px;border:none;font-weight:700;font-size:14px;transition:all .15s;cursor:pointer}
+.btn-green{background:var(--green);color:#fff}
+.btn-green:hover{background:#155230}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-red{background:var(--red);color:#fff}
+.btn-outline{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.btn-sm{padding:7px 15px;font-size:13px;border-radius:8px}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.full{width:100%;justify-content:center}
+select,input[type=text]{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid var(--line);font-size:14px;color:var(--ink);background:#fff;outline:none;font-family:inherit}
+input[type=range]{width:100%;accent-color:var(--green)}
+.pbar{height:6px;background:#f0f0f0;border-radius:4px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:4px;transition:width .5s}
+.tag{display:inline-block;font-size:11px;font-weight:700;border-radius:5px;padding:2px 8px;margin-right:4px}
+.tag-ch{background:var(--greenll);color:var(--green)}
+.tag-topic{background:#f0f0f0;color:var(--dim)}
+.tag-derived{background:#fef3c7;color:#92400e}
+.hero{background:linear-gradient(135deg,#0a0f1e,#162435,#1d3a28);border-radius:18px;padding:1.75rem;margin-bottom:20px;color:#fff}
+.hero h2{font-family:'Noto Serif TC',serif;font-size:21px;margin:0 0 4px}
+.hero p{font-size:13px;opacity:.75;margin:0 0 16px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.hs{background:rgba(255,255,255,.1);border-radius:11px;padding:12px;text-align:center}
+.hs .v{font-size:22px;font-weight:800}
+.hs .l{font-size:11px;opacity:.7;margin-top:2px}
+.ch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:20px}
+.ch-card{background:#fff;border:1.5px solid var(--line);border-radius:var(--radius);padding:18px;cursor:pointer;transition:all .2s;text-align:left;width:100%}
+.ch-card:hover{border-color:var(--greenl);box-shadow:0 4px 20px rgba(29,92,58,.1)}
+.ch-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.ch-ico{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ch-name{font-size:15px;font-weight:700;color:var(--ink)}
+.ch-desc{font-size:12px;color:var(--muted);margin-top:2px}
+.mode-toggle{display:flex;gap:6px;background:#fff;border-radius:11px;padding:4px;border:1.5px solid var(--line)}
+.mt-btn{padding:7px 14px;border-radius:8px;border:none;background:none;font-size:13px;font-weight:600;color:var(--dim);cursor:pointer;flex:1}
+.mt-btn.on{background:var(--greenll);color:var(--green)}
+.lang-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lang-pill{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:14px 10px;border-radius:11px;border:2px solid var(--line);background:#fff;color:var(--dim);cursor:pointer;transition:all .15s;font-family:inherit;line-height:1.3}
+.lang-pill:hover{border-color:var(--greenl);color:var(--ink)}
+.lang-pill.on{border-color:var(--green);background:var(--greenll);color:var(--green);box-shadow:0 2px 8px rgba(29,92,58,.12)}
+.diff-pills{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.diff-pill{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:10px 8px;border-radius:11px;border:2px solid var(--line);background:#fff;color:var(--dim);cursor:pointer;transition:all .15s;font-family:inherit;line-height:1.3}
+.diff-pill:hover{border-color:var(--greenl);color:var(--ink)}
+.diff-pill[data-d="1"].on{border-color:#3b82f6;background:#eff6ff;color:#1d4ed8;box-shadow:0 2px 8px rgba(59,130,246,.15)}
+.diff-pill[data-d="2"].on{border-color:var(--green);background:var(--greenll);color:var(--green);box-shadow:0 2px 8px rgba(29,92,58,.12)}
+.diff-pill[data-d="3"].on{border-color:#ef4444;background:#fef2f2;color:#b91c1c;box-shadow:0 2px 8px rgba(239,68,68,.15)}
+.code-wrap{background:var(--code-bg);border-radius:10px;margin:12px 0;overflow:hidden;border:1px solid #30363d}
+.code-header{background:#161b22;padding:8px 14px;font-size:11px;color:#8b949e;font-family:'JetBrains Mono',monospace;display:flex;align-items:center;gap:8px;border-bottom:1px solid #30363d}
+.code-dots{display:flex;gap:5px}
+.code-dots span{width:11px;height:11px;border-radius:50%;display:inline-block}
+.code-dots .r{background:#ff5f57}.code-dots .y{background:#ffbd2e}.code-dots .g{background:#28c840}
+.code-lang{margin-left:auto;font-size:11px;font-weight:600;background:#21262d;padding:2px 9px;border-radius:5px;color:#c9d1d9}
+.code-wrap pre.code-block{margin:0;border:none;border-radius:0;background:transparent}
+pre.code-block{font-family:'JetBrains Mono',monospace;font-size:13px;background:var(--code-bg);color:var(--code-text);padding:16px;overflow-x:auto;line-height:1.7;white-space:pre;tab-size:4;margin:12px 0;border-radius:10px;border:1px solid #30363d}
+pre.code-block .kw{color:#d2a8ff}
+pre.code-block .nm{color:#e3b341}
+pre.code-block .st{color:#a5d6ff}
+pre.code-block .cm{color:#8b949e;font-style:italic}
+.qcard{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:14px;border:1.5px solid transparent;scroll-margin-top:80px}
+.qcard.q-answered{border-color:var(--greenl)}
+.qtags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.qnum{font-size:13px;font-weight:700;color:var(--muted)}
+.qtext,.qtxt{font-size:14.5px;font-weight:600;color:var(--ink);line-height:1.9;margin:8px 0 14px}
+.qtxt code{background:#f0f0f0;padding:1px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#b52a2a}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt,.opt-btn{display:flex;align-items:flex-start;gap:11px;padding:13px 16px;border-radius:11px;border:1.5px solid var(--line);background:#fafafa;cursor:pointer;width:100%;text-align:left;font-family:inherit;font-size:13.5px;transition:all .15s;color:var(--ink);line-height:1.6;user-select:none}
+.opt:hover,.opt-btn:hover:not(:disabled){border-color:var(--greenl);background:var(--greenll)}
+.opt.selected{border-color:var(--green)!important;background:var(--greenll)!important;box-shadow:0 0 0 3px rgba(45,138,90,.15)}
+.opt.selected .lt{color:var(--green)}
+.opt.correct,.opt-btn.correct{border-color:var(--green)!important;background:var(--greenll)}
+.opt.wrong,.opt-btn.wrong{border-color:var(--red)!important;background:var(--redl)}
+.opt-btn.neutral{opacity:.45}
+.opt-btn:disabled{cursor:not-allowed}
+.opt .lt{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#e8e8f0;color:var(--dim);font-size:12px;flex-shrink:0;margin-right:0!important}
+.opt.selected .lt{background:var(--green);color:#fff}
+.ch-tag{display:inline-block;font-size:11px;font-weight:700;border-radius:5px;padding:2px 8px;margin-right:4px}
+.oc{min-width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;background:#e8e8f0;color:var(--dim)}
+.oc.c{background:var(--green);color:#fff}
+.oc.w{background:var(--red);color:#fff}
+.explain{margin-top:14px;background:var(--bluell);border:1px solid #b8d4f5;border-radius:11px;padding:14px 16px}
+.explain-head{font-weight:700;color:var(--blue);font-size:12px;margin-bottom:6px;letter-spacing:.03em;text-transform:uppercase}
+.explain-body{font-size:13px;color:#1a3a5a;line-height:1.95;white-space:pre-wrap}
+.exp-box{margin-top:14px;background:#fafbfc;border:1px solid #e5e7eb;border-radius:12px;padding:16px 18px;font-size:13.5px;line-height:1.95;color:#1f2937}
+.exp-sec{font-weight:700;font-size:14.5px;margin:14px 0 6px;padding:6px 10px;border-radius:7px;border-left:4px solid}
+.exp-sec:first-child{margin-top:0}
+.exp-sec-blue{background:#eff6ff;color:#1e40af;border-color:#3b82f6}
+.exp-sec-green{background:#ecfdf5;color:#065f46;border-color:#10b981}
+.exp-sec-amber{background:#fffbeb;color:#92400e;border-color:#f59e0b}
+.exp-sec-red{background:#fef2f2;color:#991b1b;border-color:#ef4444}
+.exp-sec-pink{background:#fdf2f8;color:#9d174d;border-color:#ec4899}
+.exp-sec-purple{background:#f5f3ff;color:#5b21b6;border-color:#8b5cf6}
+.exam-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-radius:13px;background:var(--bluell);border:1px solid #b8d4f5;margin-bottom:14px}
+.exam-bar.urg{background:var(--redl);border-color:#f0b8b8}
+.timer{font-size:28px;font-weight:800;color:var(--blue);font-family:'JetBrains Mono',monospace;letter-spacing:-.02em}
+.timer.urg{color:var(--red);animation:pulse .8s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.q-palette{display:flex;flex-wrap:wrap;gap:5px;margin:14px 0}
+.q-dot,.q-pal-btn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:8px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;background:#f0f0f0;color:var(--muted);user-select:none}
+.q-dot:hover,.q-pal-btn:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.q-dot.done,.q-pal-btn.done{background:var(--greenll);color:var(--green)}
+.q-dot.cur,.q-pal-btn.cur{background:var(--green);color:#fff}
+.q-dot.und{background:#f0f0f0;color:var(--muted)}
+.exam-nav{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;margin-top:16px;align-items:center}
+.exam-qn{font-size:13px;color:var(--muted);text-align:center;font-weight:600}
+.result-hero{background:linear-gradient(135deg,#0a0f1e,#1d3a28);border-radius:18px;padding:2rem;color:#fff;text-align:center;margin-bottom:20px}
+.score-circle{width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.1);border:4px solid #4ade80;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 18px}
+.score-num{font-size:40px;font-weight:800}
+.score-lbl{font-size:12px;opacity:.75}
+.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+.rg{background:rgba(255,255,255,.1);border-radius:11px;padding:14px;text-align:center}
+.rg .v{font-size:24px;font-weight:800}
+.rg .l{font-size:11px;opacity:.7;margin-top:3px}
+.ai-explain-wrap{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;margin-bottom:14px}
+.ai-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.ai-badge{background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;letter-spacing:.05em}
+.loading-dots{display:flex;gap:4px}
+.loading-dots span{width:8px;height:8px;border-radius:50%;background:#4a7fd4;animation:bounce .7s infinite alternate}
+.loading-dots span:nth-child(2){animation-delay:.15s}
+.loading-dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{to{transform:translateY(-6px)}}
+.q-explain-item{border:1.5px solid var(--line);border-radius:11px;margin-bottom:12px;overflow:hidden}
+.qei-head{padding:12px 16px;background:#f8f8fc;font-weight:700;font-size:13px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.qei-status{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.qei-status.ok{background:var(--greenll);color:var(--green)}
+.qei-status.ng{background:var(--redl);color:var(--red)}
+.qei-body{padding:14px 16px;display:none;border-top:1px solid var(--line)}
+.qei-body.open{display:block}
+.ai-text{font-size:13px;color:var(--ink);line-height:2;white-space:pre-wrap}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.stat-c{background:#fff;border-radius:13px;box-shadow:var(--shadow);padding:16px;text-align:center}
+.stat-v{font-size:28px;font-weight:800;color:var(--ink)}
+.stat-l{font-size:12px;color:var(--muted);margin-top:3px}
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.bar-lbl{font-size:13px;color:var(--dim);width:130px;flex-shrink:0}
+.bar-track{flex:1;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;transition:width .8s ease}
+.bar-pct{font-size:12px;color:var(--muted);width:38px;text-align:right}
+.t-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+@media(max-width:680px){.t-grid{grid-template-columns:1fr}}
+.t-sec{background:#fff;border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+.prev-box{background:#f8f8fc;border:1px solid var(--line);border-radius:11px;padding:14px;max-height:420px;overflow-y:auto}
+.prev-q{padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.prev-q:last-child{border-bottom:none;padding-bottom:0;margin-bottom:0}
+.prev-qh{font-size:13px;font-weight:700;margin-bottom:7px;line-height:1.65}
+.prev-opts{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px}
+.prev-opt{font-size:12px;color:var(--dim)}
+.prev-opt.ans{color:var(--green);font-weight:700}
+.prev-exp{font-size:12px;color:var(--blue);margin-top:7px;line-height:1.75;padding:7px 10px;background:var(--bluell);border-radius:8px}
+.prev-code{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--code-bg);color:var(--code-text);padding:8px;border-radius:6px;margin:6px 0;overflow-x:auto;white-space:pre;line-height:1.5}
+.ch-tog{padding:6px 13px;border-radius:18px;border:1.5px solid var(--line);background:#f8f8f8;font-size:12px;font-weight:700;cursor:pointer;color:var(--dim);margin:3px}
+.ch-tog.on{background:var(--bluell);color:var(--blue);border-color:#90bbf0}
+.ver-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.ver-btn{padding:11px;border-radius:11px;border:1.5px solid var(--line);background:#f8f8f8;font-size:13px;font-weight:700;cursor:pointer;color:var(--dim);text-align:center}
+.ver-btn.on{background:var(--bluell);color:var(--blue);border-color:#90bbf0}
+.lb-row{display:flex;align-items:center;gap:14px;padding:12px 16px;background:#fff;border:1px solid var(--line);border-radius:11px;margin-bottom:8px}
+.lb-rank{font-size:18px;font-weight:800;width:30px;text-align:center}
+.lb-name{font-size:14px;flex:1;font-weight:600}
+.lb-score{font-size:16px;font-weight:800;color:var(--green)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:11px 24px;border-radius:12px;font-size:14px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1}
+.empty{text-align:center;padding:50px 20px;color:var(--muted)}
+.teacher-hero{background:linear-gradient(135deg,#1a3f7a,#2d5a9b);border-radius:18px;padding:1.75rem;margin-bottom:20px;color:#fff}
+.diff-badge{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px}
+.diff-1{background:#e8f5ee;color:#1d5c3a}
+.diff-2{background:#fff3d6;color:#c47800}
+.diff-3{background:#fce8e8;color:#b52a2a}
+.word-download-area{background:linear-gradient(135deg,#1a3f7a11,#1d5c3a11);border:1.5px dashed var(--greenl);border-radius:12px;padding:18px;text-align:center;margin-bottom:16px}
+@media(max-width:600px){.hero-stats,.result-grid{grid-template-columns:repeat(2,1fr)}.ch-grid{grid-template-columns:1fr}.exam-nav{grid-template-columns:1fr 1fr;gap:8px}.exam-nav .exam-qn{display:none}#nav .ntab{font-size:12px;padding:6px 9px}}
+/* === 新增：考試結果頁面相關 CSS === */
+.score-c{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.1);border:4px solid #4ade80;margin:0 auto 14px}
+.score-n{font-size:40px;font-weight:800;line-height:1}
+.score-l{font-size:12px;opacity:.75;margin-top:4px}
+.qe-item{border:1.5px solid var(--line);border-radius:11px;margin-bottom:12px;overflow:hidden}
+.qe-item.ok{border-left:4px solid var(--green)}
+.qe-item.no{border-left:4px solid var(--red)}
+.qe-h{padding:12px 16px;background:#f8f8fc;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;user-select:none}
+.qe-h:hover{background:#f0f0f8}
+.qe-b{padding:14px 16px;border-top:1px solid var(--line)}
+.qe-b.hidden{display:none}
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div id="topbar"><div id="topbar-inner">
+    <div class="logo">⌨️ 高中生程式能力測試</div>
+    <div id="nav">
+      <button class="ntab on" id="nav-exam" onclick="navTo('exam')">🎯 模擬考</button>
+      <button class="ntab" id="nav-stats" onclick="navTo('stats')">📊 成績</button>
+    </div>
+    <div class="user-wrap"></div>
+  </div></div>
+
+  <div id="wrap">
+    <div class="page on" id="page-exam">
+      <div class="hero" style="text-align:center">
+        <h2 id="hero-greet">⌨️ 高中生程式能力測試</h2>
+        <p>高中生程式能力測試考・完整解析・Word 報告下載</p>
+        <div class="hero-stats">
+          <div class="hs"><div class="v" id="hs-exam">0</div><div class="l">已完成模擬考</div></div>
+          <div class="hs"><div class="v" id="hs-best">—</div><div class="l">最佳成績</div></div>
+          <div class="hs"><div class="v" id="hs-avg">—</div><div class="l">平均成績</div></div>
+        </div>
+      </div>
+      <div id="exam-intro">
+        <div class="card" style="text-align:center;padding:2rem;margin-bottom:16px">
+          <div style="font-size:50px;margin-bottom:12px">🎯</div>
+          <div style="font-size:22px;font-weight:700;margin-bottom:8px">程式能力測試模擬考</div>
+          <p style="color:var(--muted);font-size:13px;margin-bottom:22px">標準考試格式・程式碼縮排顯示・考完直接顯示完整解析 + Word 下載</p>
+          <div style="background:var(--greenll);border-radius:11px;padding:14px;margin-bottom:18px;text-align:left">
+            <div style="font-weight:700;color:var(--green);margin-bottom:6px">📋 標準考試規則</div>
+            <div style="font-size:13px;color:#1d5c3a;line-height:1.8">
+              • 每題 4 選 1，僅能選擇一個答案<br>
+              • 限時 <strong>90 分鐘</strong>，計時器不可暫停<br>
+              • 可切換題目，提交後不可修改<br>
+              • 考完立即顯示完整詳解（含核心觀念、解題步驟、常見陷阱）
+            </div>
+          </div>
+
+          <div style="margin-bottom:14px;text-align:left">
+            <div style="font-size:12px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">🖥️ 程式語言</div>
+            <div class="lang-pills">
+              <button type="button" class="lang-pill on" id="lang-cpp" onclick="pickLang('cpp')">
+                <span style="font-size:18px">⚙️</span>
+                <span style="font-weight:700">C++</span>
+                <span style="font-size:11px;opacity:.7">含指標題</span>
+              </button>
+              <button type="button" class="lang-pill" id="lang-py" onclick="pickLang('python')">
+                <span style="font-size:18px">🐍</span>
+                <span style="font-weight:700">Python</span>
+                <span style="font-size:11px;opacity:.7">略過指標題</span>
+              </button>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+            <select id="exam-ch" style="padding:10px 14px;font-size:14px"></select>
+            <select id="exam-cnt" style="padding:10px 14px;font-size:14px">
+              <option value="10">10 題</option>
+              <option value="15">15 題</option>
+              <option value="20">20 題</option>
+              <option value="25" selected>25 題</option>
+            </select>
+          </div>
+          <div style="margin-bottom:14px;text-align:left">
+            <div style="font-size:12px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px">🎯 難度等級</div>
+            <div class="diff-pills">
+              <button type="button" class="diff-pill" data-d="1" id="diff-1" onclick="pickDiff(1)">
+                <span style="font-size:18px">⭐</span>
+                <span style="font-weight:700">基礎</span>
+                <span style="font-size:11px;opacity:.7">概念為主</span>
+              </button>
+              <button type="button" class="diff-pill on" data-d="2" id="diff-2" onclick="pickDiff(2)">
+                <span style="font-size:18px">⭐⭐</span>
+                <span style="font-weight:700">普通</span>
+                <span style="font-size:11px;opacity:.7">程式追蹤</span>
+              </button>
+              <button type="button" class="diff-pill" data-d="3" id="diff-3" onclick="pickDiff(3)">
+                <span style="font-size:18px">⭐⭐⭐</span>
+                <span style="font-weight:700">困難</span>
+                <span style="font-size:11px;opacity:.7">互遞迴/演算法</span>
+              </button>
+            </div>
+          </div>
+          <button class="btn btn-green full" style="font-size:15px;padding:14px" onclick="startExam()">🚀 開始模擬考試</button>
+        </div>
+        <div id="exam-hist"></div>
+      </div>
+
+      <div id="exam-run" class="hidden">
+        <div class="exam-bar" id="exam-bar">
+          <div style="display:flex;align-items:center;gap:10px"><div>⏱️</div><div class="timer" id="timer">00:00</div></div>
+          <div id="exam-prog-txt" style="font-size:13px;color:var(--dim);font-weight:600">0/25</div>
+          <button class="btn btn-red btn-sm" onclick="submitExam()">📝 交卷</button>
+        </div>
+        <div class="pbar" style="margin-bottom:10px"><div class="pbar-fill" id="exam-pbar" style="width:0%;background:var(--green)"></div></div>
+        <div class="q-palette" id="q-palette"></div>
+        <div id="exam-qwrap"></div>
+        <div class="exam-nav" style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;margin-top:12px">
+          <button id="exam-prev" class="btn" style="font-size:14px;padding:12px" onclick="examNav(-1)">← 上一題</button>
+          <button class="btn btn-red" style="font-size:14px;padding:12px 18px" onclick="submitExam()">📝 交卷</button>
+          <button id="exam-next" class="btn btn-green" style="font-size:14px;padding:12px" onclick="examNav(1)">下一題 →</button>
+        </div>
+      </div>
+
+      <div id="exam-result" class="hidden"></div>
+    </div>
+
+    <div class="page" id="page-stats">
+      <div class="stitle">📊 模擬考成績分析</div>
+      <div class="stat-grid" id="stat-grid"></div>
+      <div class="card" style="margin-bottom:16px"><div class="stitle" style="margin-bottom:14px">📚 各章節答題正確率（歷次累積）</div><div id="ch-bars"></div></div>
+      <div class="stitle">📜 全部考試紀錄</div>
+      <div id="exam-hist-stats"></div>
+    </div>
+
+    <footer style="margin-top:40px;padding:20px 16px;border-top:1px solid var(--line);text-align:center;font-size:11px;color:var(--muted);line-height:1.8">
+      <div style="margin-bottom:6px"><strong>⚠️ 非官方學習工具</strong></div>
+      <div>本站為高中生程式能力測試學習輔助工具，與任何官方程式設計能力測試主辦單位均無隸屬或授權關係。</div>
+      <div>所有題目皆為程式即時生成的衍生題目，僅供教學與自學參考；正式考試請以各官方考試網站公告為準。</div>
+      <div style="margin-top:10px;padding:10px 14px;background:#fef3c7;border:1px solid #fcd34d;border-radius:8px;color:#92400e;font-size:12px;line-height:1.7">
+        <strong>📢 使用聲明</strong><br>
+        本工具<strong>全部功能完全免費</strong>提供高中生與自學者使用。<br>
+        <strong>嚴禁</strong>任何形式之商業營利用途（含但不限於：販售、收費教學課程、補習班商品包、收費 App 內容、企業內訓收費教材等）。<br>
+        如需用於非營利之公開教育場合（學校社團、公益課程），歡迎自由使用並標註來源。
+      </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap">
+        <div>
+          <img src="https://visitor-badge.laobi.icu/badge?page_id=hs-prog-test-tw.visitors&left_color=555&right_color=10b981&left_text=%E7%B4%AF%E7%A9%8D%E8%A8%AA%E5%AE%A2" alt="累積訪客" style="vertical-align:middle;height:20px" onerror="this.style.display='none';document.getElementById('local-visits-fallback').style.display='inline'" />
+          <span id="local-visits-fallback" style="display:none;font-size:12px;color:var(--muted)">累積訪客：<strong id="local-visits-count">—</strong></span>
+        </div>
+        <div style="font-size:12px;color:var(--muted)">本機瀏覽次數：<strong id="local-views" style="color:var(--green)">—</strong></div>
+      </div>
+    </footer>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ DATA ============ */
+const CHS = [
+  {id:2, name:'基礎概念', icon:'🔢', desc:'進位、運算子、型別、位元'},
+  {id:3, name:'流程控制', icon:'🔁', desc:'迴圈、判斷、跳躍'},
+  {id:4, name:'陣列字串', icon:'📦', desc:'一維/二維陣列、字串處理'},
+  {id:5, name:'函式範疇', icon:'🧩', desc:'函式、傳值/傳址、範疇'},
+  {id:6, name:'指標',     icon:'🎯', desc:'指標、位址、解參考'},
+  {id:7, name:'資料結構與演算法', icon:'🧠', desc:'堆疊/佇列/樹/圖、排序、複雜度、DP'}
+];
+
+/* ============ DERIVED GENERATORS（衍生題產生器，100+ 種，涵蓋資料結構與演算法）============ */
+const rnd = (a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const pick = arr => arr[rnd(0,arr.length-1)];
+const shuf = arr => { const r=[...arr]; for(let i=r.length-1;i>0;i--){const j=rnd(0,i);[r[i],r[j]]=[r[j],r[i]];} return r; };
+const mk = (correct, wrongs) => {
+  const set = new Set([String(correct)]);
+  const finalWrongs = [];
+  for(const w of wrongs){
+    const s = String(w);
+    if(!set.has(s)){ set.add(s); finalWrongs.push(s); }
+    if(finalWrongs.length>=3) break;
+  }
+  while(finalWrongs.length<3){ const x=String(rnd(1,999)); if(!set.has(x)){set.add(x); finalWrongs.push(x);} }
+  const all = shuf([String(correct), ...finalWrongs]);
+  return { opts: all, a: all.indexOf(String(correct)) };
+};
+
+const GEN = [
+  /* === Ch2 基礎概念 === */
+  ()=>{ // 二進位轉十進位
+    const n = rnd(5,255), bin = n.toString(2);
+    const o = mk(n, [n+1,n-1,parseInt(bin,10)%256,n^1]);
+    return {ch:2, q:`下列二進位數 <code>${bin}₂</code> 的十進位值為何？`, code:null, opts:o.opts, a:o.a,
+      exp:`將每個位元乘以對應的 2 次方：${bin.split('').reverse().map((b,i)=>b==='1'?`2^${i}`:null).filter(Boolean).reverse().join(' + ')} = ${n}`};
+  },
+  ()=>{ // 十六進位轉十進位
+    const n = rnd(20,255), hex = n.toString(16).toUpperCase();
+    const o = mk(n, [n+1,n-1,parseInt(hex,10),n+16]);
+    return {ch:2, q:`下列十六進位數 <code>${hex}₁₆</code> 的十進位值為何？`, code:null, opts:o.opts, a:o.a,
+      exp:`${hex}₁₆ = ${hex.split('').map((c,i)=>`${parseInt(c,16)}×16^${hex.length-1-i}`).join(' + ')} = ${n}`};
+  },
+  ()=>{ // 邏輯運算（三變數）
+    const a=rnd(0,1), b=rnd(0,1), c=rnd(0,1);
+    const exprs = [
+      {e:`(a && b) || c`, v:(a&&b)||c, t:`a&&b 為 ${a&&b?1:0}，再與 c=${c} 做 OR`},
+      {e:`a || (b && c)`, v:a||(b&&c), t:`b&&c 為 ${b&&c?1:0}，再與 a=${a} 做 OR`},
+      {e:`(a || b) && !c`, v:(a||b)&&!c, t:`a||b 為 ${a||b?1:0}，!c 為 ${c?0:1}，再做 AND`}
+    ];
+    const E = pick(exprs);
+    const code = `int a = ${a}, b = ${b}, c = ${c};\nif(${E.e}) printf("T");\nelse printf("F");`;
+    return {ch:2, q:'下列 C 程式輸出為何？', code, opts:['T','F','TF','錯誤'], a:E.v?0:1,
+      exp:`${E.t}，最終結果為 ${E.v?'真':'假'}，輸出 ${E.v?'T':'F'}`};
+  },
+  ()=>{ // 運算子優先順序
+    const a=rnd(2,9), b=rnd(2,9), c=rnd(2,9);
+    const ans = a + b * c;
+    const o = mk(ans, [(a+b)*c, a*b+c, a+b+c]);
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a}, b = ${b}, c = ${c};\nint x = a + b * c;\nprintf("%d", x);`,
+      opts:o.opts, a:o.a,
+      exp:`乘法優先於加法：b*c = ${b*c}，a + ${b*c} = ${ans}`};
+  },
+  ()=>{ // 位元 AND
+    const a=rnd(5,30), b=rnd(5,30), ans=a&b;
+    const o = mk(ans, [a|b, a^b, a+b]);
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a}, b = ${b};\nprintf("%d", a & b);`,
+      opts:o.opts, a:o.a,
+      exp:`${a}₂=${a.toString(2)}, ${b}₂=${b.toString(2)}，逐位 AND = ${ans.toString(2)}₂ = ${ans}`};
+  },
+  ()=>{ // 位元 OR
+    const a=rnd(5,30), b=rnd(5,30), ans=a|b;
+    const o = mk(ans, [a&b, a^b, a-b]);
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a}, b = ${b};\nprintf("%d", a | b);`,
+      opts:o.opts, a:o.a,
+      exp:`${a}₂=${a.toString(2)}, ${b}₂=${b.toString(2)}，逐位 OR = ${ans.toString(2)}₂ = ${ans}`};
+  },
+  ()=>{ // 位元 XOR
+    const a=rnd(5,30), b=rnd(5,30), ans=a^b;
+    const o = mk(ans, [a&b, a|b, a%b]);
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a}, b = ${b};\nprintf("%d", a ^ b);`,
+      opts:o.opts, a:o.a,
+      exp:`${a}₂=${a.toString(2)}, ${b}₂=${b.toString(2)}，逐位 XOR (相同為0、相異為1) = ${ans.toString(2)}₂ = ${ans}`};
+  },
+  ()=>{ // 強制轉型
+    const d = (rnd(20,99)/10).toFixed(1);
+    const ans = Math.trunc(parseFloat(d));
+    const o = mk(ans, [Math.round(parseFloat(d)), ans+1, Math.ceil(parseFloat(d))]);
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`double d = ${d};\nint i = (int)d;\nprintf("%d", i);`,
+      opts:o.opts, a:o.a,
+      exp:`(int) 強制轉型會「截斷」小數部分（非四捨五入），${d} 截斷後為 ${ans}`};
+  },
+  ()=>{ // 複合指定運算子
+    const x0=rnd(3,15), a1=rnd(2,8), a2=rnd(2,5);
+    const ans = (x0+a1)*a2;
+    const o = mk(ans, [x0+a1*a2, x0*a2+a1, x0+a1+a2]);
+    return {ch:2, q:'下列 C 程式片段執行後 x 的值為何？',
+      code:`int x = ${x0};\nx += ${a1};\nx *= ${a2};\nprintf("%d", x);`,
+      opts:o.opts, a:o.a,
+      exp:`x = ${x0} + ${a1} = ${x0+a1}，再 x = ${x0+a1} × ${a2} = ${ans}`};
+  },
+  ()=>{ // / 與 %
+    const a=rnd(30,99), b=rnd(3,9);
+    const q=Math.floor(a/b), r=a%b;
+    const correct=`${q} ${r}`;
+    const w1=`${r} ${q}`, w2=`${q+1} ${r}`, w3=`${q} ${r+1}`;
+    const all = shuf([correct, w1, w2, w3]);
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a}, b = ${b};\nprintf("%d %d", a/b, a%b);`,
+      opts: all, a: all.indexOf(correct),
+      exp:`整數除法 ${a}/${b} = ${q}（取商），${a}%${b} = ${r}（取餘）`};
+  },
+
+  /* === Ch3 流程控制 === */
+  ()=>{ // 等差和
+    const n = rnd(5,20);
+    const ans = n*(n+1)/2;
+    const o = mk(ans, [n*(n-1)/2, n*n/2, n*n]);
+    return {ch:3, q:'下列 C 程式輸出為何？',
+      code:`int s = 0;\nfor(int i = 1; i <= ${n}; i++) s += i;\nprintf("%d", s);`,
+      opts:o.opts, a:o.a,
+      exp:`1+2+...+${n} = n(n+1)/2 = ${n}×${n+1}/2 = ${ans}`};
+  },
+  ()=>{ // 平方和
+    const n = rnd(3,8);
+    let ans=0; for(let i=1;i<=n;i++) ans += i*i;
+    const o = mk(ans, [n*(n+1)/2, n*n, ans+n]);
+    return {ch:3, q:'下列 C 程式輸出為何？',
+      code:`int s = 0;\nfor(int i = 1; i <= ${n}; i++) s += i * i;\nprintf("%d", s);`,
+      opts:o.opts, a:o.a,
+      exp:`1²+2²+...+${n}² = ${Array.from({length:n},(_,i)=>(i+1)*(i+1)).join('+')} = ${ans}`};
+  },
+  ()=>{ // 巢狀方陣
+    const a=rnd(3,8), b=rnd(3,8);
+    const ans=a*b;
+    const o = mk(ans, [a+b, a*a, b*b]);
+    return {ch:3, q:'下列 C 程式片段執行後 cnt 的值為何？',
+      code:`int cnt = 0;\nfor(int i = 0; i < ${a}; i++)\n  for(int j = 0; j < ${b}; j++)\n    cnt++;`,
+      opts:o.opts, a:o.a,
+      exp:`外迴圈跑 ${a} 次，內迴圈每次跑 ${b} 次，共 ${a}×${b} = ${ans} 次`};
+  },
+  ()=>{ // 巢狀三角形
+    const n = rnd(4,8);
+    const ans = n*(n+1)/2;
+    const o = mk(ans, [n*n, n*(n-1)/2, n+n]);
+    return {ch:3, q:'下列 C 程式最內層 x++ 執行幾次？',
+      code:`int x = 0;\nfor(int i = 1; i <= ${n}; i++)\n  for(int j = 1; j <= i; j++)\n    x++;`,
+      opts:o.opts, a:o.a,
+      exp:`內層 j 從 1 到 i，當 i=1..${n} 時內層分別執行 1,2,...,${n} 次，總和 = 1+2+...+${n} = ${ans}`};
+  },
+  ()=>{ // Collatz
+    const starts = [{n:6,steps:8},{n:7,steps:16},{n:10,steps:6},{n:12,steps:9},{n:20,steps:7}];
+    const c = pick(starts);
+    const o = mk(c.steps, [c.steps-1, c.steps+1, c.steps+2]);
+    return {ch:3, q:'下列 C 程式片段執行後 c 的值為何？',
+      code:`int n = ${c.n}, c = 0;\nwhile(n > 1){\n  if(n % 2 == 0) n /= 2;\n  else n = 3 * n + 1;\n  c++;\n}\nprintf("%d", c);`,
+      opts:o.opts, a:o.a,
+      exp:`Collatz 序列：從 ${c.n} 開始，偶數則除 2，奇數則 3n+1，直到變 1，共 ${c.steps} 步`};
+  },
+  ()=>{ // 數位個數
+    const n = rnd(1000,99999);
+    const ans = String(n).length;
+    const o = mk(ans, [ans-1, ans+1, ans*2]);
+    return {ch:3, q:'下列 C 程式片段執行後 d 的值為何？',
+      code:`int n = ${n}, d = 0;\nwhile(n > 0){\n  d++;\n  n /= 10;\n}\nprintf("%d", d);`,
+      opts:o.opts, a:o.a,
+      exp:`迴圈每次將 n 整除 10（去掉個位），直到 n=0。${n} 有 ${ans} 個位數，故迴圈跑 ${ans} 次`};
+  },
+  ()=>{ // 倍增到上限
+    const base=rnd(2,5), limit=rnd(50,500);
+    let n=1, c=0; while(n<limit){ n*=base; c++; }
+    const o = mk(c, [c-1, c+1, c*2]);
+    return {ch:3, q:'下列 C 程式片段執行後 c 的值為何？',
+      code:`int n = 1, c = 0;\nwhile(n < ${limit}){\n  n *= ${base};\n  c++;\n}\nprintf("%d", c);`,
+      opts:o.opts, a:o.a,
+      exp:`n 從 1 開始每次乘 ${base}：${(()=>{let x=1,s=[1];while(x<limit){x*=base;s.push(x);}return s.join(' → ');})()}，共乘 ${c} 次`};
+  },
+  ()=>{ // 多重 if-else
+    const x = rnd(0,30);
+    let out = x>20?'A':(x>10?'B':(x>5?'C':'D'));
+    return {ch:3, q:'下列 C 程式輸出為何？',
+      code:`int x = ${x};\nif(x > 20) printf("A");\nelse if(x > 10) printf("B");\nelse if(x > 5) printf("C");\nelse printf("D");`,
+      opts:['A','B','C','D'], a:['A','B','C','D'].indexOf(out),
+      exp:`x = ${x}，由上而下檢查：${x>20?'符合 x>20':(x>10?'不符 x>20，符合 x>10':(x>5?'不符前兩條件，符合 x>5':'前面都不符，進入 else'))}，輸出 ${out}`};
+  },
+  ()=>{ // switch 漏 break
+    const vals = [1,2,3];
+    const x = pick(vals);
+    const outs = {1:'ABC', 2:'BC', 3:'C'};
+    return {ch:3, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int x = ${x};\nswitch(x){\n  case 1: printf("A");\n  case 2: printf("B");\n  case 3: printf("C"); break;\n  default: printf("D");\n}`,
+      opts:['A','AB','ABC','BC'].includes(outs[x])?shuf(['A','AB','ABC','BC']):shuf([outs[x],'A','AB','BC']),
+      a:0,exp:`x=${x}，從 case ${x} 開始執行，因為沒有 break 會「貫穿 (fall-through)」往下執行，直到遇到 case 3 的 break，故輸出 ${outs[x]}`};
+  },
+  ()=>{ // break/continue
+    const a=rnd(2,4), b=rnd(6,9);
+    let s=0; for(let i=1;i<=10;i++){ if(i===a) continue; if(i===b) break; s+=i; }
+    const o = mk(s, [s+a, s+b, 55]);
+    return {ch:3, q:'下列 C 程式片段執行後 s 的值為何？',
+      code:`int s = 0;\nfor(int i = 1; i <= 10; i++){\n  if(i == ${a}) continue;\n  if(i == ${b}) break;\n  s += i;\n}\nprintf("%d", s);`,
+      opts:o.opts, a:o.a,
+      exp:`continue 跳過 i=${a}（不累加），break 在 i=${b} 中止迴圈（也不累加）。實際累加：${Array.from({length:b-1},(_,i)=>i+1).filter(x=>x!==a).join('+')} = ${s}`};
+  },
+  ()=>{ // do-while
+    const init=rnd(5,15), lim=rnd(1,3);
+    const o = mk(1, [0,2,'無窮']);
+    return {ch:3, q:'下列 do-while 迴圈共執行幾次？',
+      code:`int i = ${init};\ndo{\n  i++;\n} while(i < ${lim});`,
+      opts:o.opts, a:o.a,
+      exp:`do-while 至少執行一次（先做後判斷），${init+1} < ${lim} 為假，迴圈結束，共執行 1 次`};
+  },
+
+  /* === Ch4 陣列字串 === */
+  ()=>{ // 二維陣列位址
+    const base=1000+rnd(0,9)*100, rows=rnd(3,5), cols=rnd(3,5), i=rnd(1,rows-1), j=rnd(0,cols-1);
+    const ans = base + (i*cols+j)*4;
+    const o = mk(ans, [base+(j*rows+i)*4, base+(i*cols+j)*2, base+(i+j)*4]);
+    return {ch:4, cppOnly:true, q:`若 <code>int a[${rows}][${cols}]</code>, <code>&a[0][0] = ${base}</code>, <code>sizeof(int) = 4</code>, 則 <code>&a[${i}][${j}]</code> 為何？`,
+      code:null, opts:o.opts, a:o.a,
+      exp:`位移公式：(${i}×${cols} + ${j}) × 4 = ${i*cols+j}×4 = ${(i*cols+j)*4}，位址 = ${base} + ${(i*cols+j)*4} = ${ans}`};
+  },
+  ()=>{ // 陣列線性變換 a[i] = a[i]*k + c
+    const arr = [rnd(1,5),rnd(1,5),rnd(1,5),rnd(1,5),rnd(1,5)];
+    const k = rnd(2,3), c = rnd(1,3);
+    const idx = rnd(0,4);
+    const ans = arr[idx]*k+c;
+    const o = mk(ans, [arr[idx], arr[idx]*k, arr[idx]+c]);
+    return {ch:4, q:`下列 C 程式執行後 a[${idx}] 的值為何？`,
+      code:`int a[5] = {${arr.join(',')}};\nfor(int i = 0; i < 5; i++) a[i] = a[i] * ${k} + ${c};`,
+      opts:o.opts, a:o.a,
+      exp:`a[${idx}] 原值 = ${arr[idx]}，經 a[i] = a[i]×${k} + ${c} 變換後 = ${arr[idx]}×${k} + ${c} = ${ans}`};
+  },
+  ()=>{ // 對角線和
+    const m = [[rnd(1,9),rnd(1,9),rnd(1,9)],[rnd(1,9),rnd(1,9),rnd(1,9)],[rnd(1,9),rnd(1,9),rnd(1,9)]];
+    const ans = m[0][0]+m[1][1]+m[2][2];
+    const o = mk(ans, [m[0][2]+m[1][1]+m[2][0], ans+1, ans-1]);
+    return {ch:4, q:'下列 C 程式片段執行後 s 的值為何？',
+      code:`int a[3][3] = {{${m[0].join(',')}},{${m[1].join(',')}},{${m[2].join(',')}}};\nint s = 0;\nfor(int i = 0; i < 3; i++) s += a[i][i];`,
+      opts:o.opts, a:o.a,
+      exp:`主對角線元素 a[0][0]+a[1][1]+a[2][2] = ${m[0][0]}+${m[1][1]}+${m[2][2]} = ${ans}`};
+  },
+  ()=>{ // 反對角線和
+    const m = [[rnd(1,9),rnd(1,9),rnd(1,9)],[rnd(1,9),rnd(1,9),rnd(1,9)],[rnd(1,9),rnd(1,9),rnd(1,9)]];
+    const ans = m[0][2]+m[1][1]+m[2][0];
+    const o = mk(ans, [m[0][0]+m[1][1]+m[2][2], ans+1, ans-1]);
+    return {ch:4, q:'下列 C 程式片段執行後 s 的值為何？',
+      code:`int a[3][3] = {{${m[0].join(',')}},{${m[1].join(',')}},{${m[2].join(',')}}};\nint s = 0;\nfor(int i = 0; i < 3; i++) s += a[i][2-i];`,
+      opts:o.opts, a:o.a,
+      exp:`反對角線元素 a[0][2]+a[1][1]+a[2][0] = ${m[0][2]}+${m[1][1]}+${m[2][0]} = ${ans}`};
+  },
+  ()=>{ // 字串長度
+    const ss = ['Hello','Code','Computer','Taiwan','Programming','Algorithm'];
+    const s = pick(ss);
+    const o = mk(s.length, [s.length-1, s.length+1, s.length+2]);
+    return {ch:4, q:'下列 C 程式輸出為何？',
+      code:`char s[] = "${s}";\nprintf("%d", strlen(s));`,
+      opts:o.opts, a:o.a,
+      exp:`strlen 計算字串長度（不含結尾 '\\0'），"${s}" 共 ${s.length} 個字元`};
+  },
+  ()=>{ // sizeof 字串
+    const ss = ['Hi','ABC','Code','Hello'];
+    const s = pick(ss);
+    const o = mk(s.length+1, [s.length, s.length+2, s.length*2]);
+    return {ch:4, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`char s[] = "${s}";\nprintf("%d", (int)sizeof(s));`,
+      opts:o.opts, a:o.a,
+      exp:`sizeof 計算記憶體大小，字串需多 1 byte 存結尾 '\\0'，"${s}" 共 ${s.length+1} byte`};
+  },
+
+  /* === Ch5 函式範疇 === */
+  ()=>{ // 階乘
+    const n = rnd(3,7);
+    let ans=1; for(let i=1;i<=n;i++) ans*=i;
+    const o = mk(ans, [ans/n, n*(n+1)/2, ans*n]);
+    return {ch:5, q:`下列遞迴函式 f(${n}) 的回傳值為何？`,
+      code:`int f(int n){\n  if(n <= 1) return 1;\n  return n * f(n - 1);\n}`,
+      opts:o.opts, a:o.a,
+      exp:`此為階乘 n! 函式。${n}! = ${Array.from({length:n},(_,i)=>i+1).reverse().join('×')} = ${ans}`};
+  },
+  ()=>{ // 費氏
+    const fibs=[0,1,1,2,3,5,8,13,21,34,55,89,144];
+    const n = rnd(5,10);
+    const o = mk(fibs[n], [fibs[n-1], fibs[n+1], fibs[n]+1]);
+    return {ch:5, q:`下列費氏函式 fib(${n}) 的回傳值為何？`,
+      code:`int fib(int n){\n  if(n < 2) return n;\n  return fib(n-1) + fib(n-2);\n}`,
+      opts:o.opts, a:o.a,
+      exp:`費氏數列：0,1,1,2,3,5,8,13,21,34,...，第 ${n} 項為 ${fibs[n]}`};
+  },
+  ()=>{ // 傳值
+    const a = rnd(3,10);
+    const o = mk(a, [a*2, a*a, 0]);
+    return {ch:5, q:'下列 C 程式輸出為何？',
+      code:`void f(int x){\n  x = x * 2;\n}\nint main(){\n  int a = ${a};\n  f(a);\n  printf("%d", a);\n}`,
+      opts:o.opts, a:o.a,
+      exp:`「傳值呼叫」會複製一份 x 給函式使用，函式內修改 x 不會影響 main 中的 a，故 a 仍為 ${a}`};
+  },
+  ()=>{ // 傳址
+    const a = rnd(3,10);
+    const o = mk(a*2, [a, a+2, 0]);
+    return {ch:5, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`void f(int *x){\n  *x = *x * 2;\n}\nint main(){\n  int a = ${a};\n  f(&a);\n  printf("%d", a);\n}`,
+      opts:o.opts, a:o.a,
+      exp:`「傳址呼叫」傳入 a 的位址，函式透過指標修改 *x 即修改 a，故 a 變為 ${a}×2 = ${a*2}`};
+  },
+  ()=>{ // static
+    const n = rnd(3,5);
+    return {ch:5, cppOnly:true, q:`下列 C 程式輸出為何？（連續呼叫 ${n} 次）`,
+      code:`int f(){\n  static int c = 0;\n  return ++c;\n}\nint main(){\n  for(int i = 0; i < ${n}; i++)\n    printf("%d", f());\n}`,
+      opts:shuf([Array.from({length:n},(_,i)=>i+1).join(''),'0'.repeat(n), '1'.repeat(n), Array.from({length:n},(_,i)=>n-i).join('')]),
+      a:-1, // will be set after shuf
+      exp:`static 區域變數只初始化一次，跨呼叫保留值。第 1 次呼叫回 1、第 2 次回 2、...第 ${n} 次回 ${n}，輸出 ${Array.from({length:n},(_,i)=>i+1).join('')}`,
+      _setAns:(q)=>{ q.a = q.opts.indexOf(Array.from({length:n},(_,i)=>i+1).join('')); return q; }
+    };
+  },
+  ()=>{ // 累加遞迴
+    const n = rnd(3,8);
+    const ans = n*(n+1)/2;
+    const o = mk(ans, [n, n*n, ans+n]);
+    return {ch:5, q:`下列函式 g(${n}) 的回傳值為何？`,
+      code:`int g(int n){\n  if(n == 0) return 0;\n  return n + g(n - 1);\n}`,
+      opts:o.opts, a:o.a,
+      exp:`此函式遞迴計算 n+(n-1)+...+1 = n(n+1)/2 = ${n}×${n+1}/2 = ${ans}`};
+  },
+  ()=>{ // 範疇 (scope)
+    return {ch:5, q:'下列關於 C 變數範疇 (scope) 的敘述，何者正確？',
+      code:null,
+      opts:['區域變數預設初值為 0','函式內變數可被其他函式直接存取','全域變數未初始化時預設為 0','所有變數都是全域'],
+      a:2,exp:'C 規定：全域變數與 static 區域變數未初始化時自動為 0；自動 (auto) 區域變數則為「未定值」(垃圾值)。函式內的區域變數僅在該函式可見'};
+  },
+
+  /* === Ch6 指標 === */
+  ()=>{ // 解參考修改
+    const a = rnd(5,30), b = rnd(5,30);
+    return {ch:6, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a};\nint *p = &a;\n*p = ${b};\nprintf("%d", a);`,
+      opts:shuf([String(a),String(b),'&a','錯誤']), a:-1,
+      exp:`p 指向 a，*p = ${b} 等同 a = ${b}，故輸出 ${b}`,
+      _setAns:(q)=>{ q.a = q.opts.indexOf(String(b)); return q; }
+    };
+  },
+  ()=>{ // 指標走訪
+    const arr=[rnd(1,9)*10,rnd(1,9)*10,rnd(1,9)*10,rnd(1,9)*10,rnd(1,9)*10];
+    const i = rnd(1,4);
+    const o = mk(arr[i], [arr[0], arr[i-1], arr[i+1]||arr[0]]);
+    return {ch:6, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int a[5] = {${arr.join(',')}};\nint *p = a;\nprintf("%d", *(p + ${i}));`,
+      opts:o.opts, a:o.a,
+      exp:`*(p + ${i}) 等同 a[${i}]，故輸出 a[${i}] = ${arr[i]}`};
+  },
+  ()=>{ // 雙重指標
+    const a = rnd(10,99);
+    return {ch:6, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a};\nint *p = &a;\nint **pp = &p;\nprintf("%d", **pp);`,
+      opts:shuf([String(a),'&a','&p','錯誤']), a:-1,
+      exp:`pp 為「指向指標的指標」。**pp 解兩次參考：先得 *pp (即 p)，再 *p (即 a)，故輸出 ${a}`,
+      _setAns:(q)=>{ q.a = q.opts.indexOf(String(a)); return q; }
+    };
+  },
+  ()=>{ // swap
+    return {ch:6, cppOnly:true, q:'若有 swap 函式如下，下列哪個呼叫方式正確？',
+      code:`void swap(int *x, int *y){\n  int t = *x;\n  *x = *y;\n  *y = t;\n}`,
+      opts:['swap(a, b);','swap(&a, &b);','swap(*a, *b);','swap(&&a, &&b);'],
+      a:1,exp:'swap 參數為指標 (int*)，必須傳入變數位址，故使用 &a, &b 取位址。直接傳值無法修改原變數'};
+  },
+  ()=>{ // 指標交換
+    const a=rnd(10,30), b=rnd(31,50);
+    const correct = `${b} ${a}`;
+    const all = shuf([correct, `${a} ${b}`, `${a} ${a}`, `${b} ${b}`]);
+    return {ch:6, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a}, b = ${b};\nint *p = &a, *q = &b;\nint *t = p; p = q; q = t;\nprintf("%d %d", *p, *q);`,
+      opts:all, a:all.indexOf(correct),
+      exp:`只交換「指標 p 與 q 指向的位址」，並未交換 a、b 本身。交換後 p 指向 b、q 指向 a，故 *p = ${b}、*q = ${a}`};
+  },
+
+  /* === Ch7 遞迴搜尋 === */
+  ()=>{ // 二元搜尋次數
+    const k = rnd(8,14);
+    const n = Math.pow(2,k);
+    const o = mk(k, [k-1, k+1, k*2]);
+    return {ch:7, q:`對已排序的 N = ${n} 個元素進行二元搜尋，最壞情況需要比較幾次？`,
+      code:null, opts:o.opts, a:o.a,
+      exp:`二元搜尋每次將範圍折半，最多比較 log₂N 次。log₂(${n}) = log₂(2^${k}) = ${k}`};
+  },
+  ()=>{ // GCD
+    const pairs=[[24,36,12],[18,24,6],[48,36,12],[60,48,12],[35,42,7],[100,75,25]];
+    const p = pick(pairs);
+    const o = mk(p[2], [p[2]/2, p[2]*2, p[0]+p[1]]);
+    return {ch:7, q:`下列輾轉相除法 gcd(${p[0]}, ${p[1]}) 的結果為何？`,
+      code:`int gcd(int a, int b){\n  if(b == 0) return a;\n  return gcd(b, a % b);\n}`,
+      opts:o.opts, a:o.a,
+      exp:`歐幾里得演算法：不斷以「b、a%b」遞迴，當 b=0 時 a 即為 GCD。gcd(${p[0]},${p[1]}) = ${p[2]}`};
+  },
+  ()=>{ // 河內塔
+    const n = rnd(3,6);
+    const ans = Math.pow(2,n)-1;
+    const o = mk(ans, [n*n, 2*n, ans+1]);
+    return {ch:7, q:`河內塔 (Tower of Hanoi) 共 ${n} 個盤子，至少需移動幾步？`,
+      code:null, opts:o.opts, a:o.a,
+      exp:`河內塔最少步數公式 = 2^n - 1。2^${n} - 1 = ${ans}`};
+  },
+  ()=>{ // 排序最壞複雜度
+    return {ch:7, q:'下列哪個排序演算法的最壞時間複雜度為 O(n log n)？',
+      code:null,
+      opts:['Bubble Sort','Selection Sort','Merge Sort','Insertion Sort'],
+      a:2,exp:'Merge Sort 不論最好/平均/最壞情況皆為 O(n log n)。Bubble/Selection/Insertion 最壞皆為 O(n²)'};
+  },
+  ()=>{ // DP 線性
+    return {ch:7, q:'以動態規劃 (Dynamic Programming) 由下而上計算 fib(n) 的時間複雜度為？',
+      code:null,
+      opts:['O(2^n)','O(n log n)','O(n)','O(log n)'],
+      a:2,exp:'DP 將子問題答案儲存避免重複計算，從 fib(0) 線性算到 fib(n)，故為 O(n)。未記憶化的純遞迴才是 O(2^n)'};
+  },
+  ()=>{ // 漸進複雜度比較
+    return {ch:7, q:'下列何者的成長速度最快 (最不有效率)？',
+      code:null,
+      opts:['O(log n)','O(n)','O(n log n)','O(n²)'],
+      a:3,exp:'成長由慢到快：O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2^n) < O(n!)'};
+  },
+  ()=>{ // 線性搜尋
+    return {ch:7, q:'線性搜尋 (Linear Search) 對長度 N 的陣列搜尋一個元素，最壞情況需比較幾次？',
+      code:null,
+      opts:['log₂N','N','N/2','N²'],
+      a:1,exp:'線性搜尋從頭逐一比對，最壞情況（元素不存在或在最末）需比較 N 次'};
+  },
+  ()=>{ // 河內塔遞迴呼叫
+    const n = rnd(3,5);
+    const ans = Math.pow(2,n)-1;
+    const o = mk(ans, [n, 2*n, n*n]);
+    return {ch:7, q:`下列河內塔函式 hanoi(${n}, 'A', 'B', 'C') 共印出幾行 "Move"？`,
+      code:`void hanoi(int n, char a, char b, char c){\n  if(n == 0) return;\n  hanoi(n - 1, a, c, b);\n  printf("Move %d: %c -> %c\\n", n, a, c);\n  hanoi(n - 1, b, a, c);\n}`,
+      opts:o.opts, a:o.a,
+      exp:`遞迴關係 T(n) = 2·T(n-1) + 1，T(0)=0，解得 T(n) = 2^n - 1 = 2^${n} - 1 = ${ans}`};
+  },
+
+  /* ============ Ch2 基礎概念 — 額外加強（中偏難）============ */
+  ()=>{ // 短路求值 + 賦值副作用
+    const c0 = rnd(3,6);
+    const out = `10 ${c0+1} 1`;
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`int a = 3, b = 0, c = ${c0};\nint r = (a > 1) && (b = 10) && (c++);\nprintf("%d %d %d", b, c, r);`,
+      opts:[out, `10 ${c0} 1`, `0 ${c0} 0`, `10 ${c0+1} 0`], a:0,
+      exp:`短路求值由左至右：(a>1) 為真 → 評估 (b=10)（賦值表示式值 10，視為真）→ 評估 (c++)（後置遞增回傳原值 ${c0}，非 0 為真）。最終 b=10、c=${c0+1}、整體邏輯運算結果 r=1`};
+  },
+  ()=>{ // 位元運算 x | (x>>1)
+    const arr = [
+      [0xA5, 0xAF],   // 1010 0101 | 0101 0010 = 1111 0111? Let me recompute
+      [0x3C, 0x3E],
+      [0x18, 0x1C],
+      [0x66, 0x77]
+    ];
+    // Recompute correctly: x | (x>>1)
+    // 0xA5 = 10100101, >>1 = 01010010, OR = 11110111 = 0xF7 = 247
+    // 0x3C = 00111100, >>1 = 00011110, OR = 00111110 = 0x3E = 62
+    // 0x18 = 00011000, >>1 = 00001100, OR = 00011100 = 0x1C = 28
+    // 0x66 = 01100110, >>1 = 00110011, OR = 01110111 = 0x77 = 119
+    const fixed = [
+      [0xA5, 0xF7],
+      [0x3C, 0x3E],
+      [0x18, 0x1C],
+      [0x66, 0x77]
+    ];
+    const p = pick(fixed);
+    const o = mk(p[1], [p[0], p[0]>>1, p[0]&(p[0]>>1)]);
+    return {ch:2, q:`設 <code>unsigned char x = 0x${p[0].toString(16).toUpperCase()}</code>，下列運算式 <code>x | (x &gt;&gt; 1)</code> 的值為何（以十進位回答）？`,
+      code:null, opts:o.opts, a:o.a,
+      exp:`x = ${p[0].toString(2).padStart(8,'0')}₂；x>>1 = ${(p[0]>>1).toString(2).padStart(8,'0')}₂；OR 後 = ${p[1].toString(2).padStart(8,'0')}₂ = ${p[1]}`};
+  },
+  ()=>{ // 條件運算子 ?: 嵌套
+    const a = rnd(5,9), b = rnd(1,3), c = a + rnd(2,5);
+    const ans = c;
+    const o = mk(ans, [a, b, a+b]);
+    return {ch:2, q:'下列 C 程式片段執行後 r 的值為何？',
+      code:`int a = ${a}, b = ${b}, c = ${c};\nint r = a > b ? (b > c ? a : c) : (a > c ? b : c);`,
+      opts:o.opts, a:o.a,
+      exp:`先看 a>b：${a}>${b} 為真 → 進入「(b>c ? a : c)」→ ${b}>${c} 為假 → 取 c = ${c}`};
+  },
+
+  /* ============ Ch3 流程控制 — 額外加強（中偏難）============ */
+  ()=>{ // switch fall-through
+    const cases = [
+      {x:1, s:6, t:'case 1: s=1 → case 2: s=3 → case 3: s=6 → break'},
+      {x:2, s:5, t:'case 2: s=2 → case 3: s=5 → break'},
+      {x:3, s:3, t:'case 3: s=3 → break'},
+      {x:4, s:9, t:'case 4: s=4 → default: s=9'}
+    ];
+    const p = pick(cases);
+    const o = mk(p.s, [p.s-1, p.s+1, 0]);
+    return {ch:3, q:'下列 C 程式片段執行後 s 的值為何？',
+      code:`int x = ${p.x}, s = 0;\nswitch(x){\n  case 1: s += 1;\n  case 2: s += 2;\n  case 3: s += 3; break;\n  case 4: s += 4;\n  default: s += 5;\n}`,
+      opts:o.opts, a:o.a,
+      exp:`switch 沒有 break 會 fall-through，繼續執行下一個 case。x=${p.x} 的執行軌跡：${p.t}，最終 s=${p.s}`};
+  },
+  ()=>{ // 巢狀迴圈 + break 計數
+    const n = pick([4,5,6]), t = pick([3,4,5]);
+    let c = 0;
+    for(let i=0;i<n;i++) for(let j=0;j<n;j++){ if(i+j>=t) break; c++; }
+    const o = mk(c, [c+1, c-1, n*n]);
+    return {ch:3, q:'下列 C 程式片段執行後 c 的值為何？',
+      code:`int c = 0;\nfor(int i = 0; i < ${n}; i++){\n  for(int j = 0; j < ${n}; j++){\n    if(i + j >= ${t}) break;\n    c++;\n  }\n}`,
+      opts:o.opts, a:o.a,
+      exp:`內層 break 只跳出最內層迴圈。對每個 i，j 在 0..${n}-1 跑直到 i+j>=${t} 為止。逐一累計 c = ${c}`};
+  },
+  ()=>{ // Collatz / 3n+1
+    const data = [[6,8],[5,5],[8,3],[10,6],[12,9],[4,2],[16,4]];
+    const p = pick(data);
+    const o = mk(p[1], [p[1]-1, p[1]+1, p[1]*2]);
+    return {ch:3, q:`下列 do-while 迴圈共執行幾次（Collatz：偶數除 2、奇數 ×3+1，直到 n=1 為止）？`,
+      code:`int n = ${p[0]}, c = 0;\ndo{\n  if(n % 2 == 0) n /= 2;\n  else n = 3 * n + 1;\n  c++;\n} while(n != 1);`,
+      opts:o.opts, a:o.a,
+      exp:`從 n=${p[0]} 開始按 Collatz 規則迭代到 1，共需 ${p[1]} 次迴圈`};
+  },
+
+  /* ============ Ch4 陣列字串 — 額外加強（中偏難）============ */
+  ()=>{ // 二維對角線總和
+    return {ch:4, q:'下列 C 程式執行後 s 的值為何？',
+      code:`int a[3][3] = {{1,2,3},{4,5,6},{7,8,9}};\nint s = 0;\nfor(int i = 0; i < 3; i++)\n  s += a[i][i] + a[i][2 - i];`,
+      opts:['30','25','45','24'], a:0,
+      exp:`主對角線 a[0][0]+a[1][1]+a[2][2] = 1+5+9 = 15；反對角線 a[0][2]+a[1][1]+a[2][0] = 3+5+7 = 15。注意 a[1][1]=5 被加兩次。總和 30`};
+  },
+  ()=>{ // 字串反轉
+    const strs = ['ABCDE','HELLO','CODES','SWAPS','RADAR'];
+    const s = pick(strs);
+    const rev = s.split('').reverse().join('');
+    const opts = shuf([rev, s, s.slice(1)+s[0], rev.slice(1)+rev[0]]);
+    return {ch:4, q:'下列 C 程式輸出為何？',
+      code:`char s[] = "${s}";\nint n = strlen(s);\nfor(int i = 0; i < n / 2; i++){\n  char t = s[i]; s[i] = s[n - 1 - i]; s[n - 1 - i] = t;\n}\nprintf("%s", s);`,
+      opts, a:opts.indexOf(rev),
+      exp:`使用雙指標就地反轉：i 由頭、n-1-i 由尾，互換到中間相遇。"${s}" 反轉為 "${rev}"`};
+  },
+  ()=>{ // 母音計數
+    const strs = ['HelloWorld','Programming','Algorithm','Computer','Database'];
+    const s = pick(strs);
+    let v = 0;
+    for(const c of s.toLowerCase()) if('aeiou'.includes(c)) v++;
+    const o = mk(v, [v-1, v+1, s.length-v]);
+    return {ch:4, q:`下列 C 程式片段執行後 v 的值為何（字串："${s}"）？`,
+      code:`char s[] = "${s}";\nint v = 0;\nfor(int i = 0; s[i]; i++){\n  char c = s[i];\n  if(c=='a'||c=='e'||c=='i'||c=='o'||c=='u' ||\n     c=='A'||c=='E'||c=='I'||c=='O'||c=='U')\n    v++;\n}`,
+      opts:o.opts, a:o.a,
+      exp:`逐字檢查是否為母音 (a/e/i/o/u，含大小寫)，"${s}" 共含 ${v} 個母音`};
+  },
+  ()=>{ // strcmp 概念
+    const pairs = [
+      ['apple','apricot','負數'],
+      ['banana','band','正數'],
+      ['hello','hellos','負數'],
+      ['xyz','xy','正數']
+    ];
+    const p = pick(pairs);
+    const opts = shuf([p[2], p[2]==='負數'?'正數':'負數', '0', '兩字串長度差']);
+    return {ch:4, q:`下列 strcmp 比較 <code>strcmp("${p[0]}", "${p[1]}")</code> 的回傳值通常為何？`,
+      code:null, opts, a:opts.indexOf(p[2]),
+      exp:`strcmp 由左至右比對 ASCII 值，第一個不同字元決定回傳值（若一字串為另一字串前綴，較短者為「小」）。本題結果為「${p[2]}」`};
+  },
+
+  /* ============ Ch5 函式範疇 — 額外加強（中偏難）============ */
+  ()=>{ // static 計數器加總
+    const data = [
+      {init:10, step:2, sum:42},   // 12+14+16
+      {init:5,  step:3, sum:33},   // 8+11+14
+      {init:0,  step:5, sum:45},   // 5+10+15 (Wait: 0+5=5, 5+5=10, 10+5=15 → 5+10+15=30. Let me recompute)
+      {init:20, step:1, sum:66}    // 21+22+23
+    ];
+    // recompute: init=0,step=5: c=0→5, c=5→10, c=10→15. sum = 5+10+15 = 30
+    const fixed = [
+      {init:10, step:2, sum:42},
+      {init:5,  step:3, sum:33},
+      {init:0,  step:5, sum:30},
+      {init:20, step:1, sum:66}
+    ];
+    const p = pick(fixed);
+    const o = mk(p.sum, [3*(p.init+p.step), p.init+3*p.step, p.sum-p.step]);
+    return {ch:5, q:'下列 C 程式輸出為何？',
+      code:`int next(){\n  static int c = ${p.init};\n  c += ${p.step};\n  return c;\n}\nint main(){\n  printf("%d", next() + next() + next());\n}`,
+      opts:o.opts, a:o.a,
+      exp:`static 變數 c 跨呼叫保留值。三次呼叫分別回傳 ${p.init+p.step}、${p.init+2*p.step}、${p.init+3*p.step}，總和 = ${p.sum}`};
+  },
+  ()=>{ // 傳指標 + 返回
+    const a0 = rnd(3,8);
+    const a1 = a0 * 2;
+    const b = a1 + 1;
+    const out = `${a1} ${b}`;
+    const opts = shuf([out, `${a0} ${b}`, `${a1} ${a0+1}`, `${a0} ${a0+1}`]);
+    return {ch:5, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int f(int *p){\n  *p = *p * 2;\n  return (*p) + 1;\n}\nint main(){\n  int a = ${a0};\n  int b = f(&a);\n  printf("%d %d", a, b);\n}`,
+      opts, a:opts.indexOf(out),
+      exp:`f() 內 *p = *p * 2 將呼叫端 a 從 ${a0} 改為 ${a1}；接著回傳 (*p)+1 = ${b}。輸出 "${out}"`};
+  },
+  ()=>{ // 互遞迴 mutual recursion
+    // f(n) = g(n-1) + 1; g(n) = f(n-1) + 1; f(0)=1, g(0)=0
+    // f(2)=3, f(3)=3, f(4)=5, f(5)=5
+    const map = { 2:3, 3:3, 4:5, 5:5 };
+    const n = pick([2,3,4,5]);
+    const ans = map[n];
+    const o = mk(ans, [n, n+1, 2*n]);
+    return {ch:5, q:`下列互遞迴函式 f(${n}) 的回傳值為何？`,
+      code:`int g(int);\nint f(int n){\n  if(n <= 0) return 1;\n  return g(n - 1) + 1;\n}\nint g(int n){\n  if(n <= 0) return 0;\n  return f(n - 1) + 1;\n}`,
+      opts:o.opts, a:o.a,
+      exp:`兩個函式交互呼叫：f(${n}) → g(${n-1})+1 → f(${n-2})+2 → ... 逐層展開計算得 ${ans}`};
+  },
+
+  /* ============ Ch6 指標 — 額外加強（中偏難）============ */
+  ()=>{ // 雙重指標修改值
+    const a0 = rnd(2,8), b0 = a0 + rnd(2,5);
+    const opts = shuf(['100 200', `${a0} ${b0}`, `100 ${b0}`, `${a0} 200`]);
+    return {ch:6, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int a = ${a0}, b = ${b0};\nint *p = &a;\nint **pp = &p;\n**pp = 100;\np = &b;\n**pp = 200;\nprintf("%d %d", a, b);`,
+      opts, a:opts.indexOf('100 200'),
+      exp:`**pp 透過 p 修改其指向的變數：起初 p 指向 a → **pp=100 使 a=100；接著 p 改指向 b → **pp=200 使 b=200。輸出 "100 200"`};
+  },
+  ()=>{ // 指標相減
+    const lo = rnd(2,4), hi = lo + rnd(3,6);
+    const ans = hi - lo;
+    const o = mk(ans, [ans*4, hi+lo, ans+1]);
+    return {ch:6, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int a[10];\nint *p = &a[${lo}], *q = &a[${hi}];\nprintf("%d", (int)(q - p));`,
+      opts:o.opts, a:o.a,
+      exp:`同型別指標相減回傳「元素數」差，並非 byte 數。q - p = ${hi} - ${lo} = ${ans}`};
+  },
+  ()=>{ // 函式指標
+    return {ch:6, cppOnly:true, q:'下列 C 程式輸出為何？',
+      code:`int add(int a, int b){ return a + b; }\nint main(){\n  int (*fp)(int, int) = add;\n  printf("%d", fp(3, 4));\n}`,
+      opts:['7','編譯錯誤','3','12'], a:0,
+      exp:`int (*fp)(int,int) 宣告為「指向 (int,int)→int 的函式指標」，賦值 fp = add 後，fp(3,4) 等同呼叫 add(3,4) = 7`};
+  },
+  ()=>{ // sizeof 陣列名 vs 指標
+    return {ch:6, cppOnly:true, q:'下列 C 程式於 64 位元系統的輸出為何？',
+      code:`int a[5];\nint *p = a;\nprintf("%d %d", (int)sizeof(a), (int)sizeof(p));`,
+      opts:['20 8','20 4','4 8','5 8'], a:0,
+      exp:`sizeof(a) 為整個陣列大小：5 個 int × 4 byte = 20。sizeof(p) 為指標本身大小：64 位元系統為 8 byte`};
+  },
+
+  /* ============ Ch7 資料結構與演算法 — 大量擴充 ============ */
+
+  /* --- 堆疊 Stack --- */
+  ()=>{
+    const seqs = [
+      ['依序 push 1,2,3，然後 pop、push 4、pop、pop、push 5、pop、pop', '3 4 2 5 1'],
+      ['依序 push A,B、pop、push C,D,E、pop、pop', 'B E D'],
+      ['依序 push 1,2,3,4，連續 pop 兩次，push 5，pop', '4 3 5']
+    ];
+    const p = pick(seqs);
+    const opts = shuf([p[1], p[1].split(' ').reverse().join(' '), '1 2 3 4 5', '無法判斷']);
+    return {ch:7, q:`對一個堆疊 (Stack)：${p[0]}，pop 出來的元素依序為何？`,
+      code:null, opts, a:opts.indexOf(p[1]),
+      exp:`Stack 是 LIFO（後進先出）：最後 push 的元素最先被 pop。依序模擬可得 pop 順序為「${p[1]}」`};
+  },
+  ()=>{
+    const exprs = [
+      ['3 4 + 2 *', 14],
+      ['5 1 2 + 4 * + 3 -', 14],
+      ['6 2 / 3 *', 9],
+      ['7 8 + 3 *', 45],
+      ['2 3 1 * + 9 -', -4]
+    ];
+    const p = pick(exprs);
+    const o = mk(p[1], [p[1]-1, p[1]+1, p[1]*2]);
+    return {ch:7, q:`下列後序表示式 (postfix) <code>${p[0]}</code> 計算後的值為何？`,
+      code:null, opts:o.opts, a:o.a,
+      exp:`後序表示式以堆疊計算：見數字 push，見運算子取出上面兩個（先彈出者為右運算元）再運算後 push 結果。最終結果 = ${p[1]}`};
+  },
+  ()=>{
+    return {ch:7, q:'將中序運算式 (infix) 轉成後序 (postfix) 時，最常使用下列哪一種資料結構暫存運算子？',
+      code:null,
+      opts:['Queue (佇列)','Stack (堆疊)','Linked List','Binary Tree'],
+      a:1,exp:'Shunting-yard 演算法使用堆疊暫存運算子，依優先序決定何時彈出輸出。'};
+  },
+
+  /* --- 佇列 Queue --- */
+  ()=>{
+    const ops = [
+      ['Enqueue 1,2,3，Dequeue 一次，Enqueue 4，Dequeue 一次', '3 4'],
+      ['Enqueue A,B,C,D，Dequeue 兩次，Enqueue E', 'C D E'],
+      ['Enqueue 10,20,30，Dequeue，Dequeue，Enqueue 40,50', '30 40 50']
+    ];
+    const p = pick(ops);
+    const opts = shuf([p[1], p[1].split(' ').reverse().join(' '), '空佇列', '無法判斷']);
+    return {ch:7, q:`對一個佇列 (Queue)：${p[0]} 後，由 front 到 rear 元素依序為何？`,
+      code:null, opts, a:opts.indexOf(p[1]),
+      exp:`Queue 是 FIFO（先進先出）：dequeue 從 front 移除、enqueue 從 rear 加入。模擬後得「${p[1]}」`};
+  },
+  ()=>{
+    return {ch:7, q:'廣度優先搜尋 (BFS) 為了依「先進先出」順序探索節點，通常使用哪種資料結構？',
+      code:null,
+      opts:['Stack','Queue','Heap','Hash Table'],
+      a:1,exp:'BFS 利用 Queue 維持「先發現先處理」的層序順序；DFS 則用 Stack（或遞迴）。'};
+  },
+  ()=>{
+    return {ch:7, q:'若以大小為 N 的陣列實作環形佇列 (circular queue)，使用「保留一格判滿」的傳統作法，最多可儲存幾個元素？',
+      code:null,
+      opts:['N','N - 1','N + 1','N / 2'],
+      a:1,exp:'傳統環形佇列保留一格用於區分「空」與「滿」（front==rear 為空、(rear+1)%N==front 為滿），故最多儲存 N-1 個元素。'};
+  },
+
+  /* --- 二元樹與走訪 --- */
+  ()=>{
+    const k = rnd(3,6);
+    const n = Math.pow(2, k+1) - 1;
+    const o = mk(n, [Math.pow(2,k), n-1, 2*k+1]);
+    return {ch:7, q:`一棵高度為 ${k}（根的高度為 0、葉節點高度為 ${k}）的完美二元樹 (perfect binary tree) 共有幾個節點？`,
+      code:null, opts:o.opts, a:o.a,
+      exp:`完美二元樹高度 h 共 2^(h+1) - 1 個節點。h=${k} → 2^${k+1} - 1 = ${n}`};
+  },
+  ()=>{
+    const k = rnd(3,6);
+    const leaves = Math.pow(2, k);
+    const o = mk(leaves, [leaves-1, leaves/2, Math.pow(2,k+1)-1]);
+    return {ch:7, q:`一棵高度為 ${k}（根的高度為 0）的完美二元樹共有幾個葉節點？`,
+      code:null, opts:o.opts, a:o.a,
+      exp:`完美二元樹的葉節點全在最底層（第 ${k} 層），數量為 2^${k} = ${leaves}`};
+  },
+  ()=>{
+    return {ch:7, q:'已知某二元樹的中序 (inorder) 走訪為 D B E A F C G，前序 (preorder) 為 A B D E C F G，則此樹的後序 (postorder) 為？',
+      code:null,
+      opts:['D E B F G C A','D B E F C G A','A B D E C F G','D E F G B C A'],
+      a:0,exp:'由前序得知根為 A → 中序中 A 左側 [D B E] 為左子樹、右側 [F C G] 為右子樹。對應前序 [B D E] 知 B 為左子樹根，且其左/右為 D/E；[C F G] 知 C 為右子樹根，左 F、右 G。後序左→右→根：D E B、F G C、A → D E B F G C A'};
+  },
+  ()=>{
+    return {ch:7, q:'若以陣列存放完全二元樹 (complete binary tree)、根放於索引 1，則索引 i 之左子節點與父節點的索引分別為？',
+      code:null,
+      opts:['2i 與 ⌊i/2⌋','i+1 與 i-1','2i+1 與 ⌊(i-1)/2⌋','i*2-1 與 ⌊i/2⌋'],
+      a:0,exp:'1-indexed 完全二元樹陣列表示法：索引 i 的左子為 2i、右子為 2i+1、父為 ⌊i/2⌋。若 0-indexed 則父為 ⌊(i-1)/2⌋'};
+  },
+
+  /* --- BST 二元搜尋樹 --- */
+  ()=>{
+    return {ch:7, q:'對一棵正確建立的二元搜尋樹 (BST) 執行下列哪種走訪，可得到「由小到大」排序好的序列？',
+      code:null,
+      opts:['前序 Preorder','中序 Inorder','後序 Postorder','層序 Level-order'],
+      a:1,exp:'BST 的中序走訪（左→根→右）正好依鍵值由小到大輸出，這是 BST 的核心性質之一。'};
+  },
+  ()=>{
+    return {ch:7, q:'依序插入 50, 30, 70, 20, 40, 60, 80 至原本空的 BST，最終樹的高度（根的高度為 0）為何？',
+      code:null,
+      opts:['2','3','4','6'],
+      a:0,exp:'插入後：50 為根；30、70 為第 1 層；20、40、60、80 為第 2 層。樹完美平衡，高度為 2'};
+  },
+  ()=>{
+    return {ch:7, q:'平衡 BST (例如 AVL) 在搜尋、插入、刪除三種操作的平均時間複雜度為何？',
+      code:null,
+      opts:['O(1)','O(log n)','O(n)','O(n log n)'],
+      a:1,exp:'平衡 BST 高度約 log n，三大操作平均皆 O(log n)；若退化成鏈狀則最壞 O(n)。'};
+  },
+
+  /* --- 堆積 Heap --- */
+  ()=>{
+    return {ch:7, q:'下列關於最大堆積 (Max-Heap) 的敘述，何者「錯誤」？',
+      code:null,
+      opts:['根節點為整棵樹中最大值','左子樹必大於右子樹','是一棵完全二元樹 (complete binary tree)','以陣列實作時可省去左右子指標'],
+      a:1,exp:'Max-Heap 僅要求「每個節點 ≥ 其子節點」，並不規範左右子樹之間的大小關係。其餘三項皆正確。'};
+  },
+  ()=>{
+    return {ch:7, q:'對 n 個元素的二元堆積，執行一次 insert 與一次 deleteMax 的時間複雜度分別為何？',
+      code:null,
+      opts:['O(1), O(1)','O(log n), O(log n)','O(n), O(n)','O(n), O(log n)'],
+      a:1,exp:'兩個操作都需沿樹高 (log n) 上浮/下沉：insert 上浮、deleteMax 取根後將末尾元素置頂並下沉，皆 O(log n)。'};
+  },
+  ()=>{
+    return {ch:7, q:'將 n 個元素「由下而上 heapify」建堆的時間複雜度為？',
+      code:null,
+      opts:['O(n)','O(n log n)','O(log n)','O(n²)'],
+      a:0,exp:'雖然每次 sink 為 O(log n)，但越靠葉層的元素越多但需下沉距離越短，加總級數可證明為 O(n)；逐一 insert 才是 O(n log n)。'};
+  },
+  ()=>{
+    return {ch:7, q:'對原本空的 Max-Heap 依序插入 3, 1, 5, 7, 2, 4，最後堆積的根節點為何？',
+      code:null,
+      opts:['3','5','7','4'],
+      a:2,exp:'每次插入後上浮維護 heap 性質，最大值最終位於根。本題最大值為 7。'};
+  },
+
+  /* --- Hash 雜湊 --- */
+  ()=>{
+    return {ch:7, q:'雜湊表大小為 10、雜湊函式 h(k) = k mod 10。依序插入 12, 22, 32 並以「線性探測 (linear probing)」處理碰撞，則 22 最終落在哪個索引？',
+      code:null,
+      opts:['0','2','3','4'],
+      a:2,exp:'12 → 索引 2；22 → 索引 2 已被佔用，往下找到索引 3；故 22 落在 3。32 則再往下找到 4。'};
+  },
+  ()=>{
+    return {ch:7, q:'在「分離鏈結 (separate chaining)」的雜湊表中，若負載因子 α 不太大且雜湊函式均勻，平均查找的時間複雜度為？',
+      code:null,
+      opts:['O(1)','O(log n)','O(n)','O(α²)'],
+      a:0,exp:'分離鏈結平均鏈長為 α，搜尋平均 O(1 + α)；α 為小常數時即 O(1)。最壞情況（雜湊極不平均）會退化為 O(n)。'};
+  },
+
+  /* --- 鏈結串列 --- */
+  ()=>{
+    return {ch:7, q:'下列關於單向鏈結串列 (singly linked list) 的敘述，何者正確？',
+      code:null,
+      opts:['可隨機存取第 k 個節點，時間 O(1)','在「已知尾節點」時，於尾部插入為 O(1)','可直接做二元搜尋','對 n 個節點走訪一遍需 O(log n)'],
+      a:1,exp:'鏈結串列無法隨機存取（要從頭走訪 O(n)），故不能直接二元搜尋、走訪一遍為 O(n)；若維護尾指標則尾插入 O(1)，否則 O(n)。'};
+  },
+  ()=>{
+    return {ch:7, q:'相較於陣列，鏈結串列在下列哪個操作上具有明顯優勢？',
+      code:null,
+      opts:['隨機讀取第 i 個元素','於已知節點之後插入新節點','二元搜尋','快取友善 (cache-friendly)'],
+      a:1,exp:'已知前驅節點時，鏈結串列只需修改 next 指標即可插入/刪除（O(1)），而陣列需平移 O(n)。其它三項皆為陣列的優勢。'};
+  },
+  ()=>{
+    return {ch:7, q:'雙向鏈結串列 (doubly linked list) 相較於單向，最主要的優勢為？',
+      code:null,
+      opts:['節省記憶體','從任一已知節點 O(1) 取得其前驅','可二元搜尋','支援更快的中段隨機存取'],
+      a:1,exp:'每個節點多存一份「前驅指標」可 O(1) 反向走訪，這是雙向最重要的好處（代價是多一份指標空間）。'};
+  },
+
+  /* --- 圖 Graph --- */
+  ()=>{
+    return {ch:7, q:'以「鄰接矩陣 (adjacency matrix)」表示 n 個節點的圖，空間複雜度為何？',
+      code:null,
+      opts:['O(n)','O(n + e)','O(n²)','O(e²)'],
+      a:2,exp:'鄰接矩陣為 n×n 二維陣列，空間 O(n²)。當邊很稀疏時鄰接串列 O(n+e) 更省空間。'};
+  },
+  ()=>{
+    return {ch:7, q:'一棵包含 n 個節點的樹 (tree)，其邊 (edge) 數為？',
+      code:null,
+      opts:['n - 1','n','n + 1','log n'],
+      a:0,exp:'樹的定義性質：n 節點且連通無環，邊數恰為 n - 1。少一條邊則不連通、多一條邊則形成環。'};
+  },
+  ()=>{
+    return {ch:7, q:'下圖以鄰接表表示（內部依編號遞增排列）：<br>0: 1, 2<br>1: 0, 3, 4<br>2: 0, 4<br>3: 1<br>4: 1, 2<br>由節點 0 開始 BFS，走訪順序為？',
+      code:null,
+      opts:['0 1 2 3 4','0 1 3 4 2','0 2 1 4 3','0 1 2 4 3'],
+      a:0,exp:'BFS 使用佇列：訪問 0 → 加入 1,2 → 拿 1 加入 3,4 → 拿 2（鄰居皆已訪）→ 拿 3 → 拿 4。順序：0 1 2 3 4'};
+  },
+  ()=>{
+    return {ch:7, q:'同上圖（0:1,2 / 1:0,3,4 / 2:0,4 / 3:1 / 4:1,2），由節點 0 開始 DFS（總是先選編號較小的鄰居），走訪順序為？',
+      code:null,
+      opts:['0 1 3 4 2','0 1 2 3 4','0 2 4 1 3','0 1 4 2 3'],
+      a:0,exp:'DFS 遞迴：訪 0 → 進入 1 → 進入 3（鄰居 1 已訪、回退）→ 回 1 進入 4 → 進入 2（鄰居皆已訪、回退）→ 全部走完。順序：0 1 3 4 2'};
+  },
+
+  /* --- 排序演算法 --- */
+  ()=>{
+    return {ch:7, q:'下列排序演算法中，何者「不穩定 (unstable)」？',
+      code:null,
+      opts:['Bubble Sort','Insertion Sort','Merge Sort','Quick Sort'],
+      a:3,exp:'Quick Sort、Selection Sort、Heap Sort 皆為不穩定（相等元素的相對順序可能被打亂）；Bubble、Insertion、Merge Sort 為穩定。'};
+  },
+  ()=>{
+    return {ch:7, q:'對「幾乎已排序」的陣列，下列哪個排序演算法的最佳情況時間複雜度為 O(n)？',
+      code:null,
+      opts:['Selection Sort','Merge Sort','Insertion Sort','Heap Sort'],
+      a:2,exp:'Insertion Sort 在資料已近乎排序時內層幾乎不需位移，最佳情況 O(n)。Selection 與 Heap 不論輸入皆為 O(n²)/O(n log n)；Merge 永遠 O(n log n)。'};
+  },
+  ()=>{
+    return {ch:7, q:'Quick Sort 的最壞時間複雜度發生於下列何種情況、且複雜度為何？',
+      code:null,
+      opts:['資料隨機 → O(n log n)','資料已排序且固定取首/尾為 pivot → O(n²)','所有元素互異 → O(n log n)','資料反向排序 → O(log n)'],
+      a:1,exp:'若 pivot 每次都取到極端值（如已排序陣列固定取首位），分割極不平衡，遞迴深度退化為 n，總複雜度 O(n²)。採用隨機 pivot 或「三數取中」可避免。'};
+  },
+  ()=>{
+    return {ch:7, q:'下列哪個排序演算法可達 O(n + k) 時間複雜度（k 為數值範圍），且「不基於比較」？',
+      code:null,
+      opts:['Counting Sort','Insertion Sort','Quick Sort','Heap Sort'],
+      a:0,exp:'Counting Sort 統計每個值的出現次數後直接擺位，不做兩兩比較。比較排序下界 Ω(n log n) 不適用於 Counting/Radix/Bucket Sort。'};
+  },
+  ()=>{
+    return {ch:7, q:'任何「比較排序 (comparison sort)」最壞情況下的時間複雜度下界為？',
+      code:null,
+      opts:['Ω(n)','Ω(n log n)','Ω(n²)','Ω(log n)'],
+      a:1,exp:'比較排序對應「決策樹」模型，n! 種可能排列需至少 log₂(n!) ≈ n log n 次比較才能區分，故下界為 Ω(n log n)。'};
+  },
+  ()=>{
+    return {ch:7, q:'下列排序中，何者「不是」就地排序 (in-place)，需要 O(n) 額外空間？',
+      code:null,
+      opts:['Bubble Sort','Insertion Sort','Quick Sort','Merge Sort'],
+      a:3,exp:'Merge Sort 合併時需要與輸入等大的暫存陣列，空間 O(n)。Bubble、Insertion、Quick（遞迴堆疊 O(log n)）均視為就地。'};
+  },
+
+  /* --- 時間複雜度分析 --- */
+  ()=>{
+    return {ch:7, q:'下列程式片段的時間複雜度為何？<br><code>for(i = 1; i &lt;= n; i++)<br>&nbsp;&nbsp;for(j = 1; j &lt;= i * i; j++) ...</code>',
+      code:null,
+      opts:['O(n)','O(n²)','O(n³)','O(n² log n)'],
+      a:2,exp:'內層執行 i² 次，加總 1²+2²+...+n² = n(n+1)(2n+1)/6 ≈ n³/3 = O(n³)'};
+  },
+  ()=>{
+    return {ch:7, q:'下列程式片段的時間複雜度為何？<br><code>for(i = 1; i &lt;= n; i++)<br>&nbsp;&nbsp;for(j = 1; j &lt;= n; j *= 2) ...</code>',
+      code:null,
+      opts:['O(n)','O(n log n)','O(n²)','O(log² n)'],
+      a:1,exp:'外層 n 次，內層 j 每輪倍增，共 log₂ n 次，故總和 n × log n = O(n log n)'};
+  },
+  ()=>{
+    return {ch:7, q:'解遞迴關係式 T(n) = 2 T(n/2) + n，T(1) = 1：',
+      code:null,
+      opts:['T(n) = O(n)','T(n) = O(n log n)','T(n) = O(n²)','T(n) = O(2^n)'],
+      a:1,exp:'此即 Merge Sort 的遞迴式：每層工作量 n、總層數 log₂ n，T(n) = O(n log n)。屬主定理 (Master Theorem) Case 2。'};
+  },
+  ()=>{
+    return {ch:7, q:'解遞迴關係式 T(n) = T(n/2) + 1，T(1) = 1：',
+      code:null,
+      opts:['T(n) = O(1)','T(n) = O(log n)','T(n) = O(n)','T(n) = O(n log n)'],
+      a:1,exp:'此為二元搜尋的遞迴式：每層 O(1) 工作、共 log₂ n 層，T(n) = O(log n)'};
+  },
+  ()=>{
+    return {ch:7, q:'若 T(n) = 3n² + 5n log n + 100n + 1000，則其 Big-O 表示為？',
+      code:null,
+      opts:['O(n)','O(n log n)','O(n²)','O(n² log n)'],
+      a:2,exp:'Big-O 只看最高次項並忽略常數係數：最高為 3n²，故為 O(n²)。'};
+  },
+
+  /* --- 動態規劃 / 貪婪 --- */
+  ()=>{
+    return {ch:7, q:'計算第 n 個費氏數 fib(n)，使用「記憶化遞迴 (memoization)」相較於「樸素遞迴」的時間複雜度由何變何？',
+      code:null,
+      opts:['O(n) → O(log n)','O(2^n) → O(n)','O(n²) → O(n)','O(n log n) → O(n)'],
+      a:1,exp:'樸素遞迴 fib(n) = fib(n-1) + fib(n-2) 重複計算同一子問題，呼叫樹指數展開 O(2^n)。以陣列/字典記住結果後每個 fib(k) 只算一次，整體 O(n)。'};
+  },
+  ()=>{
+    return {ch:7, q:'下列哪一組是「動態規劃」適用的兩大必要性質？',
+      code:null,
+      opts:['遞迴 & 貪婪選擇','重疊子問題 & 最佳子結構','分而治之 & 排序','回溯 & 剪枝'],
+      a:1,exp:'DP 必須滿足「重疊子問題」（同一子問題會被求解多次）與「最佳子結構」（局部最佳能組合成整體最佳）。'};
+  },
+  ()=>{
+    return {ch:7, q:'貨幣面額為 {1, 5, 10, 50, 100}，要找 165 元最少枚數時，貪婪法 (greedy) 求得幾枚？',
+      code:null,
+      opts:['3','4','5','6'],
+      a:1,exp:'貪婪：100 + 50 + 10 + 5 = 165，共 4 枚。此幣制是「規範性貨幣系統」，貪婪等於 DP 最佳解。'};
+  },
+  ()=>{
+    return {ch:7, q:'0/1 背包問題（n 個物品、背包容量 W）標準二維 DP 的時間複雜度為？',
+      code:null,
+      opts:['O(n + W)','O(n × W)','O(2^n)','O(n²)'],
+      a:1,exp:'狀態 dp[i][w]：前 i 個物品、容量 w 下最大價值，共 n×W 個狀態，O(1) 轉移，整體 O(nW)。注意這是「假多項式」(pseudo-polynomial) 演算法。'};
+  },
+  ()=>{
+    return {ch:7, q:'求兩字串（長度 m, n）的最長共同子序列 (LCS) 標準 DP 時間複雜度為？',
+      code:null,
+      opts:['O(m + n)','O(mn)','O(m² + n²)','O(2^(m+n))'],
+      a:1,exp:'狀態 dp[i][j] 表示 X[0..i] 與 Y[0..j] 的 LCS 長度，共 m×n 個狀態，O(1) 轉移，整體 O(mn)。'};
+  },
+
+  /* --- 進階：分治、回溯、圖演算法 --- */
+  ()=>{
+    return {ch:7, q:'下列何者「不是」分而治之 (Divide-and-Conquer) 策略的演算法？',
+      code:null,
+      opts:['Merge Sort','Quick Sort','Binary Search','Dijkstra Shortest Path'],
+      a:3,exp:'Dijkstra 屬「貪婪演算法」（每次選擇目前距離最近未確定的節點）。其餘三者皆把問題分割成更小的子問題再合併。'};
+  },
+  ()=>{
+    return {ch:7, q:'八皇后 (8-Queens) 問題最自然的解法為下列何者？',
+      code:null,
+      opts:['動態規劃','貪婪法','回溯 (Backtracking)','貝氏推論'],
+      a:2,exp:'八皇后逐列嘗試放皇后，若與既有放置衝突則回退（剪枝），是回溯法的經典範例。'};
+  },
+  ()=>{
+    return {ch:7, q:'欲求單一起點到所有節點的最短路徑（所有邊權皆為非負），最有效率的演算法為？',
+      code:null,
+      opts:['Bellman-Ford','Dijkstra','Floyd-Warshall','Kruskal'],
+      a:1,exp:'非負邊權單源最短路徑首選 Dijkstra（搭配優先佇列為 O((n+e) log n)）。Bellman-Ford 容許負邊權但較慢；Floyd 是全點對最短路徑；Kruskal 是 MST 演算法。'};
+  },
+  ()=>{
+    return {ch:7, q:'下列哪些演算法可用於求出無向加權圖的「最小生成樹 (MST)」？',
+      code:null,
+      opts:['Dijkstra 與 Bellman-Ford','Kruskal 與 Prim','Floyd-Warshall 與 BFS','DFS 與 Topological Sort'],
+      a:1,exp:'Kruskal（依邊權遞增、用 Union-Find 避免成環）與 Prim（從一點開始貪婪擴張）是兩大 MST 演算法。Dijkstra/Bellman-Ford 是最短路徑；Floyd 是全點對最短路徑。'};
+  },
+
+  /* --- 搜尋與其他 --- */
+  ()=>{
+    return {ch:7, q:'下列何者「不是」對陣列直接執行二元搜尋的必要條件？',
+      code:null,
+      opts:['資料已排序','可由索引隨機存取','資料量為 2 的次方','元素可比較大小'],
+      a:2,exp:'二元搜尋需要：已排序、可隨機存取、可比較。資料筆數不需是 2 的次方，只是寫成 2^k 較方便分析次數。'};
+  },
+  ()=>{
+    return {ch:7, q:'對已排序陣列大小 N，比較線性搜尋與二元搜尋「平均」時間複雜度：',
+      code:null,
+      opts:['線性 O(N)，二分 O(log N)','線性 O(N/2)，二分 O(N log N)','兩者皆 O(N)','兩者皆 O(log N)'],
+      a:0,exp:'線性搜尋平均比較 N/2 次（Big-O 為 O(N)）；二元搜尋每次砍半，O(log N)。'};
+  },
+  ()=>{
+    return {ch:7, q:'若要支援「平均 O(1) 的查找」但「不需要有序走訪」，最適合的資料結構為？',
+      code:null,
+      opts:['雙向鏈結串列','二元搜尋樹 (BST)','雜湊表 (Hash Table)','堆積 (Heap)'],
+      a:2,exp:'Hash Table 查找平均 O(1)，但無法依鍵值順序走訪；BST 雖有序但查找平均 O(log n)；Heap 不支援任意鍵查找。'};
+  },
+  ()=>{
+    return {ch:7, q:'下列程式片段的時間複雜度為何？<br><code>for(i = n; i &gt; 0; i /= 2)<br>&nbsp;&nbsp;for(j = 0; j &lt; i; j++) ...</code>',
+      code:null,
+      opts:['O(log n)','O(n)','O(n log n)','O(n²)'],
+      a:1,exp:'外層 i 從 n 依次除 2 直到 0，內層做 i 次。總和 ≈ n + n/2 + n/4 + ... ≈ 2n = O(n)（幾何級數收斂）。常見陷阱：誤認為 O(n log n)。'};
+  },
+  ()=>{
+    return {ch:7, q:'欲在 O(n log n) 內計算陣列中所有「逆序對 (inversion)」數量，最常見的修改自下列哪個演算法？',
+      code:null,
+      opts:['Bubble Sort','Quick Sort','Merge Sort','Counting Sort'],
+      a:2,exp:'修改 Merge Sort 的合併步驟：當右半元素比左半剩下元素小時，逆序對數量加上左半「剩餘元素數」，整體仍為 O(n log n)。'};
+  },
+
+  /* ============ APCS 風格題目（程式碼追蹤、不可能輸出、debug、視域陷阱）============ */
+
+  /* --- Ch2 APCS 風格 --- */
+  ()=>{ // 型別運算（APCS 經典）
+    return {ch:2, q:'下列 C 程式片段中，<code>w, x, y, z</code> 何者的值與其他三者「不同」？',
+      code:`int a = 7, b = 3;\nfloat w = a / 2 / b * 1.0;\nfloat x = a / b / 2.0;\nfloat y = a / 2 / b;\nfloat z = 1.0 * a / 2 / b;`,
+      opts:['w','x','y','z'], a:3,
+      exp:'整數除法會截斷小數。\n  w = (7/2)/3 × 1.0 = 1×1.0 = 1.0\n  x = (7/3)/2.0 = 2/2.0 = 1.0\n  y = 7/2/3 = 1（仍為 int，存入 float 得 1.0）\n  z = 1.0×7/2/3 = 7.0/2/3 ≈ 1.167（前面已轉 float）\n  z 異於其他三者。技巧：判斷「何時轉成浮點數」是這類題的關鍵。'};
+  },
+  ()=>{ // 變數視域（APCS 經典 scope 陷阱）
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`int a = 5, b = 3;\nvoid f(int a, int b) {\n  int c = a + b;\n}\nint g(int a, int b) {\n  a = a + b;\n  b = a - b;\n  int c = a + b;\n  return c;\n}\nint main() {\n  int b = 7;\n  int c = g(a, b);\n  f(a, b);\n  int a = 3;\n  printf("%d %d %d", a, b, c);\n}`,
+      opts:['3 7 17','5 7 17','3 3 17','3 7 8'], a:0,
+      exp:'視域優先序：local > global，且程式由上到下執行。\n  第 12 行 main 中 b 是 local = 7。\n  第 13 行 c = g(a, b) = g(5, 7)：g 內 a 變為 12、b 變為 5、c = 17，回傳 17。\n  第 14 行 f(5, 7) 沒回傳值，不影響 main。\n  第 15 行 main 新增 local a = 3。\n  print 時 a=3 (local)、b=7 (local)、c=17。輸出 "3 7 17"'};
+  },
+  ()=>{ // 巨集 #define 陷阱（APCS 經典）
+    return {ch:2, q:'下列 C 程式輸出為何？',
+      code:`#define add(a, b) a + b\nint main() {\n  printf("%d", add(3, 5) * add(3, 5));\n  return 0;\n}`,
+      opts:['23','64','34','30'], a:0,
+      exp:'#define 是「文字替換」，沒有括號保護。\n  add(3, 5) * add(3, 5) 展開為 3 + 5 * 3 + 5\n  依運算優先序：先做 5 * 3 = 15，再 3 + 15 + 5 = 23。\n  常見陷阱：以為結果是 8 × 8 = 64。\n  正確寫法應為 #define add(a, b) ((a) + (b))'};
+  },
+  ()=>{ // bool 邏輯運算（APCS 經典）
+    return {ch:2, q:'已知 <code>x1 = true, x2 = false, x3 = true</code>。下列何者與 <code>x1 &amp;&amp; (!(x1 &amp;&amp; x2) || x3)</code> 結果相同？',
+      code:null,
+      opts:['x2','(!(x1 && x3) && (x1 || x2))','!x1 || !(x2 || x3)','((!(x1 && x3) || x2) && x3) || x1'], a:3,
+      exp:'原式 = T && (!(T && F) || T) = T && (T || T) = T && T = T（真）。\n  A) x2 = F\n  B) !(T&&T) && (T||F) = F && T = F\n  C) !T || !(F||T) = F || F = F\n  D) ((!T || F) && T) || T = (F || F || T) → 後段 OR 上 x1=T，結果為 T ✓\n  技巧：先看題目給的結果是 T 還是 F，再對選項做 OR/AND 快速判斷。'};
+  },
+
+  /* --- Ch3 APCS 風格 --- */
+  ()=>{ // for 迴圈次數遞推（APCS 經典）
+    return {ch:3, q:'下列 C 程式片段中，<code>for</code> 迴圈共執行幾次？',
+      code:`int j = 0;\nfor (int i = 0; i < 128; i = i + j + 1)\n  j = i + 1;`,
+      opts:['3','5','7','9'], a:2,
+      exp:'追蹤 i 的變化：\n  第1次：i=0、j=1，更新 i = 0+1+1 = 2\n  第2次：i=2、j=3，更新 i = 2+3+1 = 6\n  第3次：i=6、j=7，更新 i = 6+7+1 = 14\n  第4次：i=14、j=15，更新 i = 14+15+1 = 30\n  第5次：i=30、j=31，更新 i = 30+31+1 = 62\n  第6次：i=62、j=63，更新 i = 62+63+1 = 126\n  第7次：i=126、j=127，更新 i = 126+127+1 = 254（≥128，跳出）\n  共 7 次。技巧：發現 i_new = 2·i_old + 2，序列為 0,2,6,14,30,62,126…'};
+  },
+  ()=>{ // 三層迴圈計數（APCS 經典）
+    return {ch:3, q:'下列 C 程式片段輸出為何？',
+      code:`int x = -100;\nfor (int i = 1; i <= 8; i++)\n  for (int j = 1; j <= i; j++)\n    for (int k = 1; k <= j; k++)\n      x += 1;\nprintf("%d", x);`,
+      opts:['19','20','21','22'], a:1,
+      exp:'三層迴圈總執行次數＝Σᵢ₌₁⁸ Σⱼ₌₁ⁱ j = Σᵢ₌₁⁸ i(i+1)/2 = n(n+1)(n+2)/6 = 8·9·10/6 = 120。\n  x = -100 + 120 = 20。\n  公式記憶：Σᵢ₌₁ⁿ i(i+1)/2 = n(n+1)(n+2)/6（APCS 常考公式）'};
+  },
+  ()=>{ // 不可能的輸出（APCS 經典反推題）
+    return {ch:3, q:'下列 C 函式中，何者「不可能」是 <code>f</code> 的回傳值？',
+      code:`int f(int n) {\n  if (n > 17) n += 5;\n  while (n >= 23) n -= 6;\n  if (n > 17) n += 2;\n  return n;\n}`,
+      opts:['17','19','22','24'], a:1,
+      exp:'反推：while 結束時 n 必落在 [n<23] 範圍內，且若進入則 n 來自 ≥23 持續減 6。\n  while 結束時 n ∈ {17, 18, 19, 20, 21, 22}（可能值）\n  接著第二個 if (n>17) 觸發 n+=2：\n    17 → 17（不變）\n    18 → 20\n    19 → 21\n    20 → 22\n    21 → 23\n    22 → 24\n  所有可能回傳值：{17, 20, 21, 22, 23, 24}。19 不在其中。'};
+  },
+  ()=>{ // dangling else 縮排陷阱（APCS 經典）
+    return {ch:3, q:'下列 C 程式片段執行後 <code>a</code> 的值為何？',
+      code:`int x = 4, a = 0;\nif (x >= 2)\n  if (x < 6)\n    a = 1;\n  else\n    a = 2;\nelse\n  a = 3;`,
+      opts:['0','1','2','3'], a:1,
+      exp:'C 語法中 else 永遠配對「最近未配對的 if」，與縮排無關。\n  x=4：外層 if (4>=2) 為真 → 進入內層\n  內層 if (4<6) 為真 → a = 1\n  最終 a = 1。\n  常見陷阱：誤以為 else 配外層 if、答案是 3。'};
+  },
+  ()=>{ // do-while 程式應用（APCS 經典）
+    return {ch:3, q:'下列 C 程式片段中，當填入哪個起始值時，輸出為對應結果？',
+      code:`int f(int x) {\n  int ans = 0;\n  do {\n    ans += x;\n  } while (ans >= 0 && ans <= 10);\n  return ans;\n}\nint main() {\n  int x = ____;\n  while (x <= 40)\n    x = x + f(x);\n  cout << x << endl;\n}`,
+      opts:['填 2、輸出 58','填 1、輸出 50','填 5、輸出 80','填 4、輸出 62'], a:2,
+      exp:'分析 f(x)：do-while 至少跑一次，迭代累加 x 直到 ans 超出 [0, 10]。\n  若 x>10：第一次 ans=x 即超出，回傳 x。即 f(x) 把 x 翻倍貢獻給 main 中的 x。\n  若 x≤10：累加 x 直到首次大於 10，回傳該值。\n  從 x=5：5 → 5+15(=三倍 5)=20 → 20+40=60 → 60+? 等等仔細算：\n    f(5): ans 跑 5,10,15 → 回傳 15。x = 5+15 = 20\n    f(20): ans=20 → 回傳 20。x = 20+20 = 40\n    f(40): ans=40 → 回傳 40。x = 40+40 = 80（>40，跳出）\n  輸出 80。'};
+  },
+  ()=>{ // switch fall-through 進階（APCS 經典）
+    return {ch:3, q:'下列 C 程式輸出為何？',
+      code:`int main() {\n  int a = 2;\n  switch(a) {\n    case 1 + 1:\n      printf("A");\n    case 1 + 2:\n      printf("B");\n      break;\n    default:\n      printf("??");\n  }\n  return 0;\n}`,
+      opts:['A','B','AB','??'], a:2,
+      exp:'case 標籤可以是常數運算式：case 1+1 = case 2、case 1+2 = case 3。\n  a=2 進入 case 2 → 印 "A"。\n  case 2 沒有 break → fall-through 到 case 3 → 印 "B"。\n  case 3 有 break → 跳出。\n  輸出 "AB"'};
+  },
+
+  /* --- Ch4 APCS 風格 --- */
+  ()=>{ // 陣列 index 對應（APCS 經典）
+    return {ch:4, q:'下列 C 程式片段中，輸入依序為 10, 9, 8, 7, …, 1，執行結束後 <code>num</code> 陣列由 index 0 到 9 的內容為何？',
+      code:`int num[10];\nfor (int i = 0; i < 10; i++)\n  scanf("%d", &num[(i + 6) % 10]);`,
+      opts:['6, 5, 4, 3, 2, 1, 10, 9, 8, 7','5, 6, 7, 8, 9, 10, 1, 2, 3, 4','10, 9, 8, 7, 6, 5, 4, 3, 2, 1','4, 5, 6, 7, 8, 9, 10, 1, 2, 3'], a:0,
+      exp:'每次將輸入值放到 index (i+6)%10：\n  i=0 把 10 放 index 6；i=1 把 9 放 index 7；i=2 把 8 放 index 8；i=3 把 7 放 index 9；\n  i=4 把 6 放 index 0；i=5 把 5 放 index 1；…依此類推。\n  最終 num = [6, 5, 4, 3, 2, 1, 10, 9, 8, 7]'};
+  },
+  ()=>{ // 字串 ASCII 算術（APCS 經典）
+    return {ch:4, q:'下列 C 程式片段執行後，下列敘述何者「正確」？',
+      code:`char a[] = {'a','b','c','d','e','f','g','h','i'};\nfor (int i = 0; i < 9; i++)\n  a[i] = a[i] + i * 2;`,
+      opts:["a[0] == 'c'","a[3] == 'm'","a[5] == 'p'","a[1] == 'g'"], a:2,
+      exp:'每個字元被加上 i×2：\n  a[0] = \'a\'+0 = \'a\'\n  a[1] = \'b\'+2 = \'d\'\n  a[2] = \'c\'+4 = \'g\'\n  a[3] = \'d\'+6 = \'j\'\n  a[4] = \'e\'+8 = \'m\'\n  a[5] = \'f\'+10 = \'p\' ✓\n  a[6] = \'g\'+12 = \'s\'\n  a[7] = \'h\'+14 = \'v\'\n  a[8] = \'i\'+16 = \'y\''};
+  },
+  ()=>{ // 二維陣列乘法（APCS 經典）
+    return {ch:4, q:'下列 C 程式輸出為何？',
+      code:`int s1[2][2] = {{0, 1}, {2, 3}};\nint s2[2][2] = {{4, 3}, {2, 1}};\nfor (int i = 0; i < 2; i++)\n  for (int j = 0; j < 2; j++)\n    printf("%d ", s1[i][j] * s2[j][i]);`,
+      opts:['0 2 3 6','2 0 6 3','2 0 3 6','0 2 6 3'], a:3,
+      exp:'注意 s2 用 [j][i] 而非 [i][j]！\n  i=0, j=0：s1[0][0]×s2[0][0] = 0×4 = 0\n  i=0, j=1：s1[0][1]×s2[1][0] = 1×2 = 2\n  i=1, j=0：s1[1][0]×s2[0][1] = 2×3 = 6\n  i=1, j=1：s1[1][1]×s2[1][1] = 3×1 = 3\n  輸出 "0 2 6 3"'};
+  },
+  ()=>{ // 凱薩加密反查（APCS 經典字串題）
+    return {ch:4, q:'下列 C 程式片段中，已知執行 <code>func(s)</code> 後輸出為 "FIHVIU"，則 <code>s</code> 內容為何？',
+      code:`void func(char *s) {\n  char mp[] = "IEFGHDJKLMNOPCRSTUVWXYZABQ";\n  int len = strlen(s);\n  for (int i = 0; i < len; i++) {\n    int c = s[i] - 'A';\n    printf("%c", mp[c]);\n  }\n}`,
+      opts:['DBFTBS','CBESBR','FIHVIU','CAESAR'], a:3,
+      exp:'此函式用 mp 表把 s[i] 替換為 mp[s[i]-\'A\']。\n  反查表（mp 中的字元對應到原字元）：\n    F 在 mp 中位置 2 → 原字元 \'A\'+2 = \'C\'\n    I 在 mp 中位置 0 → \'A\'\n    H 在 mp 中位置 4 → \'E\'\n    V 在 mp 中位置 18 → \'S\'\n    I → \'A\'\n    U 在 mp 中位置 17 → \'R\'\n  輸入字串為 "CAESAR"'};
+  },
+  ()=>{ // 迴文判斷 debug（APCS 經典）
+    return {ch:4, q:'下列函式想要判斷字串是否為迴文，但目前有 bug。應修改哪一行使函式正確？',
+      code:`bool isPal(const char *s) {\n  int p = 1;\n  int len = strlen(s);\n  for (int i = 0; i < len/2 - 1; i++) {\n    if (s[i] != s[len - i - 1])\n      p = 0;\n  }\n  return p;\n}`,
+      opts:['第 4 行改 for (i=0; i<len/2; i++)','第 4 行改 for (i=0; i<len/2+1; i++)','程式沒有錯誤','第 6 行改成 p = 1;'], a:0,
+      exp:'迴文需檢查 s[i] 與 s[len-1-i] 是否相等，i 應跑到 len/2-1（含）。\n  目前迴圈條件 i < len/2-1 少跑一輪，會漏掉中間檢查。\n  例如 "112111" (len=6)：應檢查 i=0,1,2 三組；現在只跑 i=0,1，漏掉 s[2]=\'2\' vs s[3]=\'1\'。\n  修正：i < len/2'};
+  },
+
+  /* --- Ch5 APCS 風格 --- */
+  ()=>{ // 多函式呼叫簡化（APCS 經典）
+    return {ch:5, q:'已知函式定義：<br><code>int op3(int i, int j) { return i * j; }</code><br><code>int op2(int g, int h) { return g * op3(g, h); }</code><br><code>int op1(int e, int f) { return op2(e, f); }</code><br>且 <code>a = 1, b = 2, c = 1, d = 2</code>，則下列四個運算式共有幾個「不同」的值？<br>① <code>op1(op2(op3(b, d), c), a)</code><br>② <code>op2(op3(op1(d, c), a), b)</code><br>③ <code>op3(op1(op2(c, a), d), b)</code><br>④ <code>op3(1, op1(op2(b, c), d))</code>',
+      code:null,
+      opts:['1','2','3','4'], a:2,
+      exp:'先簡化邏輯（APCS 經典技巧）：\n  op2(g, h) = g × g × h\n  op1(e, f) = e × e × f\n  代入計算：\n  ① op3(b,d)=4 → op2(4,c)=16 → op1(16,a)=256\n  ② op1(d,c)=4 → op3(4,a)=4 → op2(4,b)=32\n  ③ op2(c,a)=1 → op1(1,d)=2 → op3(2,b)=4\n  ④ op2(b,c)=4 → op1(4,d)=32 → op3(1,32)=32\n  值：256, 32, 4, 32 → 共 3 個不同'};
+  },
+  ()=>{ // 互遞迴執行順序（APCS 經典）
+    return {ch:5, q:'下列 C 程式輸出為何？',
+      code:`void f1(int);\nvoid f2(int);\nvoid f1(int i) {\n  if (i < 10) {\n    f2(i - 2);\n    printf("%d ", i);\n  }\n}\nvoid f2(int i) {\n  if (i > 0) {\n    printf("%d ", i);\n    f1(i - 1);\n  }\n}\nint main() {\n  f2(9);\n}`,
+      opts:['9 8 6 5 3 2','2 3 5 6 8 9','3 2 5 6 8 9','9 6 3 2 5 8'], a:3,
+      exp:'關鍵：f2 是「先印再呼叫」，f1 是「先呼叫再印」。\n  展開呼叫樹：\n    f2(9): 印 9 → f1(8)\n      f1(8): f2(6) → 印 8\n        f2(6): 印 6 → f1(5)\n          f1(5): f2(3) → 印 5\n            f2(3): 印 3 → f1(2)\n              f1(2): f2(0)[終止] → 印 2\n  輸出順序：9 6 3 2 5 8。技巧：畫呼叫樹找出印的時機。'};
+  },
+  ()=>{ // 帕斯卡三角形遞迴（APCS 經典）
+    return {ch:5, q:'下列遞迴函式呼叫 <code>p(5, 4)</code> 的回傳值為何？',
+      code:`int p(int n, int k) {\n  if (k == 0) return 1;\n  else if (k == 1) return n;\n  else return n * p(n - 1, k - 1);\n}`,
+      opts:['10','30','120','125'], a:2,
+      exp:'追蹤遞迴展開：\n  p(5, 4) = 5 × p(4, 3)\n         = 5 × 4 × p(3, 2)\n         = 5 × 4 × 3 × p(2, 1)\n         = 5 × 4 × 3 × 2（base case k=1，回傳 n=2）\n         = 120'};
+  },
+  ()=>{ // GCD 多種實作辨錯（APCS 經典）
+    return {ch:5, q:'下列為四個 GCD 函式實作。對測資 <code>(42, 18)</code>，哪一個函式的回傳值與其他三者「不同」？',
+      code:`int f1(int a, int b) { // 標準遞迴\n  if (b == 0) return a;\n  return f1(b, a % b);\n}\nint f2(int a, int b) { // 變數操作後遞迴\n  if (b == 0) return a;\n  int c = a % b; a = b; b = c;\n  return f2(a, b);\n}\nint f3(int a, int b) { // 迴圈版本\n  int t = 1;\n  while (t != 0) { t = a % b; a = b; b = t; }\n  return a;\n}\nint f4(int a, int b) { // 可疑實作\n  if (a <= 0 && b <= 0) return b - a;\n  return f4(a - b, a);\n}`,
+      opts:['f1','f2','f3','f4'], a:3,
+      exp:'f1、f2、f3 都是正確 GCD 實作，gcd(42, 18) = 6。\n  f4 使用「相減」而非「取模」，且終止條件詭異。\n  追蹤 f4(42, 18)：\n    → f4(24, 42) → f4(-18, 24) → f4(-42, -18) → 終止，回傳 -18-(-42) = 24\n  f4 回傳 24，與 6 不同。技巧：直接代入測資比較快。'};
+  },
+  ()=>{ // 遞迴 debug（APCS 經典）
+    return {ch:5, q:'下列遞迴想計算 1×2 + 2×3 + 3×4 + … + 9×10，但目前有錯。應如何修改？',
+      code:`int sum(int n) {\n  if (n == 1)\n    return 1;\n  return n * (n - 1) + sum(n - 1);\n}\nint main() {\n  printf("%d", sum(10));\n}`,
+      opts:['第 3 行改成 return 0;','第 4 行改成 return (n-1) * n + sum(n - 1);','第 2 行改成 if (n == 2)','程式沒有錯誤'], a:0,
+      exp:'目標：1×2 + 2×3 + … + 9×10。\n  遞迴式 n×(n-1) + sum(n-1) 對 n≥2 正確。\n  問題在 base case：n=1 時應回傳 0（不該加入 1×0=0 但目前 base 回傳 1），多算了一個 1。\n  正確修改：n=1 時回傳 0，或 base case 用 n<=1。'};
+  },
+
+  /* --- Ch7 APCS 風格（程式碼追蹤資料結構）--- */
+  ()=>{ // 陣列模擬 queue（APCS 經典題組）
+    return {ch:7, q:'下列 C 程式片段以陣列模擬佇列。執行結束後輸出為何？',
+      code:`int Q[30];\nint count = 0, front = 0, back = 0;\nfor (int i = 1; i <= 15; i++) {\n  Q[back] = i;\n  back++;\n}\nwhile (front < back - 1) {\n  int v = Q[front];\n  front++;\n  count++;\n  if (count == 3) {\n    count = 0;\n    Q[back] = v;\n    back++;\n  }\n}\nprintf("%d", Q[front]);`,
+      opts:['6','9','12','15'], a:1,
+      exp:'初始放入 1..15 至 Q[0..14]，back=15。\n  while 邏輯：每 dequeue 3 個元素，把第 3 個重新 enqueue 到尾端。\n  追蹤新增到 Q 的元素：{3, 6, 9, 12, 15}（第一輪）→ Q[15..19] 為 3,6,9,12,15\n  第二輪 dequeue 5 個（front 從 15 → 20），依規則每 3 個 enqueue 一個：把 9 重新放入 Q[20]\n  最終 front=20、back=21，Q[20]=9，輸出 9。'};
+  },
+  ()=>{ // 用 stack 計算 postfix（APCS 風格但實際追蹤）
+    return {ch:7, q:'下列 C 程式以陣列模擬堆疊計算後序表示式 "5 3 + 2 *"，最後 stk[0] 的值為何？',
+      code:`int stk[10], top = 0;\nchar *expr[] = {"5", "3", "+", "2", "*"};\nfor (int i = 0; i < 5; i++) {\n  char *t = expr[i];\n  if (t[0] >= '0' && t[0] <= '9') {\n    stk[top++] = t[0] - '0';\n  } else {\n    int b = stk[--top];\n    int a = stk[--top];\n    if (t[0] == '+') stk[top++] = a + b;\n    else if (t[0] == '*') stk[top++] = a * b;\n  }\n}\nprintf("%d", stk[0]);`,
+      opts:['10','13','16','30'], a:2,
+      exp:'追蹤堆疊變化（top 為下一個空位）：\n  push 5: stk=[5], top=1\n  push 3: stk=[5,3], top=2\n  讀 \'+\': b=3, a=5, push 5+3=8: stk=[8], top=1\n  push 2: stk=[8,2], top=2\n  讀 \'*\': b=2, a=8, push 8*2=16: stk=[16], top=1\n  最終 stk[0] = 16'};
+  },
+  ()=>{ // 二元搜尋程式碼追蹤（APCS 風格）
+    return {ch:7, q:'下列二元搜尋程式碼對陣列 <code>{3, 7, 11, 15, 19, 23, 27, 31}</code> 搜尋 23，<code>while</code> 迴圈共執行幾次？',
+      code:`int a[] = {3, 7, 11, 15, 19, 23, 27, 31};\nint target = 23;\nint lo = 0, hi = 7, mid;\nwhile (lo <= hi) {\n  mid = (lo + hi) / 2;\n  if (a[mid] == target) break;\n  else if (a[mid] < target) lo = mid + 1;\n  else hi = mid - 1;\n}`,
+      opts:['1','2','3','4'], a:1,
+      exp:'追蹤：\n  第1次：lo=0, hi=7, mid=3, a[3]=15 < 23 → lo=4\n  第2次：lo=4, hi=7, mid=5, a[5]=23 == target → break\n  共執行 2 次。\n  雖然 N=8 最壞需要 ⌈log₂8⌉ = 3 次，本題目標剛好落在第 2 次的 mid。'};
+  },
+  ()=>{ // 氣泡排序 pass 數（APCS 風格）
+    return {ch:7, q:'下列氣泡排序對 <code>{5, 1, 4, 2, 8}</code> 排序，最外層 <code>for</code> 迴圈會將內層執行幾次完整的 pass，使資料完全排序？',
+      code:`int a[] = {5, 1, 4, 2, 8};\nint n = 5;\nfor (int i = 0; i < n - 1; i++)\n  for (int j = 0; j < n - 1 - i; j++)\n    if (a[j] > a[j+1]) {\n      int t = a[j]; a[j] = a[j+1]; a[j+1] = t;\n    }`,
+      opts:['1','2','3','4'], a:3,
+      exp:'氣泡排序對 n=5 個元素，外層 for 跑 n-1=4 次（i 從 0 到 3），不論資料是否已排序都會跑完全部 4 個 pass。\n  追蹤排序過程：\n    Pass i=0: [1,4,2,5,8]（最大值 8 沉底）\n    Pass i=1: [1,2,4,5,8]（4、5 排好）\n    Pass i=2: [1,2,4,5,8]（已排序但仍跑）\n    Pass i=3: [1,2,4,5,8]\n  共執行 4 次完整 pass。'};
+  },
+  ()=>{ // 樹的前序走訪程式碼追蹤
+    return {ch:7, q:'下列為某二元樹的前序走訪。陣列 <code>L</code> 是左子節點索引、<code>R</code> 是右子節點索引（-1 表示無子節點）。輸出為何？',
+      code:`int val[7] = {10, 20, 30, 40, 50, 60, 70};\nint L[7] = {1, 3, 5, -1, -1, -1, -1};\nint R[7] = {2, 4, 6, -1, -1, -1, -1};\nvoid preorder(int u) {\n  if (u == -1) return;\n  printf("%d ", val[u]);\n  preorder(L[u]);\n  preorder(R[u]);\n}\nint main() { preorder(0); }`,
+      opts:['10 20 40 50 30 60 70','40 20 50 10 60 30 70','40 50 20 60 70 30 10','10 20 30 40 50 60 70'], a:0,
+      exp:'前序走訪：根→左子樹→右子樹。\n  樹結構（節點索引 + 值）：\n    0(10)\n    ├─ L: 1(20)\n    │   ├─ L: 3(40)\n    │   └─ R: 4(50)\n    └─ R: 2(30)\n        ├─ L: 5(60)\n        └─ R: 6(70)\n  前序：10 → 20 → 40 → 50 → 30 → 60 → 70'};
+  },
+  ()=>{ // 程式碼複雜度估算（APCS 風格）
+    return {ch:7, q:'下列 C 程式片段，<code>cnt</code> 累計多少次？（給定 n = 8）',
+      code:`int cnt = 0;\nfor (int i = 1; i < n; i *= 2)\n  for (int j = 0; j < i; j++)\n    cnt++;`,
+      opts:['3','7','8','15'], a:1,
+      exp:'外層 i 從 1 倍增：1, 2, 4（下一輪 i=8 不再進入）\n  內層 j 跑 i 次。\n  總和 = 1 + 2 + 4 = 7\n  一般式：1+2+4+…+2^(k-1) = 2^k - 1，其中 2^k ≥ n。本題 n=8，2^k = 8 → cnt = 8-1 = 7。\n  時間複雜度為 O(n)（幾何級數收斂），常被誤認為 O(n log n)。'};
+  }
+
+,
+
+  /* ============ APCS 第8章資料結構整合題庫（25 題參數化擴充）============ */
+
+  /* --- 鏈結串列 --- */
+  ()=>({ ch:7, q:'單向鏈結串列 (Singly Linked List) 中，每個節點包含哪兩個欄位？',
+    code:null,
+    opts:['資料欄與索引欄','資料欄與指標欄 (next)','鍵值欄與值欄 (key/value)','前指標與後指標 (prev/next)'], a:1,
+    exp:'單向鏈結串列節點 = data + next (指向下一個節點的指標)。「前指標與後指標」是雙向鏈結串列 (Doubly Linked List)；「鍵值欄」屬於 hash map。'
+  }),
+  ()=>({ ch:7, q:'在 C/C++ 中建立鏈結串列新節點時，若沒有將 next 初始化為 <code>nullptr</code>（或 NULL），最可能會產生什麼問題？',
+    code:null,
+    opts:['編譯錯誤','野指標 (dangling/wild pointer)，存取不合法記憶體','迴圈一定會無窮執行','Stack Overflow'], a:1,
+    cppOnly:true,
+    exp:'未初始化的指標稱為野指標 (wild pointer)，內容是不可預測的隨機位址，後續走訪時誤判 next≠NULL 會解參考到非法記憶體，導致程式崩潰或未定義行為。'
+  }),
+  ()=>({ ch:7, q:'下列走訪鏈結串列的程式碼會造成何種錯誤？',
+    code:'while (current != NULL) {\n    printf("%d ", current->data);\n    // 此處缺漏\n}',
+    opts:['少了 current = current->next，造成無窮迴圈','少了 head = NULL，造成記憶體洩漏','少了 malloc 配置記憶體','沒有錯誤'], a:0,
+    cppOnly:true,
+    exp:'走訪迴圈內必須更新 current = current->next；否則 current 永遠指向同一個節點、while 條件永真，造成無窮迴圈。'
+  }),
+  ()=>({ ch:7, q:'環狀鏈結串列 (Circular Linked List) 與單向鏈結串列最大的差異為何？',
+    code:null,
+    opts:['節點有前後兩個指標','最後一個節點的 next 指向 head 形成環','head 必為 NULL','每個節點儲存兩個 data'], a:1,
+    exp:'環狀串列：last->next = head，最後節點指回頭部形成環。走訪時用 do-while 配合條件 ptr->next != head 才能避免無窮迴圈。'
+  }),
+  ()=>({ ch:7, q:'已知 current 指向鏈結串列中某節點，在它「後面」插入新節點 newNode，正確的程式碼為何？',
+    code:null,
+    opts:[
+      'newNode->next = current; current = newNode;',
+      'newNode->next = current->next; current->next = newNode;',
+      'current->next = newNode; newNode->next = NULL;',
+      'newNode = current->next; current->next = newNode;'
+    ], a:1,
+    cppOnly:true,
+    exp:'兩步：① newNode->next 先接到原本 current 之後；② current->next 改指向 newNode。順序顛倒會丟失 current 後面的鏈結。'
+  }),
+
+  /* --- 堆疊 Stack --- */
+  ()=>({ ch:7, q:'以陣列實作的堆疊 (Stack)，<code>top</code> 變數的初始值通常設為多少表示空堆疊？',
+    code:null,
+    opts:['0','1','-1','MAX_SIZE - 1'], a:2,
+    exp:'top = -1 表示完全空 (尚無任何元素)。第一次 push 後 top 變為 0，剛好對應陣列 index 0。若令 top=0 為空，則 push 後要先 top++ 再寫入。'
+  }),
+  ()=>{ // 參數化：隨機 3 個 push 值與 pop 次數
+    const a=[], used=new Set();
+    while(a.length<3){ const v=rnd(1,99); if(!used.has(v)){ used.add(v); a.push(v); } }
+    const pops = rnd(1,2);
+    // 推入 a[0], a[1], a[2]；pop pops 次後剩餘最上面 = a[2-pops]
+    const remainAfter = a.slice(0, 3-pops);
+    const topAfter = remainAfter.length ? remainAfter[remainAfter.length-1] : null;
+    const wrongs = a.filter(v=>v!==topAfter).concat([(topAfter||0)+rnd(1,5)]);
+    const correct = topAfter === null ? '堆疊為空' : String(topAfter);
+    const opts = shuf([correct, String(wrongs[0]), String(wrongs[1]), String(wrongs[2])]);
+    return {
+      ch:7,
+      q:`依序執行 <code>push(${a[0]}), push(${a[1]}), push(${a[2]})</code> 後再連續 pop ${pops} 次，此時堆疊頂端的元素為何？`,
+      code:null, opts, a: opts.indexOf(correct),
+      exp:`LIFO（Last In, First Out）：push 順序 ${a[0]}→${a[1]}→${a[2]}（${a[2]} 在最上面）。pop ${pops} 次依序取出${pops===1?` ${a[2]}`:` ${a[2]} 與 ${a[1]}`}，剩餘堆疊由下到上：${remainAfter.join(',') || '(空)'}，頂端 = ${correct}。`
+    };
+  },
+  ()=>({ ch:7, q:'下列何者是 C/C++ 中正確的 <code>pop()</code> 一行實作？',
+    code:'/* int stack[N], top; */',
+    opts:[
+      'return stack[++top];',
+      'return stack[top--];',
+      'return stack[top];',
+      'top--; return stack[top + 1];'
+    ], a:1,
+    cppOnly:true,
+    exp:'stack[top--] 是「後置遞減」：先讀取 stack[top] 當作回傳值，再執行 top-- 讓 top 減 1。等價於 int v = stack[top]; top--; return v;。'
+  }),
+
+  /* --- 佇列 Queue --- */
+  ()=>({ ch:7, q:'下列關於 Stack 與 Queue 的比較，何者「錯誤」？',
+    code:null,
+    opts:[
+      'Stack 為 LIFO、Queue 為 FIFO',
+      'Stack 的 push 與 Queue 的 enqueue 都從同一端操作',
+      'Queue 的 dequeue 從 front 取出',
+      'Stack 的 pop 從 top 取出'
+    ], a:1,
+    exp:'Stack 的 push/pop 都在 top（同一端）；Queue 的 enqueue 在 rear、dequeue 在 front（不同端）。所以「都從同一端操作」是錯誤的。'
+  }),
+  ()=>({ ch:7, q:'以陣列實作的線性佇列 (Queue)，當 <code>front > rear</code> 時表示什麼狀態？',
+    code:null,
+    opts:['佇列已滿 (overflow)','佇列為空 (underflow)','佇列剛初始化','front 和 rear 設定錯誤'], a:1,
+    exp:'初始 front=0, rear=-1（或 front=rear=0）。所有元素被 dequeue 後 front 會超過 rear，代表 underflow（空佇列）。此時需回傳錯誤訊息。'
+  }),
+  ()=>({ ch:7, q:'下列關於佇列 (Queue) 的敘述，何者「正確」？',
+    code:null,
+    opts:[
+      'Enqueue 從 front 加入、Dequeue 從 rear 取出',
+      'Enqueue 從 rear 加入、Dequeue 從 front 取出',
+      'Enqueue 與 Dequeue 均從 front 操作',
+      'Enqueue 與 Dequeue 均從 rear 操作'
+    ], a:1,
+    exp:'FIFO（First In, First Out）原則：新元素從尾端 (rear) 加入、最舊元素從前端 (front) 取出，先進先出。'
+  }),
+
+  /* --- 二元樹 (Binary Tree) --- */
+  ()=>{ // 參數化：父→左子節點 index
+    const p = rnd(2, 12);
+    const correct = 2 * p;
+    const opts = shuf([String(correct), String(correct+1), String(p+1), String(Math.floor(p/2))]);
+    return {
+      ch:7,
+      q:`在以陣列儲存的二元樹中（index 從 1 開始），若某節點 index 為 <strong>${p}</strong>，其左子節點 index 為何？`,
+      code:null, opts, a: opts.indexOf(String(correct)),
+      exp:`陣列儲存二元樹（root 從 index 1）的公式：\n  左子節點 = 父 × 2 = ${p} × 2 = ${correct}\n  右子節點 = 父 × 2 + 1 = ${correct+1}\n  父節點 = ⌊子 / 2⌋`
+    };
+  },
+  ()=>{ // 參數化：父→右子節點
+    const p = rnd(2, 12);
+    const correct = 2 * p + 1;
+    const opts = shuf([String(correct), String(2*p), String(p+2), String(2*p-1)]);
+    return {
+      ch:7,
+      q:`在以陣列儲存的二元樹中（index 從 1 開始），若某節點 index 為 <strong>${p}</strong>，其右子節點 index 為何？`,
+      code:null, opts, a: opts.indexOf(String(correct)),
+      exp:`右子節點公式：父 × 2 + 1 = ${p} × 2 + 1 = ${correct}。`
+    };
+  },
+  ()=>{ // 參數化：子→父節點
+    const c = rnd(4, 25);
+    const correct = Math.floor(c / 2);
+    const opts = shuf([String(correct), String(c-1), String(2*c), String(c-2)]);
+    return {
+      ch:7,
+      q:`在以陣列儲存的二元樹中（index 從 1 開始），若子節點 index 為 <strong>${c}</strong>，其父節點 index 為何？`,
+      code:null, opts, a: opts.indexOf(String(correct)),
+      exp:`父節點公式：⌊子 / 2⌋ = ⌊${c} / 2⌋ = ${correct}（整數除法，C 語言 ${c}/2 直接得 ${correct}）。`
+    };
+  },
+  ()=>({ ch:7, q:'對下圖二元樹進行<strong>中序走訪 (inorder traversal)</strong>，結果為何？<br><pre style="font-family:monospace;line-height:1.4">          A\n         / \\\n        B   C\n       / \\\n      D   E</pre>',
+    code:null,
+    opts:['A B D E C','D B E A C','A B C D E','D E B A C'], a:1,
+    exp:'中序走訪 = 左 → 根 → 右。\n  visit(A) → visit(B) → visit(D)[葉，印 D] → 印 B → visit(E)[葉，印 E] → 印 A → visit(C)[葉，印 C]\n  輸出：D B E A C'
+  }),
+  ()=>({ ch:7, q:'已知某二元樹的前序走訪為 <code>A B D E C F</code>、中序走訪為 <code>D B E A F C</code>，則後序走訪為何？',
+    code:null,
+    opts:['D E B F C A','A B C D E F','D B E C F A','B D E F C A'], a:0,
+    exp:'從前序第一個字母 A 確認為根；中序中 A 左邊 [D B E] 為左子樹、右邊 [F C] 為右子樹。\n  遞迴重建：根 A、左子樹根 B（左 D、右 E）、右子樹根 C（左 F）。\n  後序走訪 = 左 → 右 → 根：D E B F C A。'
+  }),
+  ()=>({ ch:7, q:'下列關於二元搜尋樹 (BST) 中序走訪的敘述，何者正確？',
+    code:null,
+    opts:[
+      '結果為遞減排列',
+      '結果為遞增排列',
+      '結果為隨機排列',
+      '結果必與前序走訪相同'
+    ], a:1,
+    exp:'BST 性質：左子樹所有值 < 根 < 右子樹所有值。中序走訪 (左→根→右) 剛好按大小順序，因此產生由小到大遞增的序列。此為 APCS 常考性質。'
+  }),
+
+  /* --- 堆積 Heap --- */
+  ()=>({ ch:7, q:'最大堆 (Max-Heap) 一定滿足下列哪一性質？',
+    code:null,
+    opts:[
+      '左子節點 > 右子節點',
+      '根節點 (root) 是整棵樹的最大值',
+      '中序走訪結果為遞增',
+      '是一棵二元搜尋樹 (BST)'
+    ], a:1,
+    exp:'Max-Heap 規則：每個父節點 ≥ 自己的子節點。因此根節點是全樹最大值。但 Heap 不規範左右子節點誰大誰小，也不是 BST。'
+  }),
+  ()=>{ // 參數化：heap index 父節點
+    const c = rnd(3, 20);
+    const correct = Math.floor(c / 2);
+    const opts = shuf([String(correct), String(2*c), String(c-1), String(2*c+1)]);
+    return {
+      ch:7,
+      q:`Heap 以陣列儲存且 index 從 1 開始。若某節點 index 為 <strong>${c}</strong>，其父節點的 index 為何？`,
+      code:null, opts, a: opts.indexOf(String(correct)),
+      exp:`Heap 與一般陣列儲存的二元樹相同：父 = ⌊子 / 2⌋ = ⌊${c} / 2⌋ = ${correct}。`
+    };
+  },
+  ()=>({ ch:7, q:'對 Max-Heap <code>[9, 7, 8, 3, 4, 5, 6]</code> 執行一次 <code>deleteMax()</code> 後，陣列內容為何？',
+    code:null,
+    opts:[
+      '[8, 7, 6, 3, 4, 5]',
+      '[7, 8, 6, 3, 4, 5]',
+      '[8, 7, 5, 3, 4, 6]',
+      '[9, 7, 8, 3, 4, 5]'
+    ], a:0,
+    exp:'deleteMax 步驟：① 取出根節點 9（最大值）。② 將最後一個元素 6 移到根。③ 對 6 進行下移 (sift-down)：與較大子 (7, 8) 比較，與 8 交換 → [8,7,6,3,4,5]。'
+  }),
+
+  /* --- DFS / BFS / Graph --- */
+  ()=>({ ch:7, q:'DFS（深度優先搜尋）的底層通常使用何種資料結構？',
+    code:null,
+    opts:['Queue (佇列)','Stack (堆疊) 或遞迴','Heap (堆積)','Hash Table (雜湊表)'], a:1,
+    exp:'DFS 用遞迴實作時，呼叫堆疊 (Call Stack) 就是 DFS 的底層 Stack。改寫成迭代版本則需明確用 Stack 模擬。BFS 才用 Queue。'
+  }),
+  ()=>({ ch:7, q:'BFS（廣度優先搜尋）在「無權重圖」上找到的路徑有何性質？',
+    code:null,
+    opts:[
+      '路徑最長',
+      '保證為邊數最少的最短路徑',
+      'DFS 一定比 BFS 短',
+      '沒有任何保證'
+    ], a:1,
+    exp:'BFS 以「層」為單位向外擴散，第一次到達某頂點時所經過的邊數一定最少。因此在無權重圖中保證找到最短路徑（以邊數計）。加權圖則需 Dijkstra。'
+  }),
+  ()=>({ ch:7, q:'在 DFS 或 BFS 的圖形走訪中，<code>visited</code> 陣列的主要作用為何？',
+    code:null,
+    opts:[
+      '記錄走訪順序時間戳',
+      '避免重複訪問同一頂點造成無窮迴圈',
+      '儲存邊的權重',
+      '記錄每個頂點的度數 (degree)'
+    ], a:1,
+    exp:'圖形可能有環 (cycle)，若不標記已訪問頂點，走訪到環時會無限循環。visited 確保每個頂點只進入一次，演算法才能在 O(V+E) 內完成。'
+  }),
+  ()=>({ ch:7, q:'無向圖以鄰接矩陣 (adjacency matrix) 表示時，下列哪一性質一定成立？',
+    code:null,
+    opts:[
+      '對角線元素全為 1',
+      '矩陣關於主對角線對稱：matrix[i][j] == matrix[j][i]',
+      '所有元素必為 0 或 1',
+      '以上皆是'
+    ], a:1,
+    exp:'無向圖中 A-B 與 B-A 是同一條邊，故 matrix[i][j] = matrix[j][i]（對稱）。對角線通常為 0（無自環）。加權圖的元素可為任意數，不限 0/1。'
+  }),
+  ()=>({ ch:7, q:'下列關於資料結構的敘述，哪一項「錯誤」？',
+    code:null,
+    opts:[
+      '陣列 (Array) 是靜態線性資料結構',
+      'Stack 只能從 top 端存取',
+      'BST 的中序走訪結果為遞增排列',
+      'BFS 通常以 Stack 實作'
+    ], a:3,
+    exp:'BFS 使用 Queue（佇列）實作 — 因為要先處理較早被加入的頂點。Stack 是 DFS 的底層資料結構。其他三項敘述皆正確。'
+  }),
+  ()=>{ // 參數化：完全圖邊數
+    const n = rnd(5, 12);
+    const correct = n * (n - 1) / 2;
+    const opts = shuf([String(correct), String(n*n), String(n*(n-1)), String(n+1)]);
+    return {
+      ch:7,
+      q:`一個有 <strong>n = ${n}</strong> 個頂點的「完全無向圖」（每對頂點之間都有邊），共有幾條邊？`,
+      code:null, opts, a: opts.indexOf(String(correct)),
+      exp:`完全無向圖：每個頂點與其他 n−1 個頂點都相連。\n  總邊數 = n(n−1)/2 = ${n} × ${n-1} / 2 = ${correct}\n  除以 2 是因為無向圖中 A-B 與 B-A 是同一條邊。`
+    };
+  },
+  ()=>({ ch:7, q:'下列何者「不屬於」線性資料結構？',
+    code:null,
+    opts:['陣列 (Array)','佇列 (Queue)','二元樹 (Binary Tree)','堆疊 (Stack)'], a:2,
+    exp:'線性資料結構：元素依序排列，每元素有唯一前驅與後繼，如 Array / Linked List / Stack / Queue。\n  非線性資料結構：有層級或網狀關係，如 Tree（含 BST、Heap）和 Graph。'
+  }),
+
+  /* --- 鏈結串列操作複雜度 --- */
+  ()=>({ ch:7, q:'下列鏈結串列操作中，哪一項的時間複雜度為 O(1)？',
+    code:null,
+    opts:[
+      '搜尋特定資料值',
+      '已知前一節點，插入新節點',
+      '排序整個串列',
+      '存取第 n 個位置的元素'
+    ], a:1,
+    exp:'已知前一節點 prev 時，插入只需改兩個指標：\n  newNode->next = prev->next;\n  prev->next = newNode;\n常數步驟，O(1)。\n  其餘操作：搜尋 O(n)、存取第 n 個 O(n)、排序 O(n log n) 以上。'
+  }),
+
+  /* --- Push/Pop 序列追蹤（參數化）--- */
+  ()=>{ // 參數化：push 序列 + pop 全部，問輸出
+    const a=[], used=new Set();
+    while(a.length<3){ const v=rnd(1,9); if(!used.has(v)){ used.add(v); a.push(v); } }
+    const reversed = [...a].reverse().join(' ');
+    const opts = shuf([
+      reversed,
+      a.join(' '),
+      `${a[1]} ${a[2]} ${a[0]}`,
+      `${a[0]} ${a[2]} ${a[1]}`
+    ]);
+    return {
+      ch:7,
+      q:`執行以下程式片段後，輸出順序為何？`,
+      code:`push(${a[0]}); push(${a[1]}); push(${a[2]});\nprintf("%d %d %d", pop(), pop(), pop());`,
+      opts, a: opts.indexOf(reversed),
+      exp:`LIFO：堆疊由下到上依序為 ${a[0]}, ${a[1]}, ${a[2]}。連續三次 pop 依序取出最上面：${a[2]} → ${a[1]} → ${a[0]}。輸出：${reversed}`
+    };
+  }
+
+];
+
+/* 套用 _setAns 後處理 */
+function applyPostFix(q){ if(q._setAns){ return q._setAns(q); } return q; }
+
+/* ============ 生成 1000+ 衍生題庫 ============ */
+/* ============ 章節知識庫（用於生成超詳細解析） ============ */
+const CH_INFO = {
+  2: {
+    name: '基礎概念',
+    concept: '本章重點：進位轉換（二/八/十/十六進位）、運算子優先順序、資料型別與型別轉換、位元運算（&|^~<<>>）、邏輯運算與短路求值。',
+    tips: '解題訣竅：\n  1. 進位轉換：二進位轉十進位用「位元×2的次方」相加；十六進位轉用「位元×16的次方」。\n  2. 運算子優先序口訣：括號 > 一元(!、~、++、--) > 乘除取餘 > 加減 > 位移(<< >>) > 比較(< > <= >=) > 相等(== !=) > 位元AND > 位元XOR > 位元OR > 邏輯AND(&&) > 邏輯OR(||) > 賦值(=)。\n  3. 整數除法會截斷小數：7/2 = 3 不是 3.5；要小數需強制轉型 (double)7/2。\n  4. 位元AND常用於「遮罩」、OR用於「設定旗標」、XOR用於「翻轉」、左移=×2、右移=÷2。',
+    pitfall: '常見陷阱：\n  ⚠️ && 與 & 不同：&& 是邏輯運算回傳 0/1；& 是位元運算逐位 AND。\n  ⚠️ (int)d 是截斷不是四捨五入：(int)7.9 = 7，不是 8。\n  ⚠️ 二進位轉換時容易把位元方向搞錯——最右邊是 2^0。\n  ⚠️ 短路求值：a || b 若 a 為真，b 就不會被執行（可能漏掉副作用）。',
+    extend: '延伸知識：位元運算的實用技巧——判斷奇偶用 n&1、判斷 2 的次方用 (n&(n-1))==0、交換兩數不用暫存變數可用 XOR：a^=b; b^=a; a^=b;。十六進位常見於 MAC 位址、HTML 顏色（#RRGGBB）、記憶體位址。'
+  },
+  3: {
+    name: '流程控制',
+    concept: '本章重點：for/while/do-while 三種迴圈、if-else if-else 多重判斷、switch-case 多重分支、break（中止迴圈）與 continue（跳到下次迴圈）、巢狀迴圈次數計算。',
+    tips: '解題訣竅：\n  1. for 迴圈執行次數：for(i=a; i<b; i+=s) 執行 ⌈(b-a)/s⌉ 次；i<=b 時則執行 ⌊(b-a)/s⌋+1 次。\n  2. 巢狀迴圈總次數＝外層次數 × 內層次數（若內層相依於外層 i，則是 1+2+...+n = n(n+1)/2）。\n  3. switch 沒有 break 會「fall-through」連續執行下一個 case，直到遇到 break 或 } 為止。\n  4. do-while 無論條件如何「至少執行一次」；while 則可能一次都不執行。',
+    pitfall: '常見陷阱：\n  ⚠️ for(i=0; i<=n; i++) 與 for(i=0; i<n; i++) 差 1 次——前者執行 n+1 次。\n  ⚠️ continue 在 for 中仍會執行 i++，但在 while 中可能造成無窮迴圈（如果 i++ 在 continue 後面）。\n  ⚠️ switch 忘記 break 是經典考點，要逐 case 追蹤輸出。\n  ⚠️ break 只跳出最內一層迴圈，多層巢狀要用 flag 或 goto。',
+    extend: '延伸知識：巢狀迴圈時間複雜度通常為 O(n²)（如氣泡排序）；三層巢狀為 O(n³)（如三維陣列走訪）。while(1)+break 適合條件複雜或多出口的情境。Collatz 數列（3n+1 問題）是經典 while 題型。'
+  },
+  4: {
+    name: '陣列字串',
+    concept: '本章重點：一維與二維陣列的宣告/存取、陣列位址計算公式、字串以 \\0 結尾的特性、字串長度（strlen）與佔用空間（sizeof）的差別、字串/陣列函式（strlen、strcpy、strcmp）。',
+    tips: '解題訣竅：\n  1. C 陣列下標從 0 開始：int a[n] 合法範圍是 a[0] ~ a[n-1]。\n  2. 二維陣列位址公式（列優先）：&a[i][j] = base + (i × 行數 + j) × sizeof(元素)。\n  3. strlen 不算結尾 \\0，所以 strlen("ABC") = 3；sizeof 算到 \\0，所以 sizeof("ABC") = 4。\n  4. char s[] = "ABC" 佔 4 byte；對角線元素為 a[0][0], a[1][1], ..., a[n-1][n-1]。',
+    pitfall: '常見陷阱：\n  ⚠️ 越界存取 a[n] 不會被 C 阻止，但會印出垃圾值或覆蓋其他變數。\n  ⚠️ sizeof 與 strlen 容易混淆：char s[100] = "Hi"; sizeof(s)=100, strlen(s)=2。\n  ⚠️ 二維陣列位址別用「行優先」算（C/C++ 是列優先）。\n  ⚠️ char *s 與 char s[] 雖看似相同，前者指向唯讀區可能不能修改。',
+    extend: '延伸知識：字串相關常見題型——反轉字串（雙指標）、判斷回文（首尾比對）、計算子字串出現次數。排序常結合陣列：氣泡 O(n²)、快排 O(n log n) 平均、合併排序 O(n log n) 穩定。'
+  },
+  5: {
+    name: '函式範疇',
+    concept: '本章重點：函式定義與呼叫、傳值（pass by value）vs 傳址（pass by reference）、區域變數 vs 全域變數、static 靜態變數的記憶體生命週期、遞迴函式的設計與終止條件。',
+    tips: '解題訣竅：\n  1. 傳值：函式內參數是「副本」，修改不影響呼叫端的原變數。\n  2. 傳址：用 int *p 接位址，*p = 新值；呼叫端要寫 func(&a)。\n  3. static 變數：跨多次函式呼叫保留值，初始化只發生一次；常用於計數器。\n  4. 遞迴必須有「基底條件」（base case），否則 stack overflow。例：f(0)=1, f(n)=n*f(n-1)。',
+    pitfall: '常見陷阱：\n  ⚠️ 區域變數的初值未定義（垃圾值）；全域變數預設為 0。\n  ⚠️ 傳整個陣列其實是傳「指標」，所以函式內修改會影響外面（陣列特例）。\n  ⚠️ 函式內宣告的 static 變數，下次呼叫時保留上次的值，不會重新初始化。\n  ⚠️ 遞迴呼叫深度太深會 stack overflow（每呼叫一次都占用 stack frame）。',
+    extend: '延伸知識：尾遞迴（tail recursion）可被編譯器優化為迴圈，但 C 不保證。費氏數列遞迴版本是 O(2^n)（極慢），改用 memoization 或 DP 可降為 O(n)。函式指標可作為參數傳遞（如 qsort 的比較函式）。'
+  },
+  6: {
+    name: '指標',
+    concept: '本章重點：指標宣告（int *p）、取位址運算子（&）、解參考運算子（*）、指標算術（p++ 移動 sizeof(指向型別) 個 byte）、雙重指標（int **pp）、指標與陣列的關係。',
+    tips: '解題訣竅：\n  1. 宣告 int *p = &a; 則 p 是 a 的位址，*p 是 a 的值，&p 是 p 自己的位址。\n  2. 對 int 型指標 p++ 不是加 1 byte，而是加 sizeof(int) = 4 byte。\n  3. 陣列名 a 等同於 &a[0]，所以 *(a+i) === a[i]。\n  4. 雙重指標 **pp：pp 是位址的位址，*pp 是中間指標，**pp 是最終值。',
+    pitfall: '常見陷阱：\n  ⚠️ 野指標（wild pointer）：指標宣告後沒指定有效位址就解參考，造成程式崩潰。\n  ⚠️ 空指標解參考：int *p = NULL; *p = 5; 立即 segmentation fault。\n  ⚠️ p+1 移動的 byte 數依「指向型別」而定，不是固定 1。\n  ⚠️ const int *p（指向不可變的 int）與 int * const p（指標本身不變）容易混淆。',
+    extend: '延伸知識：指標核心用途——函式傳址（修改實參）、動態記憶體配置（malloc/free）、函式指標（callback）、資料結構（鏈結串列、樹）。記憶體管理：malloc 配置後必須 free，否則 memory leak。'
+  },
+  7: {
+    name: '資料結構與演算法',
+    concept: '本章重點：資料結構（堆疊 Stack、佇列 Queue、鏈結串列 Linked List、二元樹/BST、堆積 Heap、雜湊表 Hash Table、圖 Graph 的鄰接矩陣/鄰接串列）、演算法（線性/二元搜尋、排序：氣泡/選擇/插入/快排/合併/堆積/計數、遞迴與分治、動態規劃 DP、貪婪、回溯、BFS/DFS、最短路徑、最小生成樹 MST）、時間/空間複雜度（Big-O、Big-Ω、Big-Θ）。',
+    tips: '解題訣竅：\n  1. 堆疊 LIFO、佇列 FIFO；DFS 用堆疊（或遞迴），BFS 用佇列。\n  2. 完美二元樹高度 h（根為 0）共有 2^(h+1)-1 個節點、2^h 個葉節點；完全二元樹陣列表示：父=⌊i/2⌋、左=2i、右=2i+1。\n  3. 二元搜尋必須先排序：每次砍半，時間 O(log n)。比較排序最壞下界 Ω(n log n)（決策樹證明）。\n  4. 排序複雜度：氣泡/插入/選擇 O(n²)；快排/合併/堆積 O(n log n)；快排最壞 O(n²)；計數/基數可 O(n+k) 但屬非比較排序。\n  5. 河內塔 N 盤需 2^N - 1 步；DP 將指數遞迴降為多項式（如費氏 O(2^n) → O(n)）。\n  6. 常見主定理結果：T(n)=2T(n/2)+n → O(n log n)；T(n)=T(n/2)+1 → O(log n)。',
+    pitfall: '常見陷阱：\n  ⚠️ 二元搜尋對未排序資料完全錯誤——必須先排序。\n  ⚠️ 快排「平均」O(n log n) 但「最壞」O(n²)（已排序且固定取首/尾為 pivot、或元素全相同）。\n  ⚠️ Max-Heap 只保證「父≥子」，並不規定左右子樹大小關係，也不是 BST。\n  ⚠️ 鏈結串列無法隨機存取（要 O(n) 走訪），因此不能直接二元搜尋。\n  ⚠️ Big-O 只看最高次項並忽略係數：O(3n² + 5n log n + 100n) = O(n²)。\n  ⚠️ 遞迴的空間複雜度＝呼叫深度（佔用 stack）；C 不保證尾遞迴優化。',
+    extend: '延伸知識：排序穩定性——氣泡、插入、合併「穩定」；快排、選擇、堆積「不穩定」。動態規劃兩大必要條件：重疊子問題 + 最佳子結構（背包、LCS、編輯距離）。圖演算法：BFS/DFS 走訪、Dijkstra 單源最短路徑（非負邊）、Bellman-Ford（允許負邊）、Floyd-Warshall 全點對最短路徑、Kruskal/Prim 最小生成樹。比較排序下界 Ω(n log n) 用決策樹證明；非比較排序如 Counting/Radix/Bucket Sort 可達 O(n+k)。'
+  }
+};
+
+function buildDetailedExp(q){
+  const ch = CH_INFO[q.ch] || {name:'', concept:'', tips:'', pitfall:'', extend:''};
+  const ansLetter = String.fromCharCode(65 + q.a);
+  const ansText = q.opts[q.a];
+
+  // 自動分析錯誤選項（嘗試找出可能的計算錯誤）
+  let wrongAnalysis = '';
+  q.opts.forEach((opt, i) => {
+    if(i === q.a) return;
+    const letter = String.fromCharCode(65 + i);
+    let reason = '此選項不符合題目要求';
+    // 嘗試針對數值類型推測錯誤類型
+    const ansNum = parseFloat(ansText);
+    const optNum = parseFloat(opt);
+    if(!isNaN(ansNum) && !isNaN(optNum)){
+      const diff = optNum - ansNum;
+      if(diff === 1 || diff === -1) reason = `常見「差一錯誤」(off-by-one)，計算時可能多算或少算一次迭代`;
+      else if(diff === ansNum) reason = `將結果誤乘以 2，可能多算了一輪`;
+      else if(diff === -ansNum) reason = `將結果誤算為 0 或漏計一部分`;
+      else if(optNum === ansNum * 2) reason = `誤將結果加倍，可能重複計算或誤判迴圈次數`;
+      else if(optNum * 2 === ansNum) reason = `誤將結果減半，可能漏掉部分計算`;
+      else if(Math.abs(diff) <= 5) reason = `數值接近正確答案，可能是邊界條件或進位處理錯誤`;
+      else reason = `數值差距較大，可能是運算順序或公式套用錯誤`;
+    }
+    wrongAnalysis += `  • ${letter}: ${opt} ── ${reason}\n`;
+  });
+
+  return `🎯 核心觀念
+${ch.concept}
+
+📝 詳細解題步驟
+${q.exp}
+✅ 正確答案：${ansLetter}: ${ansText}
+
+🔑 關鍵技巧
+${ch.tips}
+
+⚠️ 常見陷阱
+${ch.pitfall}
+
+❌ 錯誤選項分析
+${wrongAnalysis.trimEnd()}
+
+🚀 延伸知識
+${ch.extend}`;
+}
+
+
+/* ============ 生成衍生題庫 ============ */
+function generateDerived(count, chFilter, lang, diff){
+  lang = lang || 'cpp';
+
+  // 將 generator 依章節分桶（取樣一次取得 ch 資訊；同一個 generator 的 ch 是固定的）
+  const byCh = {};
+  for(const g of GEN){
+    let sample;
+    try { sample = g(); } catch(e){ continue; }
+    if(!sample || typeof sample.ch !== 'number') continue;
+    if(chFilter && sample.ch !== chFilter) continue;
+    if(lang === 'python' && sample.cppOnly) continue;
+    if(diff && difficultyOf(sample) !== diff) continue;
+    if(!byCh[sample.ch]) byCh[sample.ch] = [];
+    byCh[sample.ch].push(g);
+  }
+  const chapters = Object.keys(byCh).map(Number).sort((a,b)=>a-b);
+  if(chapters.length === 0) return [];
+
+  // 每章節平均配額（餘數分給前幾章）
+  const baseShare = Math.floor(count / chapters.length);
+  const remainder = count % chapters.length;
+
+  const out=[], seen=new Set();
+  for(let ci=0; ci<chapters.length; ci++){
+    const ch = chapters[ci];
+    const target = baseShare + (ci < remainder ? 1 : 0);
+    const gens = byCh[ch];
+    let added = 0, attempts = 0;
+    const maxAttempts = Math.max(target * 80, 500);
+    while(added < target && attempts < maxAttempts){
+      attempts++;
+      const gen = gens[rnd(0, gens.length-1)];
+      let q;
+      try { q = applyPostFix(gen()); } catch(e){ continue; }
+      if(q.ch !== ch) continue;
+      if(q.a<0 || q.a>3) continue;
+      if(lang === 'python' && q.cppOnly) continue;
+      // 防錯：確保 4 個選項文字都不重複
+      if(Array.isArray(q.opts) && q.opts.length===4){
+        const unique = new Set(q.opts.map(o=>String(o).trim()));
+        if(unique.size < 4) continue;
+      }
+      // 隨機打亂選項順序（讓同一題型能產生多種選項排列、提升題庫多樣性）
+      if(Array.isArray(q.opts) && q.opts.length===4){
+        const correctText = q.opts[q.a];
+        q.opts = shuf(q.opts);
+        q.a = q.opts.indexOf(correctText);
+      }
+      const fp = q.ch+'|'+q.q+'|'+(q.code||'')+'|'+q.opts.join(',');
+      if(seen.has(fp)) continue;
+      seen.add(fp);
+      const item = {...q, id:'D'+(out.length+1), derived:true, lang};
+      // 題目中「C 程式」改為對應語言
+      if(lang === 'python'){
+        item.q = item.q.replace(/下列\s*C\s*程式/g, '下列 Python 程式').replace(/下列\s*C\+\+\s*程式/g, '下列 Python 程式');
+      } else {
+        item.q = item.q.replace(/下列\s*C\s*程式/g, '下列 C++ 程式');
+      }
+      item.detailedExp = buildDetailedExp(item);
+      out.push(item);
+      added++;
+    }
+  }
+  // 將各章節題目重新打散，避免依章節順序排列
+  return shuf(out);
+}
+
+/* 預生成題庫（首次載入時） */
+let MASTER_DERIVED = [];
+function buildMasterBank(){
+  MASTER_DERIVED = generateDerived(1000, null, G.lang);
+}
+
+/* ============ STATE ============ */
+let G = {
+  user:null,
+  lang:'cpp',          // 'cpp' or 'python'
+  diff:2,              // 1=輕鬆, 2=簡單, 3=超難
+  examState:null,
+  exams:[]
+};
+const SK = 'hs_prog_test_v1';
+function save(){ try{ localStorage.setItem(SK, JSON.stringify({exams:G.exams, lang:G.lang, diff:G.diff})); }catch(e){} }
+function load(){ try{ const d=JSON.parse(localStorage.getItem(SK)||'{}'); G.exams=d.exams||[]; if(d.lang) G.lang=d.lang; if(d.diff) G.diff=d.diff; }catch(e){ G.exams=[]; } }
+
+/* ============ DIFFICULTY ============ */
+/* 自動判斷題目難度（1=輕鬆, 2=簡單, 3=超難） */
+function difficultyOf(q){
+  const code = q.code || '';
+  const txt = (q.q || '') + code;
+  const lines = code.trim() ? code.split('\n').length : 0;
+
+  // ⭐⭐⭐ 困難：長程式碼 / 互遞迴 / 複雜演算法 / 圖形遍歷
+  if(lines > 8) return 3;
+  if(/互遞迴|DFS|BFS|postfix|後序.*中序|前序.*中序|完全無向圖|deleteMax|三層迴圈|n²\(n\+1\)|n\(n-1\)\/2|Dijkstra|MST|動態規劃|DP|貪婪|逆序對|快排|merge sort|heap sort|時間複雜度.*O\(n²\)|O\(n log/.test(txt)) return 3;
+  if(lines >= 6 && /遞迴|recursive|互.*呼叫|void f[12]/.test(txt)) return 3;
+  if(lines >= 5 && /三層|巢狀.*for|雙層.*迴圈/.test(txt)) return 3;
+
+  // ⭐ 基礎：純概念（無程式碼）且屬於基礎主題；或 1-3 行不含遞迴的簡短程式
+  if(lines === 0){
+    // 資料結構進階概念 → 歸為 ⭐⭐ 普通
+    if(/BST|二元搜尋樹|中序.*遞增|Max.Heap|Min.Heap|前序|後序|中序走訪|鄰接矩陣|環狀.*串列|雙向.*串列|父節點|子節點|完全二元樹|堆積|鏈結串列.*O\(1\)|深度優先|廣度優先|有向圖|無向圖|visited/.test(txt)) return 2;
+    return 1;
+  }
+  if(lines <= 3 && !/遞迴|recursive/.test(txt)) return 1;
+
+  // ⭐⭐ 普通：其餘（4-8 行程式碼追蹤、中等複雜度）
+  return 2;
+}
+function pickDiff(d){
+  G.diff = d;
+  [1,2,3].forEach(i => {
+    document.getElementById('diff-'+i).classList.toggle('on', i === d);
+  });
+  save();
+}
+
+/* ============ LANGUAGE PICKER ============ */
+function pickLang(l){
+  G.lang = l;
+  document.getElementById('lang-cpp').classList.toggle('on', l==='cpp');
+  document.getElementById('lang-py').classList.toggle('on', l==='python');
+  save();
+}
+
+/* ============ AUTO INIT（已移除登入流程，直接進入考試） ============ */
+function updateLocalViews(){
+  try {
+    const key = 'hs_prog_test_views';
+    let n = parseInt(localStorage.getItem(key) || '0', 10);
+    if(isNaN(n)) n = 0;
+    n = n + 1;
+    localStorage.setItem(key, String(n));
+    const el = document.getElementById('local-views');
+    if(el) el.textContent = n.toLocaleString();
+    const fb = document.getElementById('local-visits-count');
+    if(fb) fb.textContent = n.toLocaleString();
+  } catch(e){
+    const el = document.getElementById('local-views');
+    if(el) el.textContent = '1';
+  }
+}
+function autoInit(){
+  G.user = '考生';
+  load();
+  // 同步語言 pill 的狀態
+  document.getElementById('lang-cpp').classList.toggle('on', G.lang==='cpp');
+  document.getElementById('lang-py').classList.toggle('on', G.lang==='python');
+  [1,2,3].forEach(i => document.getElementById('diff-'+i).classList.toggle('on', i === G.diff));
+  buildMasterBank();
+  buildSelects();
+  renderExamHome();
+  renderExamHist();
+  updateLocalViews();
+}
+// 保留 doLogin 名稱以避免其他地方意外引用，但實際無作用
+function doLogin(){ autoInit(); }
+
+/* ============ NAV ============ */
+/* ============ APCS 觀念題真題資料庫（8 章節）============ */
+/* 真題來源：APCS 大學程式設計先修檢測歷屆觀念題（公開資源整理）
+   注意：真題僅供學習解析，不會出現在「模擬考」題庫中 */
+const APCS_REAL = [
+  {
+    id: 1, title: '變數、型別與運算',
+    desc: '整數除法、運算優先序、視域 scope、巨集 #define、bool 邏輯運算',
+    questions: [
+      {
+        year: '105 年 3 月 第 4 題',
+        q: '經過運算後，下列程式的輸出為何？',
+        code: `int a[101], b[101];\nfor (i = 1; i <= 100; i = i + 1) {\n  b[i] = i;\n}\na[0] = 0;\nfor (i = 1; i <= 100; i = i + 1) {\n  a[i] = b[i] + a[i - 1];\n}\nprintf("%d\\n", a[50] - a[30]);`,
+        opts: ['1275','20','1000','810'], a: 3,
+        exp: '此題涉及等差級數。\n  第一個迴圈把 b[i] = i，即 b[1]=1, b[2]=2, ..., b[100]=100。\n  第二個迴圈計算 a[i] = b[i] + a[i-1]，即 a[i] = 1+2+...+i = i(i+1)/2。\n  a[50] = 50×51/2 = 1275\n  a[30] = 30×31/2 = 465\n  a[50] - a[30] = 1275 - 465 = 810。\n  也可直接用等差級數和：a[50]-a[30] = 31+32+...+50 = (31+50)×20/2 = 810。'
+      },
+      {
+        year: '105 年 10 月 第 4 題',
+        q: '下列程式碼執行後輸出結果為何？',
+        code: `int a = 2, b = 3;\nint c = 4, d = 5;\nint val;\nval = b / a + c / b + d / b;\nprintf("%d\\n", val);`,
+        opts: ['3','4','5','6'], a: 0,
+        exp: 'C 語言整數除法為無條件捨去：\n  b/a = 3/2 = 1\n  c/b = 4/3 = 1\n  d/b = 5/3 = 1\n  val = 1 + 1 + 1 = 3'
+      },
+      {
+        year: '改編自 APCS 經典題型',
+        q: '下列 C 程式輸出為何？（巨集 #define 的常見陷阱）',
+        code: `#define add(a, b) a + b\nint main() {\n  printf("%d", add(3, 5) * add(3, 5));\n  return 0;\n}`,
+        opts: ['23','64','34','30'], a: 0,
+        exp: '#define 是「文字替換」，不會自動加括號。\n  add(3, 5) * add(3, 5) 展開為 3 + 5 * 3 + 5\n  依運算優先序：先做 5 × 3 = 15，再 3 + 15 + 5 = 23。\n  常見錯誤：以為結果是 8×8 = 64。\n  正確寫法：#define add(a, b) ((a) + (b))。'
+      },
+      {
+        year: '105 年 3 月 第 19 題',
+        q: '大部分程式語言以「列為主 (row-major)」方式儲存陣列。在 8×4 的陣列 A 中，若每個元素需要 2 個記憶體單位，且 A[0][0] 的位址為 108 (十進制)，則 A[1][2] 的位址為何？',
+        code: null,
+        opts: ['120','124','128','以上皆非'], a: 0,
+        exp: '列為主儲存：A[i][j] 的相對位移為 (i × 行數 + j) × 元素大小。\n  A[1][2] 距離 A[0][0] 為 (1 × 4 + 2) × 2 = 12 個記憶體單位。\n  位址 = 108 + 12 = 120。'
+      }
+    ]
+  },
+  {
+    id: 2, title: '控制結構（條件判斷）',
+    desc: 'if/else 巢狀、switch fall-through、dangling else 縮排陷阱',
+    questions: [
+      {
+        year: '105 年 3 月 第 16 題',
+        q: '下列程式執行過後所輸出數值為何？',
+        code: `void main () {\n  int count = 10;\n  if (count > 0) {\n    count = 11;\n  }\n  if (count > 10) {\n    count = 12;\n    if (count % 3 == 4) {\n      count = 1;\n    }\n    else {\n      count = 0;\n    }\n  }\n  else if (count > 11) {\n    count = 13;\n  }\n  else {\n    count = 14;\n  }\n  if (count) {\n    count = 15;\n  }\n  else {\n    count = 16;\n  }\n  printf("%d\\n", count);\n}`,
+        opts: ['11','13','15','16'], a: 3,
+        exp: '逐步追蹤：\n  初始 count = 10\n  第一個 if (count > 0)：成立 → count = 11\n  第二個 if (count > 10)：成立 → count = 12\n    內層 if (count % 3 == 4)：12 % 3 = 0 ≠ 4 → else 分支 → count = 0\n  最後 if (count)：count 為 0 (false) → else 分支 → count = 16\n  輸出 16。'
+      },
+      {
+        year: '105 年 10 月 第 2 題',
+        q: '下列 switch 敘述程式碼可以如何以 if-else 改寫？',
+        code: `switch (x) {\n  case 10: y = 'a'; break;\n  case 20:\n  case 30: y = 'b'; break;\n  default: y = 'c';\n}`,
+        opts: [
+          "if(x==10) y='a'; if(x==20||x==30) y='b'; y='c';",
+          "if(x==10) y='a'; else if(x==20||x==30) y='b'; else y='c';",
+          "if(x==10) y='a'; if(x>=20&&x<=30) y='b'; y='c';",
+          "if(x==10) y='a'; else if(x>=20&&x<=30) y='b'; else y='c';"
+        ], a: 1,
+        exp: 'switch-case 相當於 if-else if-else 串接結構，不是 if-if-if 並列。\n  (A)、(C) 排除（用了多個 if 而非 else if，邏輯不等價）。\n  剩 (B) 與 (D) 比較：case 20 沒有 break 會 fall-through 到 case 30，所以 x=20 或 x=30 都會執行 y=\'b\'，是 OR 關係。\n  (D) 用 x>=20 && x<=30 包含 21~29，與原 switch 不同（只匹配 20 或 30）。\n  答案 (B)。'
+      },
+      {
+        year: '改編自 APCS 經典題型',
+        q: 'C 語言的 else 與哪個 if 配對？下列程式 x = 4 時 a 的值為何？',
+        code: `int x = 4, a = 0;\nif (x >= 2)\n  if (x < 6)\n    a = 1;\n  else\n    a = 2;\nelse\n  a = 3;`,
+        opts: ['0','1','2','3'], a: 1,
+        exp: 'C 的 else 永遠配對「最近且未配對的 if」，與縮排無關。\n  外層 if (x >= 2) → 4>=2 為真 → 進入內層\n  內層 if (x < 6) → 4<6 為真 → a = 1\n  外層的 else (a=3) 配對外層 if，因外層為真所以不執行。\n  最終 a = 1。\n  常見陷阱：以為 else 配對外層、答案是 3。'
+      }
+    ]
+  },
+  {
+    id: 3, title: '迴圈控制',
+    desc: 'for/while/do-while、巢狀迴圈、迴圈次數遞推、不可能的輸出',
+    questions: [
+      {
+        year: '105 年 3 月 第 15 題',
+        q: '若以 f(22) 呼叫下列 f() 函式，總共會印出多少數字？（Collatz 數列）',
+        code: `void f(int n) {\n  printf("%d\\n", n);\n  while (n != 1) {\n    if ((n % 2) == 1) {\n      n = 3 * n + 1;\n    }\n    else {\n      n = n / 2;\n    }\n    printf("%d\\n", n);\n  }\n}`,
+        opts: ['16','22','11','15'], a: 0,
+        exp: 'Collatz 序列：奇數 ×3+1、偶數 ÷2，直到 1 為止。\n  追蹤 f(22)：先印 22，進入 while。\n  22→11→34→17→52→26→13→40→20→10→5→16→8→4→2→1\n  迴圈跑了 15 圈、印 15 個數字，加上一開始的 22，共 16 個。'
+      },
+      {
+        year: '105 年 3 月 第 21 題',
+        q: '下列程式碼，執行時的輸出為何？',
+        code: `void main() {\n  for (int i = 0; i <= 10; i = i + 1) {\n    printf("%d ", i);\n    i = i + 1;\n  }\n  printf("\\n");\n}`,
+        opts: ['0 2 4 6 8 10','0 1 2 3 4 5 6 7 8 9 10','0 1 3 5 7 9','0 1 3 5 7 9 11'], a: 0,
+        exp: '迴圈內有額外的 i = i + 1，加上 for 結尾的 i++，每圈共增量 2。\n  i 序列：0, 2, 4, 6, 8, 10（下一次 i=12 > 10 跳出）\n  輸出：「0 2 4 6 8 10」'
+      },
+      {
+        year: '105 年 3 月 第 22 題',
+        q: '下列 f() 函式執行後所回傳的值為何？',
+        code: `int f() {\n  int p = 2;\n  while (p < 2000) {\n    p = 2 * p;\n  }\n  return p;\n}`,
+        opts: ['1023','1024','2047','2048'], a: 3,
+        exp: 'p 從 2 開始持續加倍：2 → 4 → 8 → 16 → 32 → 64 → 128 → 256 → 512 → 1024 → 2048\n  1024 < 2000 仍會進入迴圈，更新為 2048。\n  此時 2048 >= 2000，跳出迴圈，回傳 2048。'
+      },
+      {
+        year: '105 年 10 月 第 7 題',
+        q: '若 n 為正整數，下列程式三個迴圈執行完畢後，a 增加多少？',
+        code: `for (int i = 1; i <= n; i = i + 1)\n  for (int j = i; j <= n; j = j + 1)\n    for (int k = 1; k <= n; k = k + 1)\n      a = a + 1;`,
+        opts: ['n(n+1)/2','n³/2','n(n-1)/2','n²(n+1)/2'], a: 3,
+        exp: '逐層分析迴圈次數：\n  最內層 k：跑 n 次\n  中層 j：從 i 跑到 n，共 (n-i+1) 次\n  外層 i：1 到 n\n  總次數 = n × Σᵢ₌₁ⁿ (n-i+1) = n × Σₖ₌₁ⁿ k = n × n(n+1)/2 = n²(n+1)/2'
+      }
+    ]
+  },
+  {
+    id: 4, title: '陣列與字串',
+    desc: '一維/二維陣列、字串處理、陣列搬移、index 對應計算',
+    questions: [
+      {
+        year: '105 年 3 月 第 2 題',
+        q: '給定陣列 a[10] = {1, 3, 9, 2, 5, 8, 4, 9, 6, 7}，以 f(a, 10) 呼叫下列函式，回傳值為何？',
+        code: `int f(int a[], int n) {\n  int index = 0;\n  for (int i = 1; i <= n - 1; i = i + 1) {\n    if (a[i] >= a[index]) {\n      index = i;\n    }\n  }\n  return index;\n}`,
+        opts: ['1','2','7','9'], a: 2,
+        exp: '此函式找最後一個「最大值」的索引（因條件是 >=）。\n  追蹤 index：\n    初始 index=0 (a[0]=1)\n    i=1: a[1]=3 >= 1，index=1\n    i=2: a[2]=9 >= 3，index=2\n    i=3~6: 都 < 9，不變\n    i=7: a[7]=9 >= 9，index=7（注意是 >=，所以再次更新）\n    i=8,9: 都 < 9，不變\n  最終 index = 7。'
+      },
+      {
+        year: '105 年 3 月 第 11 題',
+        q: '若要將陣列中 a[0] 的元素移到 a[n-1]（其他元素相對位置不論），下列空白處該填入何運算式？',
+        code: `int i, hold, n;\nfor (i = 0; i <= _____; i = i + 1) {\n  hold = a[i];\n  a[i] = a[i + 1];\n  a[i + 1] = hold;\n}`,
+        opts: ['n + 1','n','n - 1','n - 2'], a: 3,
+        exp: '逐次將 a[0] 與下一個元素交換，把它推到尾端。\n  迴圈第 i 圈：a[i] 與 a[i+1] 交換。\n  目標：將 a[0] 推到 a[n-1]。\n  當 i = n-2 時，做 a[n-2] 與 a[n-1] 交換，原本 a[0] 就到了 a[n-1]。\n  因此 i 的上限是 n-2。'
+      },
+      {
+        year: '105 年 10 月 第 5 題',
+        q: '下列程式碼執行後輸出結果為何？',
+        code: `int a[9] = {1, 3, 5, 7, 9, 8, 6, 4, 2};\nint n = 9, tmp;\nfor (int i = 0; i < n; i = i + 1) {\n  tmp = a[i];\n  a[i] = a[n - i - 1];\n  a[n - i - 1] = tmp;\n}\nfor (int i = 0; i <= n / 2; i = i + 1)\n  printf("%d %d ", a[i], a[n - i - 1]);`,
+        opts: ['2 4 6 8 9 7 5 3 1 9','1 3 5 7 9 2 4 6 8 9','1 2 3 4 5 6 7 8 9 9','2 4 6 8 5 1 3 7 9 9'], a: 2,
+        exp: '第一個迴圈是「虛晃一招」：i 從 0 跑到 8，每次交換 a[i] 與 a[n-i-1]。\n  i=0~3 反轉一次；i=4 自己跟自己交換不變；i=5~8 又反轉回去。\n  最終陣列維持原始 {1,3,5,7,9,8,6,4,2}... 但等等，原陣列中央 a[4]=9，反轉後 a 變為 {2,4,6,8,9,7,5,3,1} 再反轉回 {1,3,5,7,9,8,6,4,2}。\n  第二個迴圈印出每對 a[i], a[n-i-1]：(1,2)(3,4)(5,6)(7,8)(9,9)\n  輸出「1 2 3 4 5 6 7 8 9 9 」。'
+      },
+      {
+        year: '105 年 3 月 第 9 題',
+        q: '下列程式輸出 c 的值為何？',
+        code: `int A[5], B[5], i, c;\nfor (i = 1; i <= 4; i = i + 1) {\n  A[i] = 2 + i * 4;\n  B[i] = i * 5;\n}\nc = 0;\nfor (i = 1; i <= 4; i = i + 1) {\n  if (B[i] > A[i]) {\n    c = c + (B[i] % A[i]);\n  }\n  else {\n    c = 1;\n  }\n}\nprintf("%d\\n", c);`,
+        opts: ['1','4','3','33'], a: 1,
+        exp: '建立陣列：A = {_, 6, 10, 14, 18}，B = {_, 5, 10, 15, 20}（index 0 不用）\n  逐圈計算 c：\n    i=1: B[1]=5 < A[1]=6 → else → c = 1\n    i=2: B[2]=10 = A[2]=10（不 >）→ else → c = 1\n    i=3: B[3]=15 > A[3]=14 → c = 1 + (15%14) = 1+1 = 2\n    i=4: B[4]=20 > A[4]=18 → c = 2 + (20%18) = 2+2 = 4\n  輸出 4。'
+      }
+    ]
+  },
+  {
+    id: 5, title: '函式與單一遞迴',
+    desc: '基本遞迴、終止條件設計、遞迴展開追蹤、含陣列參數的遞迴',
+    questions: [
+      {
+        year: '105 年 3 月 第 10 題',
+        q: '呼叫下列 g() 函式，g(13) 回傳值為何？',
+        code: `int g(int a) {\n  if (a > 1) {\n    return g(a - 2) + 3;\n  }\n  return a;\n}`,
+        opts: ['16','18','19','22'], a: 2,
+        exp: '遞迴展開：每次 a 減 2，每層加 3，終止條件 a ≤ 1。\n  g(13) = g(11) + 3\n  g(11) = g(9) + 3\n  g(9) = g(7) + 3\n  g(7) = g(5) + 3\n  g(5) = g(3) + 3\n  g(3) = g(1) + 3\n  g(1) = 1（終止）\n  合計 = 1 + 3×6 = 19。'
+      },
+      {
+        year: '105 年 10 月 第 3 題',
+        q: '給定下列函式，執行 G(3) 後回傳值為何？',
+        code: `int K(int a[], int n) {\n  if (n >= 0)\n    return (K(a, n - 1) + a[n]);\n  else\n    return 0;\n}\nint G(int n) {\n  int a[] = {5, 4, 3, 2, 1};\n  return K(a, n);\n}`,
+        opts: ['5','12','14','15'], a: 2,
+        exp: 'K(a, n) 等於 a[0] + a[1] + ... + a[n]。\n  G(3) → K(a, 3)\n  K(a, 3) = K(a, 2) + a[3] = K(a, 2) + 2\n  K(a, 2) = K(a, 1) + a[2] = K(a, 1) + 3\n  K(a, 1) = K(a, 0) + a[1] = K(a, 0) + 4\n  K(a, 0) = K(a, -1) + a[0] = 0 + 5 = 5\n  合計 = 5 + 4 + 3 + 2 = 14。'
+      },
+      {
+        year: '105 年 10 月 第 6 題',
+        q: '右側函式以 F(7) 呼叫後回傳值為 12，則「條件」應為何？',
+        code: `int F(int a) {\n  if ( <條件> )\n    return 1;\n  else\n    return F(a - 2) + F(a - 3);\n}`,
+        opts: ['a < 3','a < 2','a < 1','a < 0'], a: 3,
+        exp: '試代各選項計算 F(7)：\n  若 a<0：F(7)=F(5)+F(4)=...層層展開最終 = 12 ✓\n  若 a<1：F(7) = 9\n  若 a<2：F(7) = 7\n  若 a<3：F(7) = 5\n  詳算 a<0 時：F(0)=F(-2)+F(-3)=1+1=2、F(1)=F(-1)+F(-2)=2、F(2)=F(0)+F(-1)=2+1=3、F(3)=F(1)+F(0)=4、F(4)=F(2)+F(1)=5、F(5)=F(3)+F(2)=7、F(7)=F(5)+F(4)=7+5=12 ✓'
+      },
+      {
+        year: '105 年 3 月 第 7 題',
+        q: '請問以 a(13, 15) 呼叫下列 a() 函式，回傳值為何？',
+        code: `int a(int n, int m) {\n  if (n < 10) {\n    if (m < 10) {\n      return n + m;\n    }\n    else {\n      return a(n, m - 2) + m;\n    }\n  }\n  else {\n    return a(n - 1, m) + n;\n  }\n}`,
+        opts: ['90','103','93','60'], a: 1,
+        exp: '兩維遞迴。當 n>=10 先把 n 減到 9；當 n<10 但 m>=10，把 m 減到 9。\n  a(13,15) → 一直 a(n-1, 15) 直到 a(9, 15)，累加 13+12+11+10\n  a(9, 15) → 一直 a(9, m-2) 直到 a(9, 9)，累加 15+13+11\n  a(9, 9) = 9 + 9 = 18\n  總和 = 18 + (15+13+11) + (10+11+12+13) = 18 + 39 + 46 = 103。'
+      },
+      {
+        year: '105 年 3 月 第 25 題',
+        q: '下列 Mystery() 函式 else 部分運算式應為何，才能使 Mystery(9) 回傳 34？',
+        code: `int Mystery(int x) {\n  if (x <= 1) {\n    return x;\n  }\n  else {\n    return _____ ;\n  }\n}`,
+        opts: ['x + Mystery(x - 1)','x * Mystery(x - 1)','Mystery(x - 2) + Mystery(x + 2)','Mystery(x - 2) + Mystery(x - 1)'], a: 3,
+        exp: '此為費式數列 (Fibonacci) 的變形。\n  (D) Mystery(x-2) + Mystery(x-1)，且 Mystery(0)=0, Mystery(1)=1。\n  序列：0, 1, 1, 2, 3, 5, 8, 13, 21, 34\n  Mystery(9) = 34 ✓\n  (A) 是累加 = 9+8+...+1 = 45；(B) 是階乘類；(C) 包含 x+2 不會收斂。'
+      }
+    ]
+  },
+  {
+    id: 6, title: '互遞迴與多函式呼叫',
+    desc: '兩個或多個函式相互呼叫、執行順序追蹤、用餘數推測大數值',
+    questions: [
+      {
+        year: '105 年 3 月 第 12 題',
+        q: '給定下列函式 f1() 及 f2()。f1(1) 運算過程中，以下敘述何者「錯」？',
+        code: `void f1(int m) {\n  if (m > 3) {\n    printf("%d\\n", m);\n    return;\n  }\n  else {\n    printf("%d\\n", m);\n    f2(m + 2);\n    printf("%d\\n", m);\n  }\n}\nvoid f2(int n) {\n  if (n > 3) {\n    printf("%d\\n", n);\n    return;\n  }\n  else {\n    printf("%d\\n", n);\n    f1(n - 1);\n    printf("%d\\n", n);\n  }\n}`,
+        opts: ['印出的數字最大的是 4','f1 一共被呼叫二次','f2 一共被呼叫三次','數字 2 被印出兩次'], a: 2,
+        exp: '追蹤 f1(1)：\n  f1(1) 印 1 → f2(3) 印 3 → f1(2) 印 2 → f2(4) 印 4（>3, return）→ 回 f1(2) 印 2 → 回 f2(3) 印 3 → 回 f1(1) 印 1\n  共印：1 3 2 4 2 3 1（最大 4 ✓）\n  f1 被呼叫 2 次（f1(1), f1(2) ✓）\n  f2 被呼叫 2 次（f2(3), f2(4)，不是 3 次 ✗）\n  數字 2 被印 2 次 ✓\n  答案：(C) 錯誤。'
+      },
+      {
+        year: '105 年 3 月 第 14 題',
+        q: '下列程式輸出為何？（互遞迴的大數值技巧）',
+        code: `void foo(int i) {\n  if (i <= 5)\n    printf("foo: %d\\n", i);\n  else\n    bar(i - 10);\n}\nvoid bar(int i) {\n  if (i <= 10)\n    printf("bar: %d\\n", i);\n  else\n    foo(i - 5);\n}\nvoid main() {\n  foo(15106);\n  bar(3091);\n  foo(6693);\n}`,
+        opts: ['bar:6 / bar:1 / bar:8','bar:6 / foo:1 / bar:3','bar:1 / foo:1 / bar:8','bar:6 / foo:1 / foo:3'], a: 0,
+        exp: '技巧：互遞迴中每 15 個單位會循環一次（10+5）。將大數除以 15 取餘數推測結果，但要讓餘數 > 15，採「除不盡」方式。\n  foo(15106)：15106 = 1006×15 + 16 → 模擬 foo(16)：>5 → bar(6)：≤10 → 印 "bar: 6"\n  bar(3091)：3091 = 205×15 + 16 → 模擬 bar(16)：>10 → foo(11)：>5 → bar(1)：≤10 → 印 "bar: 1"\n  foo(6693)：6693 = 445×15 + 18 → 模擬 foo(18)：>5 → bar(8)：≤10 → 印 "bar: 8"'
+      },
+      {
+        year: '105 年 3 月 第 24 題',
+        q: '右側 g(4) 函式呼叫執行後，回傳值為何？',
+        code: `int f(int n) {\n  if (n > 3) {\n    return 1;\n  }\n  else if (n == 2) {\n    return (3 + f(n + 1));\n  }\n  else {\n    return (1 + f(n + 1));\n  }\n}\nint g(int n) {\n  int j = 0;\n  for (int i = 1; i <= n - 1; i = i + 1) {\n    j = j + f(i);\n  }\n  return j;\n}`,
+        opts: ['6','11','13','14'], a: 2,
+        exp: '先算 f 的各值：\n  f(4) = 1\n  f(3) = 1 + f(4) = 2\n  f(2) = 3 + f(3) = 5\n  f(1) = 1 + f(2) = 6\n  g(4) = f(1) + f(2) + f(3) = 6 + 5 + 2 = 13。'
+      }
+    ]
+  },
+  {
+    id: 7, title: '資料結構（堆疊、佇列、鏈結串列）',
+    desc: '★ 此章節為 APCS 資料結構核心：陣列模擬 Stack/Queue、Linked List 操作',
+    questions: [
+      {
+        year: '105 年 3 月 第 6 題（鏈結串列）',
+        q: 'List 是陣列，元素有 data 與 next（記錄下一個元素索引，-1 表結尾）。已知 list 內：list[1] = (\'a\', next=2)、list[2] = (\'b\', next=-1)、list[3] = (\'c\', next=1)。串列順序為 c → a → b。<br>RemoveNextElement 程序用來移除 current 所指向的下一個元素，但保持原本串列順序。空白處該填入何運算式？',
+        code: `void RemoveNextElement(int current) {\n  if (list[current].next != -1) {\n    /* 移除 current 指向之下一節點 */\n    _____;\n  }\n}`,
+        opts: [
+          'list[current].next = current;',
+          'list[current].next = list[list[current].next].next;',
+          'current = list[list[current].next].next;',
+          'list[list[current].next].next = list[current].next;'
+        ], a: 1,
+        exp: '鏈結串列刪除「current 之後的節點」的標準作法：\n  把「current 指向的下一個節點的 next」（即下下一個節點索引）抓出來，設為 current 的 next。\n  即：list[current].next = list[list[current].next].next;\n  例：current=3 (c)，list[3].next=1 (指向 a)，list[1].next=2 (指向 b)。\n  執行後 list[3].next = 2，串列變成 c → b（a 被跳過）。'
+      },
+      {
+        year: '改編自 APCS 風格',
+        q: '下列 C 程式以陣列模擬佇列。執行結束後輸出為何？（典型 APCS 第二節題組風格）',
+        code: `int Q[30];\nint count = 0, front = 0, back = 0;\nfor (int i = 1; i <= 15; i++) {\n  Q[back] = i;\n  back++;\n}\nwhile (front < back - 1) {\n  int v = Q[front];\n  front++;\n  count++;\n  if (count == 3) {\n    count = 0;\n    Q[back] = v;\n    back++;\n  }\n}\nprintf("%d", Q[front]);`,
+        opts: ['6','9','12','15'], a: 1,
+        exp: '初始放入 1..15 到 Q[0..14]。\n  while 邏輯：dequeue 三個元素，將第 3 個重新 enqueue 到尾端。\n  第一輪 dequeue：{1,2,3} → 3 重入到 Q[15]；{4,5,6} → 6 重入到 Q[16]；…\n  共重入 5 個值（3,6,9,12,15）到 Q[15..19]，back=20。\n  接著繼續：dequeue 3,6,9... 每 3 個又把第 3 個重入。\n  最終 front=20、back=21，Q[20] = 9。'
+      },
+      {
+        year: '改編自 APCS 風格',
+        q: '下列 C 程式以陣列模擬堆疊計算後序表示式 "5 3 + 2 *"。最後 stk[0] 的值為何？',
+        code: `int stk[10], top = 0;\nchar *expr[] = {"5", "3", "+", "2", "*"};\nfor (int i = 0; i < 5; i++) {\n  char *t = expr[i];\n  if (t[0] >= '0' && t[0] <= '9') {\n    stk[top++] = t[0] - '0';\n  } else {\n    int b = stk[--top];\n    int a = stk[--top];\n    if (t[0] == '+') stk[top++] = a + b;\n    else if (t[0] == '*') stk[top++] = a * b;\n  }\n}\nprintf("%d", stk[0]);`,
+        opts: ['10','13','16','30'], a: 2,
+        exp: '後序表示式用堆疊計算：見數字 push、見運算子彈出兩個運算後 push 結果。\n  push 5 → stk=[5], top=1\n  push 3 → stk=[5,3], top=2\n  讀 \'+\'：b=3、a=5，push 8 → stk=[8], top=1\n  push 2 → stk=[8,2], top=2\n  讀 \'*\'：b=2、a=8，push 16 → stk=[16], top=1\n  最終 stk[0] = 16。即原式 (5+3)×2 = 16。'
+      },
+      {
+        year: '改編自 APCS 風格',
+        q: '下列為某二元樹的前序走訪程式碼，輸出為何？',
+        code: `int val[7] = {10, 20, 30, 40, 50, 60, 70};\nint L[7] = {1, 3, 5, -1, -1, -1, -1};\nint R[7] = {2, 4, 6, -1, -1, -1, -1};\nvoid preorder(int u) {\n  if (u == -1) return;\n  printf("%d ", val[u]);\n  preorder(L[u]);\n  preorder(R[u]);\n}\nint main() { preorder(0); }`,
+        opts: ['10 20 40 50 30 60 70','40 20 50 10 60 30 70','40 50 20 60 70 30 10','10 20 30 40 50 60 70'], a: 0,
+        exp: '從 L、R 陣列建出二元樹：\n  0(10)\n  ├ 左 1(20)\n  │  ├ 左 3(40)\n  │  └ 右 4(50)\n  └ 右 2(30)\n     ├ 左 5(60)\n     └ 右 6(70)\n  前序走訪：根→左→右\n  10 → 20 → 40 → 50 → 30 → 60 → 70'
+      }      ,
+      {
+        year: '105 年 3 月 第 9 題（鏈結串列）',
+        q: '下列為鏈結串列的計算節點數函式。若串列共有 n 個節點，此函式的時間複雜度為何？',
+        code: `struct node { int val; struct node *next; };\nint count(struct node *head) {\n  int c = 0;\n  struct node *p = head;\n  while (p != NULL) {\n    c = c + 1;\n    p = p->next;\n  }\n  return c;\n}`,
+        opts: ['O(1)','O(log n)','O(n)','O(n²)'], a: 2,
+        exp: '鏈結串列無法隨機存取，必須從 head 開始順著 next 指標一個個走訪。\n  迴圈本體執行次數 = 節點數 n，故時間複雜度為 O(n)。\n  這也說明為何鏈結串列無法直接做二元搜尋（O(log n) 需要隨機存取）。'
+      },
+      {
+        year: '改編自 APCS 風格（Stack 括號配對）',
+        q: '下列函式用堆疊判斷括號是否配對。對輸入字串 <code>"(()(()))"</code>，函式回傳值為何？',
+        code: `int isMatch(char *s) {\n  char stk[100];\n  int top = 0;\n  for (int i = 0; s[i] != '\\0'; i++) {\n    if (s[i] == '(') stk[top++] = '(';\n    else if (s[i] == ')') {\n      if (top == 0) return 0;\n      top--;\n    }\n  }\n  return (top == 0) ? 1 : 0;\n}`,
+        opts: ['0','1','字串長度','編譯錯誤'], a: 1,
+        exp: '逐字模擬堆疊：\n  ( → push, top=1\n  ( → push, top=2\n  ) → pop,  top=1\n  ( → push, top=2\n  ( → push, top=3\n  ) → pop,  top=2\n  ) → pop,  top=1\n  ) → pop,  top=0\n  迴圈結束時 top=0，所有括號完美配對 → 回傳 1。'
+      },
+      {
+        year: '改編自 APCS 風格（環形佇列）',
+        q: '下列以環形陣列實作佇列。依序執行 <code>enq(1), enq(2), enq(3), deq(), enq(4), enq(5), deq()</code>，最後 <code>front</code> 與 <code>rear</code> 的值分別為何？',
+        code: `int Q[5];\nint front = 0, rear = 0;\nvoid enq(int x) { Q[rear] = x; rear = (rear + 1) % 5; }\nint deq()       { int x = Q[front]; front = (front + 1) % 5; return x; }`,
+        opts: ['front=2, rear=0','front=0, rear=2','front=2, rear=5','front=5, rear=2'], a: 0,
+        exp: '逐步追蹤（陣列容量 5）：\n  enq(1): Q[0]=1, rear=1\n  enq(2): Q[1]=2, rear=2\n  enq(3): Q[2]=3, rear=3\n  deq() : 回傳 Q[0]=1, front=1\n  enq(4): Q[3]=4, rear=4\n  enq(5): Q[4]=5, rear=(4+1)%5=0  ← 環形回到 0！\n  deq() : 回傳 Q[1]=2, front=2\n  最終 front=2, rear=0。注意「環形」特性：rear 繞回到 0 不代表佇列為空。'
+      },
+      {
+        year: '改編自 APCS 風格（BST 插入）',
+        q: '依序將 <code>50, 30, 20, 40, 70, 60, 80</code> 插入一棵原本空的 BST，最終樹的高度（根為 0、葉為最大值）為何？',
+        code: null,
+        opts: ['1','2','3','6'], a: 1,
+        exp: '逐個插入：\n  50 → 根\n  30 → 50 的左\n  20 → 30 的左（高度 2）\n  40 → 30 的右（高度 2）\n  70 → 50 的右\n  60 → 70 的左（高度 2）\n  80 → 70 的右（高度 2）\n  樹結構：\n          50\n         /  \\\n        30   70\n       /\\   /\\\n      20 40 60 80\n  最大深度為 2。本題為完美平衡的 BST。'
+      },
+      {
+        year: '改編自 APCS 風格（BST 退化）',
+        q: '依序將 <code>1, 2, 3, 4, 5</code> 插入一棵原本空的 BST，最終樹的高度為何？此時樹的形狀像什麼？',
+        code: null,
+        opts: ['1，完全二元樹','2，完美二元樹','3，鏈狀（向右）','4，鏈狀（向右）'], a: 3,
+        exp: 'BST 插入規則：較小走左、較大走右。\n  1 → 根\n  2 → 1 的右（沒有比 2 更小的）\n  3 → 2 的右\n  4 → 3 的右\n  5 → 4 的右\n  形成「右鏈」退化樹：1→2→3→4→5。\n  最大深度為 4（樹高 = n-1）。\n  此時 BST 退化成 Linked List，所有操作變成 O(n)。這是 BST 最壞情況。'
+      },
+      {
+        year: '改編自 APCS 風格（二元樹層序走訪）',
+        q: '下列為以陣列存放的二元樹（val 為節點值、L/R 為左/右子節點索引，-1 為空），使用佇列進行層序走訪 (level-order)。輸出為何？',
+        code: `int val[7] = {1, 2, 3, 4, 5, 6, 7};\nint L[7] = {1, 3, 5, -1, -1, -1, -1};\nint R[7] = {2, 4, 6, -1, -1, -1, -1};\nvoid levelorder() {\n  int Q[20], front = 0, rear = 0;\n  Q[rear++] = 0;\n  while (front < rear) {\n    int u = Q[front++];\n    printf("%d ", val[u]);\n    if (L[u] != -1) Q[rear++] = L[u];\n    if (R[u] != -1) Q[rear++] = R[u];\n  }\n}`,
+        opts: ['1 2 3 4 5 6 7','1 2 4 5 3 6 7','4 5 2 6 7 3 1','1 2 4 3 5 6 7'], a: 0,
+        exp: '層序走訪利用佇列，由根開始一層一層輸出。\n  追蹤佇列狀態：\n    push 0：佇列 [0]\n    pop 0、印 1，push L[0]=1, R[0]=2：佇列 [1, 2]\n    pop 1、印 2，push 3, 4：佇列 [2, 3, 4]\n    pop 2、印 3，push 5, 6：佇列 [3, 4, 5, 6]\n    pop 3、印 4（L/R 皆 -1）\n    pop 4、印 5\n    pop 5、印 6\n    pop 6、印 7\n  輸出：1 2 3 4 5 6 7（巧合與索引同序，因為這是完美二元樹的層序）'
+      },
+      {
+        year: '改編自 APCS 風格（Max-Heap 插入）',
+        q: '對一個原本空的 Max-Heap 依序插入 <code>3, 1, 5, 7, 2</code>，每次插入都會維持 Heap 性質。最後根節點為何？且最後一個元素 2 位於哪個位置（陣列 1-indexed）？',
+        code: null,
+        opts: ['根=7，元素 2 在 index 5','根=5，元素 2 在 index 4','根=7，元素 2 在 index 2','根=3，元素 2 在 index 3'], a: 0,
+        exp: '逐個插入並執行 sift-up（上浮）：\n  insert 3：[3]\n  insert 1：[3, 1]（1<3 不浮）\n  insert 5：[3, 1, 5] → 5>3 上浮 → [5, 1, 3]\n  insert 7：[5, 1, 3, 7] → 7>1 上浮 → [5, 7, 3, 1] → 7>5 再上浮 → [7, 5, 3, 1]\n  insert 2：[7, 5, 3, 1, 2]（index=5，父在 index=2 (val=5)，2<5 不浮）\n  根 = 7，元素 2 位於 index 5。'
+      },
+      {
+        year: '經典 APCS ADT 辨識題',
+        q: '下列函式以資料結構 X 判斷字串是否為回文。X 支援 <code>Init</code>（初始化）、<code>Clear</code>（清空）、<code>add</code>（加入）、<code>getFirst</code>（取出第一個）、<code>getLast</code>（取出最後一個）。請問 X 為何種資料結構？',
+        code: `int isPal(char *s, int len) {\n  Init(&X);\n  for (int i = 0; i < len; i++)\n    add(X, s[i]);\n  int n = len;\n  while (n > 1) {\n    if (getFirst(X) != getLast(X))\n      return 0;\n    n = n - 2;\n  }\n  Clear(&X);\n  return 1;\n}`,
+        opts: ['Stack 堆疊','Queue 佇列','Deque 雙向佇列','Heap 堆積'], a: 2,
+        exp: 'X 同時支援「從頭取出」(getFirst) 與「從尾取出」(getLast)，且能從任一端加入。\n  - Stack：只能從一端操作（LIFO），無法做 getFirst+getLast\n  - Queue：FIFO，一端進另一端出，不能雙端取出\n  - Deque（雙向佇列）：兩端皆可進出 ✓\n  - Heap：優先佇列，按優先級存取，不是頭尾\n  本函式用 Deque 一邊收尾比對是判斷迴文的優雅作法。'
+      },
+      {
+        year: '經典 APCS 中序轉後序題',
+        q: '運算式 <code>3*5/6+2-1</code> 轉換為「後序表示式 (postfix)」為何？（假設 *, / 同優先級且左結合，+, - 同優先級且左結合，*, / 優先級高於 +, -）',
+        code: null,
+        opts: ['3 5 * 6 / 2 + 1 -','3 5 6 * / 2 1 + -','3 * 5 / 6 + 2 - 1','1 2 - 6 / 5 * 3 +'], a: 0,
+        exp: '依結合性加上括號：((3*5)/6)+2-1 = (((3*5)/6) + 2) - 1\n  從最內層往外轉成後序：\n    (3*5) → 3 5 *\n    ((3 5 *)/6) → 3 5 * 6 /\n    ((3 5 * 6 /) + 2) → 3 5 * 6 / 2 +\n    最外層 - 1 → 3 5 * 6 / 2 + 1 -\n  後序計算可用堆疊：遇數字 push，遇運算子彈出兩個數運算後 push 回去。'
+      },
+      {
+        year: '改編自 APCS 風格（Hash 線性探測）',
+        q: '使用雜湊表大小 7、雜湊函式 <code>h(k) = k % 7</code>，採線性探測 (linear probing) 解決衝突。依序插入 <code>50, 700, 76, 85, 92, 73, 101</code>，最後 73 位於哪個索引？',
+        code: null,
+        opts: ['index 3','index 4','index 5','index 6'], a: 1,
+        exp: '逐個計算雜湊位置（碰撞則往後找）：\n  50  → 50%7 = 1 → 空 → 放 index 1\n  700 → 700%7 = 0 → 空 → 放 index 0\n  76  → 76%7 = 6 → 空 → 放 index 6\n  85  → 85%7 = 1 → 占用 → 探 2 → 空 → 放 index 2\n  92  → 92%7 = 1 → 占用 → 探 2 → 占用 → 探 3 → 空 → 放 index 3\n  73  → 73%7 = 3 → 占用 → 探 4 → 空 → 放 index 4  ★\n  101 → 101%7 = 3 → 占用 → 探 4 → 占用 → 探 5 → 空 → 放 index 5\n  73 最終位於 index 4。'
+      },
+      {
+        year: '改編自 APCS 風格（BST 搜尋）',
+        q: '在如下圖的二元搜尋樹中搜尋 60，總共需要做幾次「節點值比較」？<br>樹結構（依序插入 50, 30, 70, 20, 40, 60, 80）：<br><pre style="text-align:center;font-family:monospace">　　　50<br>　　/　　\\<br>　 30　　70<br>　/ \\　/ \\<br>　20 40 60 80</pre>',
+        code: null,
+        opts: ['2 次','3 次','4 次','7 次'], a: 1,
+        exp: 'BST 搜尋路徑：每節點比較一次決定走左或走右。\n  從根開始：\n    比較 60 vs 50：60 > 50，走右\n    比較 60 vs 70：60 < 70，走左\n    比較 60 vs 60：相等，找到 ✓\n  共 3 次比較。\n  說明：BST 平衡時搜尋為 O(log n)，但本樹高度為 2，最壞情況仍是 3 次。'
+      },
+      {
+        year: '改編自 APCS 風格（二元樹後序走訪）',
+        q: '下列以陣列存放的二元樹，<code>val</code> 為節點值、<code>L/R</code> 為左/右子節點索引（-1 為空）。<code>postorder(0)</code> 的輸出為何？',
+        code: `int val[5] = {1, 2, 3, 4, 5};\nint L[5]   = {1, 3, -1, -1, -1};\nint R[5]   = {2, 4, -1, -1, -1};\nvoid postorder(int u) {\n  if (u == -1) return;\n  postorder(L[u]);\n  postorder(R[u]);\n  printf("%d ", val[u]);\n}`,
+        opts: ['1 2 4 5 3','4 5 2 3 1','4 2 5 1 3','1 4 2 5 3'], a: 1,
+        exp: '建出樹結構：\n  0(1)\n  ├ L=1(2)\n  │  ├ L=3(4)（葉）\n  │  └ R=4(5)（葉）\n  └ R=2(3)（葉）\n  後序走訪：左→右→根\n    從 0 開始：先走 L=1\n      從 1：先 L=3 → 印 4；再 R=4 → 印 5；再印 2\n    回到 0：走 R=2 → 印 3\n    最後印 1\n  輸出：4 5 2 3 1'
+      },
+      {
+        year: '改編自 APCS 風格（鏈結串列反轉）',
+        q: '對一個有 n 個節點的單向鏈結串列做「原地反轉」（in-place reverse），總共需要修改幾次 next 指標？',
+        code: `struct node { int val; struct node *next; };\nstruct node* reverse(struct node *head) {\n  struct node *prev = NULL, *cur = head, *next;\n  while (cur != NULL) {\n    next = cur->next;\n    cur->next = prev;  // 反轉指標\n    prev = cur;\n    cur = next;\n  }\n  return prev;\n}`,
+        opts: ['n - 1 次','n 次','2n 次','n² 次'], a: 1,
+        exp: '逐節點走訪，每個節點的 next 被修改恰好一次（指向前一個節點）。\n  共 n 個節點 → n 次修改指標。\n  原 head 的 next 改為 NULL（之前的 prev）→ 1 次；\n  其後每個節點的 next 改為前一個 → 共 n-1 次；\n  總計 n 次。\n  時間複雜度 O(n)、空間 O(1)。'
+      },
+      {
+        year: '改編自 APCS 風格（完美二元樹節點數）',
+        q: '一棵「完美二元樹 (perfect binary tree)」高度為 h（根為高度 0、單一節點時 h=0），共有多少個節點？並計算 h=3 時的節點數。',
+        code: null,
+        opts: ['2h 個，h=3 為 6','2h + 1 個，h=3 為 7','2^(h+1) - 1 個，h=3 為 15','2^h - 1 個，h=3 為 7'], a: 2,
+        exp: '完美二元樹每一層都填滿：\n  第 0 層：1 = 2⁰ 個節點\n  第 1 層：2 = 2¹ 個\n  第 2 層：4 = 2² 個\n  …\n  第 h 層：2ʰ 個\n  總節點數 = 1 + 2 + 4 + … + 2ʰ = 2^(h+1) - 1\n  代 h=3：2⁴ - 1 = 16 - 1 = 15。\n  注意「高度」定義：本題以根為高度 0，葉子高度最大；節點總數公式為等比級數和。'
+      },
+      {
+        year: '改編自 APCS 風格（Heap deleteMax）',
+        q: '對 Max-Heap 陣列 <code>[9, 7, 8, 3, 4, 5, 6]</code>（陣列 0-indexed，9 為 root）執行一次 <code>deleteMax</code> 操作後，陣列為何？',
+        code: `// Max-Heap deleteMax 標準作法\n// 1. 把 root (a[0]) 取出作為回傳值\n// 2. 把最後一個元素移到 a[0]\n// 3. heap size 減 1\n// 4. sift-down 維持 Heap 性質`,
+        opts: ['[7, 8, 3, 4, 5, 6]','[8, 7, 6, 3, 4, 5]','[6, 7, 8, 3, 4, 5]','[8, 4, 6, 3, 7, 5]'], a: 1,
+        exp: '步驟：\n  ① 取出 root 9（作為 deleteMax 回傳值）\n  ② 把最後元素 6 搬到 root：[6, 7, 8, 3, 4, 5]\n  ③ Sift-down 6：\n    與子節點 (idx=1,val=7) 與 (idx=2,val=8) 比較，最大為 8\n    8 > 6，交換：[8, 7, 6, 3, 4, 5]，6 現在 idx=2\n    6 的子節點 idx=5 (val=5)，6 > 5，停止\n  最終陣列：[8, 7, 6, 3, 4, 5]'
+      }
+
+    ]
+  },
+  {
+    id: 8, title: '排序、搜尋與程式除錯',
+    desc: '線性/二元搜尋、各種排序、找錯誤的 debug 題、效能分析',
+    questions: [
+      {
+        year: '105 年 3 月 第 3 題',
+        q: '已知 a[k] = 3k+1。以 value=100 呼叫下列兩函式，假設 f1 與 f2 之 while 主體分別執行 n1 與 n2 次。n1 與 n2 各為何？',
+        code: `int f1(int a[], int value) {  /* 線性搜尋 */\n  int r = -1, i = 0;\n  while (i < 100) {\n    if (a[i] == value) { r = i; break; }\n    i = i + 1;\n  }\n  return r;\n}\nint f2(int a[], int value) {  /* 二元搜尋 */\n  int r = -1, lo = 0, hi = 99, mid;\n  while (lo <= hi) {\n    mid = (lo + hi) / 2;\n    if (a[mid] == value) { r = mid; break; }\n    else if (a[mid] < value) lo = mid + 1;\n    else hi = mid - 1;\n  }\n  return r;\n}`,
+        opts: ['n1=33, n2=4','n1=33, n2=5','n1=34, n2=4','n1=34, n2=5'], a: 3,
+        exp: '陣列：a[0]=1, a[1]=4, ..., a[33]=100。\n  f1（線性）：i 從 0 跑到 33 才找到 100，迴圈本體執行 34 次。\n  f2（二元搜尋）：\n    第1次 mid=49, a[49]=148 > 100, hi=48\n    第2次 mid=24, a[24]=73 < 100, lo=25\n    第3次 mid=36, a[36]=109 > 100, hi=35\n    第4次 mid=30, a[30]=91 < 100, lo=31\n    第5次 mid=33, a[33]=100 ✓ break\n  n1 = 34, n2 = 5。'
+      },
+      {
+        year: '105 年 10 月 第 1 題（選擇排序追蹤）',
+        q: '下列 F() 函式執行後，輸出為何？',
+        code: `void F() {\n  char t, item[] = {'2', '8', '3', '1', '9'};\n  int a, b, c, count = 5;\n  for (a = 0; a < count - 1; a = a + 1) {\n    c = a;\n    t = item[a];\n    for (b = a + 1; b < count; b = b + 1) {\n      if (item[b] < t) {\n        c = b;\n        t = item[b];\n      }\n      if ((a == 2) && (b == 3)) {\n        printf("%c %d\\n", t, c);\n      }\n    }\n  }\n}`,
+        opts: ['1 2','1 3','3 2','3 3'], a: 1,
+        exp: '關鍵：唯一的 printf 只在 (a==2, b==3) 執行。只需追蹤該點：\n  進入 a=2 外圈時：c = 2, t = item[2] = \'3\'。\n  內圈 b=3：item[3]=\'1\' < \'3\' (t)，所以 c = 3, t = \'1\'。\n  接著 a==2 && b==3 都滿足，印 "1 3"。'
+      },
+      {
+        year: '105 年 3 月 第 17 題（debug）',
+        q: '下列程式輸入六個整數，檢測「最後一個是否為最小」。然而程式有錯，哪組測資能測出錯誤？',
+        code: `for (int i = 1; i <= 5; i++)\n  scanf("%d", &d[i]);\nscanf("%d", &val);\nallBig = TRUE;\nfor (int i = 1; i <= 5; i++) {\n  if (d[i] > val) {\n    allBig = TRUE;\n  } else {\n    allBig = FALSE;\n  }\n}\nif (allBig == TRUE)\n  printf("%d is the smallest.\\n", val);\nelse\n  printf("%d is not the smallest.\\n", val);`,
+        opts: ['11 12 13 14 15 3','11 12 13 14 25 20','23 15 18 20 11 12','18 17 19 24 15 16'], a: 1,
+        exp: 'bug：allBig 在迴圈中被覆寫，最終值只取決於 d[5] 與 val 的關係。\n  正確的寫法應是「只要有任何一個 d[i] <= val，就 allBig = FALSE」。\n  (A) val=3 真的最小，d[5]=15>3 → allBig=TRUE，程式答對 ✗（檢測不出 bug）\n  (B) val=20 不是最小（25>20，11<20...），d[5]=25>20 → allBig=TRUE，但 20 不是最小，程式答錯 ✓（測出 bug）\n  (C)(D) val 不是最小但 d[5]≤val → allBig=FALSE → 程式說「不是最小」剛好正確，測不出 bug。'
+      },
+      {
+        year: '105 年 3 月 第 20 題（debug）',
+        q: '下列為計算 n 階層的函式，請問如何修改才正確？',
+        code: `int fun(int n) {\n  int fac = 1;\n  if (n >= 0) {\n    fac = n * fun(n - 1);\n  }\n  return fac;\n}`,
+        opts: [
+          '第 2 行改為 int fac = n;',
+          '第 3 行改為 if (n > 0) {',
+          '第 4 行改為 fac = n * fun(n + 1);',
+          '第 4 行改為 fac = fac * fun(n - 1);'
+        ], a: 1,
+        exp: '原程式 bug：當 n=0 時，因 n>=0 仍進入遞迴，fac = 0 × fun(-1) = 0，導致層層回傳都是 0。\n  修正：將條件改為 if (n > 0)，讓 n=0 時不再遞迴而直接回傳初始 fac=1（即 0! = 1）。\n  (C) n+1 不收斂；(D) 不改判斷條件仍會傳回 0。'
+      },
+      {
+        year: '105 年 3 月 第 1 題（debug）',
+        q: '下列程式想輸出 5 行星號（每行星號數 1,3,5,7,9，前方空格 4,3,2,1,0）。在不修改第 4 行及第 7 行的前提下，最少需修改幾行才能得到正確輸出？',
+        code: `int k = 4;\nint m = 1;\nfor (int i = 1; i <= 5; i = i + 1) {\n  for (int j = 1; j <= k; j = j + 1) {\n    printf(" ");\n  }\n  for (int j = 1; j <= m; j = j + 1) {\n    printf("*");\n  }\n  printf("\\n");\n  k = k - 1;\n  m = m + 1;\n}`,
+        opts: ['1','2','3','4'], a: 0,
+        exp: '目標：每列空格數 4,3,2,1,0（遞減 1），星號數 1,3,5,7,9（遞增 2）。\n  k 控制空格、m 控制星號。\n  第 11 行 k=k-1（正確）；第 12 行 m=m+1（錯誤，應為 m+2）\n  只需改第 12 行為 m = m + 2，1 行修改完成。'
+      }      ,
+      {
+        year: '改編自 APCS 風格（氣泡排序比較次數）',
+        q: '對陣列 <code>{5, 1, 4, 2, 8}</code> 執行下列氣泡排序，<code>if</code> 比較共會執行幾次？',
+        code: `int a[] = {5, 1, 4, 2, 8};\nint n = 5;\nfor (int i = 0; i < n - 1; i++)\n  for (int j = 0; j < n - 1 - i; j++)\n    if (a[j] > a[j+1]) {\n      int t = a[j]; a[j] = a[j+1]; a[j+1] = t;\n    }`,
+        opts: ['4','7','10','25'], a: 2,
+        exp: '氣泡排序的 if 比較次數（無 early exit）= (n-1) + (n-2) + ... + 1 = n(n-1)/2。\n  n=5：5×4/2 = 10 次。\n  追蹤：i=0 時 j 跑 4 次、i=1 時 3 次、i=2 時 2 次、i=3 時 1 次 → 4+3+2+1=10 次。\n  記住公式：氣泡排序 worst/best/average 的「比較次數」都是 n(n-1)/2，不論資料是否已排好。'
+      },
+      {
+        year: '改編自 APCS 風格（Quick Sort partition）',
+        q: '對陣列 <code>{4, 8, 2, 5, 1, 7, 3, 6}</code> 執行下列 Quick Sort 的 <code>partition</code>（pivot 為最右元素 6），結束後陣列為何？',
+        code: `int partition(int a[], int lo, int hi) {\n  int pivot = a[hi];\n  int i = lo - 1;\n  for (int j = lo; j < hi; j++) {\n    if (a[j] < pivot) {\n      i++;\n      int t = a[i]; a[i] = a[j]; a[j] = t;\n    }\n  }\n  int t = a[i+1]; a[i+1] = a[hi]; a[hi] = t;\n  return i + 1;\n}\n// 呼叫 partition(a, 0, 7)`,
+        opts: ['{4,2,5,1,3,6,8,7}','{4,8,2,5,1,7,3,6}','{1,2,3,4,5,6,7,8}','{2,4,5,1,3,7,8,6}'], a: 0,
+        exp: 'Lomuto partition：i 指向「< pivot 區」的右邊界，j 掃描比較。\n  追蹤（pivot=6）：\n    j=0, a[0]=4<6, i=0, swap a[0]↔a[0]: {4,8,2,5,1,7,3,6}\n    j=1, a[1]=8≥6, 跳過\n    j=2, a[2]=2<6, i=1, swap a[1]↔a[2]: {4,2,8,5,1,7,3,6}\n    j=3, a[3]=5<6, i=2, swap a[2]↔a[3]: {4,2,5,8,1,7,3,6}\n    j=4, a[4]=1<6, i=3, swap a[3]↔a[4]: {4,2,5,1,8,7,3,6}\n    j=5, a[5]=7≥6, 跳過\n    j=6, a[6]=3<6, i=4, swap a[4]↔a[6]: {4,2,5,1,3,7,8,6}\n  最後 swap a[i+1]=a[5]↔a[7]=pivot: {4,2,5,1,3,6,8,7}\n  pivot 6 落在 index 5，左側皆 < 6、右側皆 > 6。'
+      },
+      {
+        year: '改編自 APCS 風格（Insertion Sort 比較次數）',
+        q: '對陣列 <code>{3, 1, 4, 1, 5, 9, 2, 6}</code> 執行下列插入排序，內層 <code>while</code> 條件判斷共執行幾次？',
+        code: `int a[] = {3, 1, 4, 1, 5, 9, 2, 6};\nint n = 8;\nfor (int i = 1; i < n; i++) {\n  int key = a[i], j = i - 1;\n  while (j >= 0 && a[j] > key) {\n    a[j+1] = a[j];\n    j--;\n  }\n  a[j+1] = key;\n}`,
+        opts: ['7','11','14','28'], a: 2,
+        exp: '追蹤每個 i 的內層 while 進入次數（每次「進入 while 本體」算 1 次）：\n  i=1 key=1：a[0]=3>1 移、j=-1 退出 → 1 次\n  i=2 key=4：a[1]=3<4 退出 → 1 次\n  i=3 key=1：a[2]=4>1、a[1]=3>1、a[0]=1>1 不成立 → 3 次\n  i=4 key=5：a[3]=4<5 → 1 次\n  i=5 key=9：a[4]=5<9 → 1 次\n  i=6 key=2：a[5]=9>2、a[4]=5>2、a[3]=4>2、a[2]=3>2、a[1]=1>2 不成立 → 5 次\n  i=7 key=6：a[6]=9>6、a[5]=5>6 不成立 → 2 次\n  總和 = 1+1+3+1+1+5+2 = 14 次。\n  說明：陣列在排序過程中持續變動，須在每個 i 完成後更新後續分析的陣列。'
+      }
+
+    ]
+  }
+];
+
+
+/* ============ APCS 真題解析渲染 ============ */
+function renderApcsReal(){
+  const root = document.getElementById('apcs-content');
+  if(!root) return;
+  if(root.dataset.rendered === '1') return; // 只渲染一次
+  let html = '';
+  APCS_REAL.forEach(ch => {
+    html += `<div class="card" style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none" onclick="toggleApcsCh(${ch.id})">
+        <div>
+          <div style="font-size:16px;font-weight:700;color:var(--green)">📖 第 ${ch.id} 章　${ch.title}</div>
+          <div style="font-size:12px;color:var(--dim);margin-top:4px">${ch.desc}　・　共 ${ch.questions.length} 題</div>
+        </div>
+        <div id="apcs-arrow-${ch.id}" style="font-size:20px;color:var(--dim)">▶</div>
+      </div>
+      <div id="apcs-ch-${ch.id}" style="display:none;margin-top:14px;border-top:1px solid var(--line);padding-top:14px">`;
+    ch.questions.forEach((q, qi) => {
+      const qid = `${ch.id}-${qi}`;
+      const optsHtml = q.opts.map((o, oi) => 
+        `<div style="padding:8px 12px;margin:4px 0;border-radius:7px;background:#f9fafb;border:1px solid #e5e7eb;font-size:13px">
+          <span style="font-weight:700;color:#6b7280;margin-right:8px">(${String.fromCharCode(65+oi)})</span>${escapeHtml(o)}
+        </div>`).join('');
+      const codeBlock = q.code ? 
+        `<pre style="background:#0d1117;color:#c9d1d9;padding:14px;margin:10px 0;font-family:Consolas,Monaco,monospace;font-size:13px;line-height:1.6;border-radius:8px;overflow-x:auto;tab-size:2">${escapeHtml(q.code)}</pre>` : '';
+      html += `<div style="margin-bottom:18px;padding-bottom:18px;border-bottom:1px dashed #e5e7eb">
+        <div style="font-size:11px;color:#9ca3af;margin-bottom:4px">${q.year}</div>
+        <div style="font-size:14px;font-weight:600;line-height:1.7;margin-bottom:8px">${q.q}</div>
+        ${codeBlock}
+        ${optsHtml}
+        <button onclick="toggleApcsAns('${qid}')" id="apcs-btn-${qid}" style="margin-top:10px;padding:7px 14px;border:none;border-radius:7px;background:var(--green);color:white;font-size:13px;font-weight:600;cursor:pointer">顯示答案與詳解</button>
+        <div id="apcs-ans-${qid}" style="display:none;margin-top:10px;padding:12px 14px;background:var(--greenll);border-left:4px solid var(--green);border-radius:6px">
+          <div style="font-weight:700;color:var(--green);margin-bottom:6px">✓ 正解：(${String.fromCharCode(65+q.a)}) ${escapeHtml(q.opts[q.a])}</div>
+          <div style="font-size:13px;line-height:1.8;white-space:pre-wrap;color:#1f2937">${escapeHtml(q.exp)}</div>
+        </div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  root.innerHTML = html;
+  root.dataset.rendered = '1';
+}
+function toggleApcsCh(id){
+  const box = document.getElementById('apcs-ch-'+id);
+  const arrow = document.getElementById('apcs-arrow-'+id);
+  if(box.style.display === 'none'){
+    box.style.display = 'block';
+    arrow.textContent = '▼';
+  } else {
+    box.style.display = 'none';
+    arrow.textContent = '▶';
+  }
+}
+function toggleApcsAns(qid){
+  const ans = document.getElementById('apcs-ans-'+qid);
+  const btn = document.getElementById('apcs-btn-'+qid);
+  if(ans.style.display === 'none'){
+    ans.style.display = 'block';
+    btn.textContent = '隱藏答案';
+    btn.style.background = '#9ca3af';
+  } else {
+    ans.style.display = 'none';
+    btn.textContent = '顯示答案與詳解';
+    btn.style.background = 'var(--green)';
+  }
+}
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function navTo(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(x=>x.classList.remove('on'));
+  document.getElementById('page-'+p).classList.add('on');
+  document.getElementById('nav-'+p).classList.add('on');
+  if(p==='exam'){ renderExamHome(); renderExamHist(); }
+  if(p==='stats') renderStats();
+}
+
+/* ============ BUILD SELECTS ============ */
+function buildSelects(){
+  const opts = '<option value="all">全部章節</option>' + CHS.map(c=>`<option value="${c.id}">${c.icon} 第${c.id}章 ${c.name}</option>`).join('');
+  const el = document.getElementById('exam-ch');
+  if(el) el.innerHTML = opts;
+}
+
+/* ============ EXAM 首頁頂部統計 ============ */
+function renderExamHome(){
+  document.getElementById('hs-exam').textContent = G.exams.length;
+  if(G.exams.length){
+    const best = Math.max(...G.exams.map(e=>e.score));
+    const avg = Math.round(G.exams.reduce((s,e)=>s+e.score,0) / G.exams.length);
+    document.getElementById('hs-best').textContent = best;
+    document.getElementById('hs-avg').textContent = avg;
+  } else {
+    document.getElementById('hs-best').textContent = '—';
+    document.getElementById('hs-avg').textContent = '—';
+  }
+}
+
+/* ============ CODE RENDERING（語法高亮） ============ */
+/* ============ C++ → Python 程式碼轉換器 ============ */
+// 輔助：把缺少 {} 的單敘述本體（for/while/if/else 後跟單一敘述）補上大括號，
+// 讓後續的「大括號→縮排」處理可以一致地進行。
+function addBracesToSingleStatements(code) {
+  let result = '';
+  let i = 0;
+  const N = code.length;
+
+  function skipParenGroup(p) {
+    if (code[p] !== '(') return p;
+    let depth = 0;
+    while (p < N) {
+      if (code[p] === '(') depth++;
+      else if (code[p] === ')') { depth--; if (depth === 0) return p + 1; }
+      p++;
+    }
+    return p;
+  }
+  function findStmtEnd(p) {
+    let depth = 0, inStr = false;
+    while (p < N) {
+      const ch = code[p];
+      if (inStr) { if (ch === '"' && code[p-1] !== '\\') inStr = false; }
+      else if (ch === '"') inStr = true;
+      else if (ch === '(' || ch === '[' || ch === '{') depth++;
+      else if (ch === ')' || ch === ']' || ch === '}') depth--;
+      else if (ch === ';' && depth === 0) return p + 1;
+      p++;
+    }
+    return p;
+  }
+
+  while (i < N) {
+    const rest = code.substring(i);
+    let kw = null, kwLen = 0;
+    if (/^for\b/.test(rest))                { kw = 'for';     kwLen = 3; }
+    else if (/^if\b/.test(rest))            { kw = 'if';      kwLen = 2; }
+    else if (/^else\s+if\b/.test(rest))     { kw = 'elseif';  kwLen = rest.match(/^else\s+if/)[0].length; }
+    else if (/^else\b/.test(rest))          { kw = 'else';    kwLen = 4; }
+    else if (/^while\b/.test(rest))         {
+      // do-while 的尾部 `}while(...)` 不視為新迴圈
+      const m = result.match(/}\s*$/);
+      if (m) { result += code[i]; i++; continue; }
+      kw = 'while'; kwLen = 5;
+    }
+
+    if (!kw)                                       { result += code[i]; i++; continue; }
+    // 詞邊界（避免 myfor 之類）
+    if (i > 0 && /\w/.test(code[i-1]))             { result += code[i]; i++; continue; }
+
+    result += code.substring(i, i + kwLen);
+    i += kwLen;
+    // 跳過空白
+    while (i < N && /\s/.test(code[i])) { result += code[i]; i++; }
+    // 跳過括號（else 沒有）
+    if (kw !== 'else') {
+      if (code[i] !== '(') continue;
+      const pe = skipParenGroup(i);
+      result += code.substring(i, pe);
+      i = pe;
+    }
+    // 找本體前的空白
+    let wsStart = i;
+    while (i < N && /\s/.test(code[i])) i++;
+
+    if (code[i] === '{') {
+      result += code.substring(wsStart, i + 1);
+      i++;
+    } else {
+      // 沒有 {} → 補上
+      result += code.substring(wsStart, i);
+      result += '{';
+      const stmtEnd = findStmtEnd(i);
+      // 遞迴處理本體（可能又是控制結構）
+      result += addBracesToSingleStatements(code.substring(i, stmtEnd));
+      result += '}';
+      i = stmtEnd;
+    }
+  }
+  return result;
+}
+
+function toPython(c){
+  if(!c) return '';
+  let py = c;
+
+  // 0) 註解 // → #
+  py = py.replace(/\/\/(.*)$/gm, '#$1');
+
+  // 0.5) 暫存 do-while 模式（避免 addBraces 把 `}while(...)` 誤判）
+  const dwStash = {};
+  let dwId = 0;
+  py = py.replace(/do\s*\{([\s\S]*?)\}\s*while\s*\(([^)]+)\)\s*;?/g, (_, body, cond) => {
+    const k = `__DW${dwId++}__`;
+    dwStash[k] = { body, cond };
+    return k;
+  });
+
+  // 1) 給單敘述本體補上大括號（讓後續 indent 處理一致）
+  py = addBracesToSingleStatements(py);
+
+  // 2) 二維陣列
+  py = py.replace(/\b(?:int|char|double|float)\s+(\w+)\s*\[\d+\]\s*\[\d+\]\s*=\s*\{\{([\s\S]*?)\}\}\s*;?/g, (_, name, body) => {
+    const rows = body.split(/\}\s*,\s*\{/).map(r => '[' + r.replace(/[{}]/g, '').trim() + ']');
+    return `${name} = [${rows.join(', ')}]`;
+  });
+
+  // 3) 一維陣列
+  py = py.replace(/\b(?:int|char|double|float)\s+(\w+)\s*\[\d*\]\s*=\s*\{([^}]*)\}\s*;?/g, (_, name, body) => `${name} = [${body.trim()}]`);
+
+  // 4) 字串宣告
+  py = py.replace(/\bchar\s+(\w+)\s*\[\d*\]\s*=\s*("([^"]*)")\s*;?/g, '$1 = $2');
+
+  // 5) 函式定義
+  py = py.replace(/\b(?:int|void|double|float|char|long|short)\s+(\w+)\s*\(([^)]*)\)\s*\{/g, (_, name, params) => {
+    const args = params.split(',').map(p => {
+      const m = p.trim().match(/(?:int|char|double|float|void|long|short)?\s*\*?\s*&?\s*(\w+)/);
+      return m ? m[1] : p.trim();
+    }).filter(Boolean).join(', ');
+    return `def ${name}(${args}):{`;
+  });
+
+  // 6) 變數宣告
+  py = py.replace(/\b(?:int|double|float|long|short|unsigned)\s+([^;{}]+);/g, (m, body) => {
+    const parts = [];
+    let depth = 0, cur = '';
+    for (const ch of body) {
+      if (ch === '(' || ch === '[') depth++;
+      else if (ch === ')' || ch === ']') depth--;
+      else if (ch === ',' && depth === 0) { parts.push(cur.trim()); cur = ''; continue; }
+      cur += ch;
+    }
+    if (cur.trim()) parts.push(cur.trim());
+    return parts.map(p => p.includes('=') ? p : p + ' = 0').join('; ') + ';';
+  });
+
+  // 7) for 迴圈：<= 必須先匹配，再 <（用 (?!=) 避免吃到 <=）
+  py = py.replace(/for\s*\(\s*(\w+)\s*=\s*([^;]+?)\s*;\s*\1\s*<=\s*([^;]+?)\s*;\s*\1\s*\+\+\s*\)/g, 'for $1 in range($2, ($3)+1):');
+  py = py.replace(/for\s*\(\s*(\w+)\s*=\s*([^;]+?)\s*;\s*\1\s*<=\s*([^;]+?)\s*;\s*\1\s*\+=\s*([^)]+)\)/g, 'for $1 in range($2, ($3)+1, $4):');
+  py = py.replace(/for\s*\(\s*(\w+)\s*=\s*([^;]+?)\s*;\s*\1\s*<(?!=)\s*([^;]+?)\s*;\s*\1\s*\+\+\s*\)/g, 'for $1 in range($2, $3):');
+  py = py.replace(/for\s*\(\s*(\w+)\s*=\s*([^;]+?)\s*;\s*\1\s*<(?!=)\s*([^;]+?)\s*;\s*\1\s*\+=\s*([^)]+)\)/g, 'for $1 in range($2, $3, $4):');
+  py = py.replace(/for\s*\(\s*(\w+)\s*=\s*([^;]+?)\s*;\s*\1\s*>=\s*([^;]+?)\s*;\s*\1--\s*\)/g, 'for $1 in range($2, ($3)-1, -1):');
+  py = py.replace(/for\s*\(\s*(\w+)\s*=\s*([^;]+?)\s*;\s*\1\s*>(?!=)\s*([^;]+?)\s*;\s*\1--\s*\)/g, 'for $1 in range($2, $3, -1):');
+  py = py.replace(/for\s*\(\s*(\w+)\s*=\s*([^;]+?)\s*;\s*\1\s*>(?!=)\s*([^;]+?)\s*;\s*\1\s*-=\s*([^)]+)\)/g, 'for $1 in range($2, $3, -($4)):');
+
+  // 8) while / if / else
+  py = py.replace(/while\s*\(([^)]+)\)/g, 'while $1:');
+  py = py.replace(/\}\s*else\s+if\s*\(([^)]+)\)/g, '} elif $1:');
+  py = py.replace(/else\s+if\s*\(([^)]+)\)/g, 'elif $1:');
+  py = py.replace(/if\s*\(([^)]+)\)/g, 'if $1:');
+  py = py.replace(/\}\s*else\s*\{/g, '} else:{');
+  py = py.replace(/\belse\s*\{/g, 'else:{');
+
+  // 9) 邏輯運算子
+  py = py.replace(/!=/g, '<<NEQ>>');
+  py = py.replace(/&&/g, ' and ');
+  py = py.replace(/\|\|/g, ' or ');
+  py = py.replace(/!\s*(\w|\()/g, 'not $1');
+  py = py.replace(/<<NEQ>>/g, '!=');
+
+  // 10) ++ / --
+  py = py.replace(/(\w+)\+\+/g, '$1 += 1');
+  py = py.replace(/\+\+(\w+)/g, '$1 += 1');
+  py = py.replace(/(\w+)--/g, '$1 -= 1');
+  py = py.replace(/--(\w+)/g, '$1 -= 1');
+
+  // 11) 整數除法 /= → //=
+  py = py.replace(/\/=/g, '//=');
+
+  // 11.5) 型別轉換 (int)x → int(x), (double)x → float(x)
+  py = py.replace(/\(int\)\s*(\w+|\([^)]*\))/g, 'int($1)');
+  py = py.replace(/\(double\)\s*(\w+|\([^)]*\))/g, 'float($1)');
+  py = py.replace(/\(float\)\s*(\w+|\([^)]*\))/g, 'float($1)');
+
+  // 12) strlen → len
+  py = py.replace(/\bstrlen\s*\(/g, 'len(');
+
+  // 13) printf → print（支援巢狀括號如 f(5)）
+  py = py.replace(/printf\s*\(\s*"([^"]*)"\s*\)\s*;?/g, (_, fmt) => `print("${fmt.replace(/\\n$/,'')}")`);
+  py = py.replace(/printf\s*\(\s*"([^"]*)"\s*,\s*((?:[^()]|\([^()]*\))+?)\s*\)\s*;?/g, (_, fmt, args) => {
+    // 以頂層逗號分割 args
+    const tokens = [];
+    let depth = 0, cur = '';
+    for (const ch of args) {
+      if (ch === '(' || ch === '[') depth++;
+      else if (ch === ')' || ch === ']') depth--;
+      else if (ch === ',' && depth === 0) { tokens.push(cur.trim()); cur = ''; continue; }
+      cur += ch;
+    }
+    if (cur.trim()) tokens.push(cur.trim());
+    let idx = 0;
+    const newFmt = fmt.replace(/\\n$/,'').replace(/%[+\-]?\d*\.?\d*[dfcs]/g, () => '{' + (tokens[idx++] || '') + '}');
+    return `print(f"${newFmt}")`;
+  });
+
+  // 14) return / break / continue
+  py = py.replace(/return\s+([^;]+?);/g, 'return $1');
+  py = py.replace(/return\s*;/g, 'return');
+  py = py.replace(/\bbreak\b\s*;/g, 'break');
+  py = py.replace(/\bcontinue\b\s*;/g, 'continue');
+
+  // 15) 分號 → 換行
+  py = py.replace(/;+/g, '\n');
+
+  // 16) 保護字串內容（避免 f-string 內的 {} 被 indent 處理切斷）
+  const strStash = {};
+  let strId = 0;
+  py = py.replace(/((?:\bf)?"[^"]*")/g, (m) => {
+    const k = `__STR${strId++}__`;
+    strStash[k] = m;
+    return k;
+  });
+
+  // 17) 大括號 → 縮排
+  const lines = [];
+  let indent = 0;
+  for (let raw of py.split('\n')) {
+    let line = raw.trim();
+    if (!line) continue;
+    let seg = '';
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (ch === '{') {
+        if (seg.trim()) lines.push('    '.repeat(indent) + seg.trim());
+        indent++; seg = '';
+      } else if (ch === '}') {
+        if (seg.trim()) lines.push('    '.repeat(indent) + seg.trim());
+        indent = Math.max(0, indent - 1); seg = '';
+      } else seg += ch;
+    }
+    if (seg.trim()) lines.push('    '.repeat(indent) + seg.trim());
+  }
+  let final = lines.filter(l => l.trim()).join('\n');
+
+  // 17.5) 若某個 `:` 結尾的行下方沒有任何縮排內容（空 body），補一個 pass
+  const ll = final.split('\n');
+  const out2 = [];
+  for (let i = 0; i < ll.length; i++) {
+    out2.push(ll[i]);
+    if (/:\s*$/.test(ll[i])) {
+      const curIndent = (ll[i].match(/^ */) || [''])[0].length;
+      const next = ll[i+1];
+      const nextIndent = next ? (next.match(/^ */) || [''])[0].length : -1;
+      if (!next || nextIndent <= curIndent) {
+        out2.push(' '.repeat(curIndent + 4) + 'pass');
+      }
+    }
+  }
+  final = out2.join('\n');
+
+  // 18) 還原字串
+  for (const k in strStash) final = final.split(k).join(strStash[k]);
+
+  // 19) 還原 do-while
+  for (const k in dwStash) {
+    const { body, cond } = dwStash[k];
+    const bodyPy = toPython(body);
+    const indented = bodyPy.split('\n').map(l => '    ' + l).join('\n');
+    const dwPy = `while True:\n${indented}\n    if not (${cond}): break`;
+    final = final.split(k).join(dwPy);
+  }
+
+  return final;
+}
+
+/* ============ CODE RENDERING（語法高亮，支援 C++/Python） ============ */
+function renderCode(code, lang){
+  if(!code) return '';
+  lang = lang || 'cpp';
+  let src = code;
+  if(lang === 'python') src = toPython(code);
+
+  const KW_CPP = ['int','char','double','float','void','bool','if','else','for','while','do','switch','case','default','break','continue','return','static','struct','typedef','const','sizeof','printf','scanf','main','include','using','namespace','std','cout','cin','endl','class','public','private','new','delete','true','false'];
+  const KW_PY  = ['def','return','if','elif','else','for','while','in','range','print','len','True','False','None','and','or','not','break','continue','pass','class','import','from','as','with','try','except','finally','raise','lambda','global','nonlocal','yield','is'];
+  const KW = lang === 'python' ? KW_PY : KW_CPP;
+
+  let h = src.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  // 註解（Python 用 #，C++ 用 //）
+  if(lang === 'python'){
+    h = h.replace(/(#[^\n]*)/g, '<span class="cm">$1</span>');
+  } else {
+    h = h.replace(/(\/\/[^\n]*)/g, '<span class="cm">$1</span>');
+  }
+  // 字串（雙引號，含 f"..."）
+  h = h.replace(/((?:\bf)?"[^"]*")/g, '<span class="st">$1</span>');
+  // 關鍵字
+  h = h.replace(new RegExp('\\b(' + KW.join('|') + ')\\b','g'), '<span class="kw">$1</span>');
+  // 數字
+  h = h.replace(/\b(\d+)\b/g, '<span class="nm">$1</span>');
+
+  const langLabel = lang === 'python' ? '🐍 Python' : '⚙️ C++';
+  return `<div class="code-wrap"><div class="code-header"><span class="code-dots"><span class="r"></span><span class="y"></span><span class="g"></span></span><span class="code-lang">${langLabel}</span></div><pre class="code-block">${h}</pre></div>`;
+}
+
+/* ============ Q RENDER ============ */
+window._qmap = {};
+function renderQuestion(q, opts){
+  opts = opts || {};
+  window._qmap[q.id] = q;
+  const sel = opts.userAns;
+  const showAns = opts.showAns;
+  const num = opts.num || '';
+  const chT = `<span class="ch-tag" style="background:#fef3c7;color:#92400e">第 ${q.ch} 章</span>`;
+  const cardCls = (!showAns && sel >= 0) ? 'qcard q-answered' : 'qcard';
+  let html = `<div class="${cardCls}" id="qc-${q.id}">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px">
+      <div>${num?`<strong>${num}.</strong> `:''}${chT}</div>
+    </div>
+    <div class="qtxt">${q.q}</div>
+    ${renderCode(q.code, q.lang || 'cpp')}
+    <div class="opts">`;
+  q.opts.forEach((o,i)=>{
+    let cls = 'opt';
+    if(showAns){
+      if(i===q.a) cls += ' correct';
+      else if(sel===i) cls += ' wrong';
+    } else if(sel===i){
+      cls += ' selected';
+    }
+    html += `<div class="${cls}" onclick="${opts.onclick?opts.onclick.replace('IDX',i):''}">
+      <span class="lt" style="font-weight:700;margin-right:8px">${String.fromCharCode(65+i)}:</span><span>${o}</span></div>`;
+  });
+  html += '</div>';
+  if(showAns){
+    const detailed = q.detailedExp || q.exp;
+    const safe = String(detailed).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const styled = safe
+      .replace(/^🎯 核心觀念$/m, '<div class="exp-sec exp-sec-blue">🎯 核心觀念</div>')
+      .replace(/^📝 詳細解題步驟$/m, '<div class="exp-sec exp-sec-green">📝 詳細解題步驟</div>')
+      .replace(/^🔑 關鍵技巧$/m, '<div class="exp-sec exp-sec-amber">🔑 關鍵技巧</div>')
+      .replace(/^⚠️ 常見陷阱$/m, '<div class="exp-sec exp-sec-red">⚠️ 常見陷阱</div>')
+      .replace(/^❌ 錯誤選項分析$/m, '<div class="exp-sec exp-sec-pink">❌ 錯誤選項分析</div>')
+      .replace(/^🚀 延伸知識$/m, '<div class="exp-sec exp-sec-purple">🚀 延伸知識</div>');
+    html += `<div class="exp-box">${styled.replace(/\n/g,'<br>')}</div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+/* ============ EXAM ============ */
+/* 從題池中依「難度 × 章節」均衡抽取考題
+   三個難度等級各佔 1/3；每個難度內再按章節平均分配 */
+function pickExamBalanced(pool, cnt){
+  // 為每題建立指紋
+  pool.forEach((q, i) => { q.fp = q.id || ('p'+i); });
+
+  // 依難度分桶
+  const byDiff = {1:[], 2:[], 3:[]};
+  pool.forEach(q => {
+    const d = difficultyOf(q);
+    if(byDiff[d]) byDiff[d].push(q);
+  });
+
+  // 每個難度級別的目標題數（三等分，餘數給難度 1 和 2）
+  const base = Math.floor(cnt / 3);
+  const rem  = cnt % 3;
+  const targets = { 1: base + (rem > 0 ? 1 : 0),
+                    2: base + (rem > 1 ? 1 : 0),
+                    3: base };
+
+  const selected = [];
+  const selectedSet = new Set();
+
+  // 對每個難度等級，在其內部按章節再均分
+  [1, 2, 3].forEach(d => {
+    const dPool = byDiff[d];
+    const need  = targets[d];
+    if(!dPool.length || need === 0) return;
+
+    // 按章節分桶
+    const byCh = {};
+    dPool.forEach(q => {
+      if(!byCh[q.ch]) byCh[q.ch] = [];
+      byCh[q.ch].push(q);
+    });
+    const chKeys = Object.keys(byCh).sort();
+    const perCh  = Math.floor(need / chKeys.length);
+    const chRem  = need % chKeys.length;
+
+    chKeys.forEach((ch, i) => {
+      const t = perCh + (i < chRem ? 1 : 0);
+      shuf(byCh[ch]).slice(0, t).forEach(q => {
+        if(!selectedSet.has(q.fp)) { selected.push(q); selectedSet.add(q.fp); }
+      });
+    });
+  });
+
+  // 若有難度層題源不足，從剩餘題補滿
+  if(selected.length < cnt){
+    shuf(pool.filter(q => !selectedSet.has(q.fp)))
+      .slice(0, cnt - selected.length)
+      .forEach(q => { selected.push(q); selectedSet.add(q.fp); });
+  }
+
+  return shuf(selected).slice(0, cnt);
+}
+
+function startExam(){
+  let ch = document.getElementById('exam-ch').value;
+  const cnt = parseInt(document.getElementById('exam-cnt').value);
+  // Python 模式選了 Ch6 → 切回全部章節（指標題在 Python 不適用）
+  if(G.lang === 'python' && ch === '6'){
+    toast('Python 模式不含指標題，已自動切為全部章節');
+    ch = 'all';
+    document.getElementById('exam-ch').value = 'all';
+  }
+  const pool = generateDerived(1000, ch==='all'?null:parseInt(ch), G.lang, G.diff);
+  if(pool.length<cnt){ toast('此難度題庫不足，請換難度或章節'); return; }
+  // 全部章節模式：平均分配各章節；單章節模式則純隨機抽
+  const examQs = (ch === 'all') ? pickExamBalanced(pool, cnt) : shuf(pool).slice(0, cnt);
+  G.examState = {
+    qs: examQs,
+    ans: new Array(cnt).fill(-1),
+    idx: 0,
+    lang: G.lang,
+    startTs: Date.now(),
+    limit: 90*60*1000
+  };
+  document.getElementById('exam-intro').classList.add('hidden');
+  document.getElementById('exam-run').classList.remove('hidden');
+  document.getElementById('exam-result').classList.add('hidden');
+  document.getElementById('exam-prog-txt').textContent = `0/${cnt}`;
+  startTimer();
+  renderExamQ();
+  renderQPalette();
+}
+function renderExamQ(){
+  const s = G.examState;
+  const qi = s.idx;
+  const q = s.qs[qi];
+  const total = s.qs.length;
+  const done = s.ans.filter(x=>x>=0).length;
+
+  // 難度標籤
+  const diff = difficultyOf(q);
+  const diffBadge = diff===1
+    ? '<span style="background:#d1fae5;color:#065f46;padding:3px 9px;border-radius:99px;font-size:12px;font-weight:700">⭐ 基礎</span>'
+    : diff===2
+    ? '<span style="background:#fef3c7;color:#92400e;padding:3px 9px;border-radius:99px;font-size:12px;font-weight:700">⭐⭐ 普通</span>'
+    : '<span style="background:#fee2e2;color:#991b1b;padding:3px 9px;border-radius:99px;font-size:12px;font-weight:700">⭐⭐⭐ 困難</span>';
+
+  // 章節標籤
+  const ch = CHS.find(c=>c.id===q.ch);
+  const chBadge = ch ? `<span style="background:#e0e7ff;color:#3730a3;padding:3px 9px;border-radius:99px;font-size:12px;font-weight:700">${ch.icon} ${ch.name}</span>` : '';
+
+  const html = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:6px">
+      <div style="font-size:14px;font-weight:700;color:var(--dim)">第 <strong style="font-size:18px;color:var(--fg)">${qi+1}</strong> / ${total} 題</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">${chBadge} ${diffBadge}</div>
+    </div>
+    ${renderQuestion(q, {num:qi+1, qIdx:qi, userAns:s.ans[qi], onclick:'examPick('+qi+',IDX)'})}
+  `;
+  document.getElementById('exam-qwrap').innerHTML = html;
+
+  // 更新進度條
+  document.getElementById('exam-prog-txt').textContent = `${done}/${total}`;
+  document.getElementById('exam-pbar').style.width = (done/total*100)+'%';
+
+  // 上一題/下一題按鈕狀態
+  const prevBtn = document.getElementById('exam-prev');
+  const nextBtn = document.getElementById('exam-next');
+  if(prevBtn) prevBtn.disabled = (qi === 0);
+  if(nextBtn) nextBtn.style.background = (qi === total-1) ? 'var(--dim)' : '';
+
+  renderQPalette();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function renderQPalette(){
+  const s = G.examState;
+  document.getElementById('q-palette').innerHTML = s.qs.map((q,i)=>{
+    const cls = (s.ans[i]>=0?'q-pal-btn done':'q-pal-btn');
+    return `<div class="${cls}" onclick="jumpExam(${i})">${i+1}</div>`;
+  }).join('');
+}
+function examPick(qIdx, optIdx){
+  G.examState.ans[qIdx] = optIdx;
+  // 更新當前題目卡片的選項樣式（即時反饋）
+  const q = G.examState.qs[qIdx];
+  const card = document.getElementById('qc-'+q.id);
+  if(card){
+    card.classList.add('q-answered');
+    card.querySelectorAll('.opt').forEach((el,i)=>{
+      el.classList.toggle('selected', i===optIdx);
+    });
+  }
+  // 更新進度 & 面板
+  const s = G.examState;
+  const done = s.ans.filter(x=>x>=0).length;
+  document.getElementById('exam-prog-txt').textContent = `${done}/${s.qs.length}`;
+  document.getElementById('exam-pbar').style.width = (done/s.qs.length*100)+'%';
+  renderQPalette();
+  // 選完後 0.5 秒自動跳下一題（最後一題不跳）
+  if(qIdx < s.qs.length - 1){
+    setTimeout(()=>{ s.idx = qIdx + 1; renderExamQ(); }, 500);
+  }
+}
+function examNav(d){
+  const s = G.examState;
+  s.idx = Math.max(0, Math.min(s.qs.length-1, s.idx + d));
+  renderExamQ();
+}
+function jumpExam(i){
+  G.examState.idx = i;
+  renderExamQ();
+}
+let _timerInt=null;
+function startTimer(){
+  clearInterval(_timerInt);
+  _timerInt = setInterval(()=>{
+    const s = G.examState; if(!s) return;
+    const left = s.limit - (Date.now()-s.startTs);
+    if(left<=0){ clearInterval(_timerInt); toast('時間到，自動交卷'); submitExam(); return; }
+    const m = Math.floor(left/60000), sec = Math.floor((left%60000)/1000);
+    document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+  }, 500);
+}
+function submitExam(){
+  clearInterval(_timerInt);
+  const s = G.examState;
+  let ok=0, chStat={};
+  s.qs.forEach((q,i)=>{
+    const right = s.ans[i]===q.a;
+    if(right) ok++;
+    chStat[q.ch] = chStat[q.ch]||{ok:0,tot:0};
+    chStat[q.ch].tot++;
+    if(right) chStat[q.ch].ok++;
+  });
+  const score = Math.round(ok/s.qs.length*100);
+  const rec = {ts:Date.now(), n:s.qs.length, ok, score, chStat, qs:s.qs, ans:s.ans, lang:s.lang||'cpp'};
+  G.exams.unshift(rec);
+  if(G.exams.length>20) G.exams = G.exams.slice(0,20);
+  save();
+  G.examState.result = rec;
+  renderExamResult(rec);
+}
+function renderExamResult(rec){
+  document.getElementById('exam-run').classList.add('hidden');
+  const r = document.getElementById('exam-result');
+  r.classList.remove('hidden');
+  let chBars = '';
+  Object.keys(rec.chStat).sort().forEach(ch=>{
+    const s = rec.chStat[ch];
+    const pct = Math.round(s.ok/s.tot*100);
+    const c = CHS.find(x=>x.id==ch);
+    chBars += `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px"><span>${c?c.icon:''} Ch${ch} ${c?c.name:''}</span><span><strong>${s.ok}/${s.tot}</strong> (${pct}%)</span></div><div class="pbar"><div class="pbar-fill" style="width:${pct}%;background:${pct>=80?'var(--green)':pct>=60?'var(--orange)':'var(--red)'}"></div></div></div>`;
+  });
+  let qList = '';
+  rec.qs.forEach((q,i)=>{
+    const right = rec.ans[i]===q.a;
+    qList += `<div class="qe-item ${right?'ok':'no'}">
+      <div class="qe-h" onclick="toggleQEI(${i})">
+        <div><strong>第 ${i+1} 題</strong> <span class="ch-tag" style="background:#fef3c7;color:#92400e">Ch${q.ch}</span> ${right?'<span style="color:var(--green);font-weight:700">✓ 答對</span>':'<span style="color:var(--red);font-weight:700">✗ 答錯</span>'}</div>
+        <div style="font-size:11px;color:var(--dim)">點擊展開 ▼</div>
+      </div>
+      <div class="qe-b hidden" id="qei-${i}">${renderQuestion(q, {userAns:rec.ans[i], showAns:true})}</div>
+    </div>`;
+  });
+  r.innerHTML = `<div class="result-hero">
+    <div class="score-c"><div class="score-n">${rec.score}</div><div class="score-l">分</div></div>
+    <div style="font-size:18px;font-weight:800;margin-bottom:6px">${rec.ok} / ${rec.n} 題答對</div>
+    <div style="font-size:13px;color:var(--dim)">${rec.score>=80?'🏆 優秀！繼續保持':rec.score>=60?'💪 通過！還有進步空間':'📚 加油！多多練習'}</div>
+  </div>
+  <div class="card" style="margin-bottom:16px"><div class="stitle" style="margin-bottom:14px">📊 各章節表現</div>${chBars}</div>
+  <div class="card" style="margin-bottom:16px;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #86efac">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div>
+        <div style="font-size:16px;font-weight:800;color:#065f46">📋 完整解析報告已就緒</div>
+        <div style="font-size:12px;color:#047857;margin-top:2px">所有題目皆已附超詳細解析（含核心觀念、解題步驟、常見陷阱、錯誤選項分析）</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-green btn-sm" onclick="downloadWordReport()">📥 下載 Word 詳解</button>
+        <button class="btn btn-outline btn-sm" onclick="backToExamIntro()">🔄 重新考試</button>
+      </div>
+    </div>
+  </div>
+  <div class="card"><div class="stitle" style="margin-bottom:14px">📝 全部題目詳解</div>${qList}</div>`;
+}
+function toggleQEI(i){ document.getElementById('qei-'+i).classList.toggle('hidden'); }
+function backToExamIntro(){
+  document.getElementById('exam-result').classList.add('hidden');
+  document.getElementById('exam-intro').classList.remove('hidden');
+  renderExamHist();
+  renderExamHome();
+}
+function renderExamHist(){
+  // 已移除「近期考試紀錄」區塊；考試紀錄改至「📊 成績」分頁查看
+  const wrap = document.getElementById('exam-hist');
+  if(wrap) wrap.innerHTML = '';
+}
+
+/* ============ Word 下載 ============ */
+function downloadWordReport(){
+  const rec = G.examState.result;
+  const d = new Date(rec.ts);
+  const ds = `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  let chStatHtml = '<table border="1" cellpadding="6" style="border-collapse:collapse;width:100%"><tr style="background:#1d5c3a;color:white"><th>章節</th><th>題數</th><th>答對</th><th>正確率</th></tr>';
+  Object.keys(rec.chStat).sort().forEach(ch=>{
+    const s = rec.chStat[ch];
+    const c = CHS.find(x=>x.id==ch);
+    chStatHtml += `<tr><td>第${ch}章 ${c?c.name:''}</td><td align="center">${s.tot}</td><td align="center">${s.ok}</td><td align="center">${Math.round(s.ok/s.tot*100)}%</td></tr>`;
+  });
+  chStatHtml += '</table>';
+
+  // 把超詳解轉為 Word 美化版
+  function fmtDetailed(text){
+    if(!text) return '';
+    const sectStyles = {
+      '🎯 核心觀念': 'background:#eff6ff;color:#1e40af;border-left:4px solid #3b82f6',
+      '📝 詳細解題步驟': 'background:#ecfdf5;color:#065f46;border-left:4px solid #10b981',
+      '🔑 關鍵技巧': 'background:#fffbeb;color:#92400e;border-left:4px solid #f59e0b',
+      '⚠️ 常見陷阱': 'background:#fef2f2;color:#991b1b;border-left:4px solid #ef4444',
+      '❌ 錯誤選項分析': 'background:#fdf2f8;color:#9d174d;border-left:4px solid #ec4899',
+      '🚀 延伸知識': 'background:#f5f3ff;color:#5b21b6;border-left:4px solid #8b5cf6'
+    };
+    let safe = String(text).replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    Object.entries(sectStyles).forEach(([k,v])=>{
+      const re = new RegExp('^'+k.replace(/([.*+?^=!:${}()|\[\]\/\\])/g,'\\$1')+'$','m');
+      safe = safe.replace(re, `</p><p style="margin:14px 0 6px;padding:8px 12px;font-weight:bold;font-size:14px;${v};border-radius:6px">${k}</p><p style="margin:0;padding:4px 10px;font-size:13px;line-height:1.85;white-space:pre-wrap">`);
+    });
+    return '<p style="margin:0;padding:4px 10px;font-size:13px;line-height:1.85;white-space:pre-wrap">' + safe + '</p>';
+  }
+
+  let qHtml = '';
+  rec.qs.forEach((q,i)=>{
+    const right = rec.ans[i]===q.a;
+    let optHtml = '';
+    q.opts.forEach((o,j)=>{
+      let style = 'padding:7px 12px;margin:4px 0;border:1px solid #ddd;border-radius:5px';
+      let prefix = '';
+      if(j===q.a){ style += ';background:#d1fae5;border-color:#10b981;font-weight:bold'; prefix='✓ '; }
+      if(rec.ans[i]===j && j!==q.a){ style += ';background:#fee2e2;border-color:#ef4444'; prefix='✗ '; }
+      optHtml += `<div style="${style}">${prefix}<strong>${String.fromCharCode(65+j)}:</strong> ${o}</div>`;
+    });
+    qHtml += `<div style="margin-bottom:28px;padding:16px;border-left:5px solid ${right?'#10b981':'#ef4444'};background:#fafbfc;border-radius:6px;page-break-inside:avoid">
+      <div style="font-size:13px;color:#6b7280;margin-bottom:8px">第 ${i+1} 題　第 ${q.ch} 章　${right?'<span style="color:#10b981;font-weight:bold">✓ 答對</span>':'<span style="color:#ef4444;font-weight:bold">✗ 答錯</span>'}<br>學生作答：${rec.ans[i]<0?'未作答':String.fromCharCode(65+rec.ans[i])+': '+q.opts[rec.ans[i]]}　正確答案：${String.fromCharCode(65+q.a)}: ${q.opts[q.a]}</div>
+      <div style="font-size:16px;font-weight:bold;margin-bottom:10px;color:#1f2937">${q.q.replace(/<[^>]+>/g,'')}</div>
+      ${q.code?(()=>{
+        const src = (q.lang==='python') ? toPython(q.code) : q.code;
+        const langTag = q.lang==='python' ? '🐍 Python' : '⚙️ C++';
+        return `<div style="margin:10px 0;border-radius:8px;overflow:hidden;border:1px solid #30363d"><div style="background:#161b22;color:#c9d1d9;padding:6px 12px;font-size:11px;font-family:Consolas,monospace;text-align:right">${langTag}</div><pre style="background:#0d1117;color:#c9d1d9;padding:14px;margin:0;font-family:'Consolas','Courier New',monospace;font-size:13px;white-space:pre;overflow-x:auto;line-height:1.6;tab-size:4">${src.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></div>`;
+      })():''}
+      ${optHtml}
+      <div style="margin-top:14px;padding:14px;background:#fff;border:1px solid #e5e7eb;border-radius:8px">
+        <div style="font-weight:bold;font-size:14px;color:#1f2937;margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid #e5e7eb">📋 完整詳細解析</div>
+        ${fmtDetailed(q.detailedExp || q.exp)}
+      </div>
+    </div>`;
+  });
+
+  const examLangLabel = rec.lang === 'python' ? '🐍 Python' : '⚙️ C++';
+  const html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="utf-8"><title>高中生程式能力測試詳解報告</title></head><body style="font-family:'Microsoft JhengHei','Microsoft YaHei',sans-serif;padding:28px;line-height:1.6;color:#1f2937">
+    <h1 style="text-align:center;color:#1d5c3a;font-size:26px;margin-bottom:6px">高中生程式能力測試詳解報告</h1>
+    <div style="text-align:center;color:#6b7280;margin-bottom:24px;font-size:13px">考生：${G.user}　|　考試時間：${ds}　|　共 ${rec.n} 題　|　語言：${examLangLabel}</div>
+    <div style="text-align:center;padding:28px;background:linear-gradient(135deg,#1d5c3a,#2d8a5a);color:white;border-radius:14px;margin-bottom:28px">
+      <div style="font-size:56px;font-weight:bold;line-height:1">${rec.score}</div>
+      <div style="font-size:14px;margin-top:4px;opacity:.9">分</div>
+      <div style="font-size:18px;margin-top:10px">${rec.ok} / ${rec.n} 題答對</div>
+    </div>
+    <h2 style="color:#1f2937;border-bottom:2px solid #e5e7eb;padding-bottom:6px;font-size:18px">📊 章節表現</h2>
+    ${chStatHtml}
+    <h2 style="color:#1f2937;border-bottom:2px solid #e5e7eb;padding-bottom:6px;margin-top:30px;font-size:18px">📝 全部題目超詳細解析</h2>
+    <div style="font-size:12px;color:#6b7280;margin-bottom:16px">每題包含：🎯 核心觀念　📝 解題步驟　🔑 關鍵技巧　⚠️ 常見陷阱　❌ 錯誤選項分析　🚀 延伸知識</div>
+    ${qHtml}
+    <div style="text-align:center;color:#9ca3af;font-size:11px;margin-top:30px;border-top:1px solid #e5e7eb;padding-top:14px;line-height:1.7">
+      <div style="margin-bottom:4px">高中生程式能力測試　|　完整離線詳解</div>
+      <div>⚠️ 本報告為非官方學習工具產出，所有題目皆為程式生成的衍生題目，僅供自學參考。</div>
+    </div>
+  </body></html>`;
+  const blob = new Blob(['\ufeff'+html], {type:'application/msword'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const fileLang = rec.lang === 'python' ? 'Python' : 'Cpp';
+  a.download = `程式能力測試模擬_${fileLang}_${G.user}_${d.getFullYear()}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}.doc`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('Word 報告已下載！');
+}
+
+/* ============ STATS ============ */
+function renderStats(){
+  const n = G.exams.length;
+  if(!n){
+    document.getElementById('stat-grid').innerHTML = `
+      <div class="stat-c"><div class="v" style="color:var(--blue)">0</div><div class="l">已完成模擬考</div></div>
+      <div class="stat-c"><div class="v" style="color:var(--green)">—</div><div class="l">最佳成績</div></div>
+      <div class="stat-c"><div class="v" style="color:var(--orange)">—</div><div class="l">平均成績</div></div>
+      <div class="stat-c"><div class="v" style="color:var(--violet)">—</div><div class="l">最近成績</div></div>`;
+    document.getElementById('ch-bars').innerHTML = '<div class="empty" style="padding:20px">尚無資料，先完成一次模擬考試！</div>';
+    document.getElementById('exam-hist-stats').innerHTML = '<div class="empty" style="padding:20px">尚無考試紀錄</div>';
+    return;
+  }
+  const scores = G.exams.map(e=>e.score);
+  const best = Math.max(...scores);
+  const avg = Math.round(scores.reduce((s,x)=>s+x,0) / n);
+  const latest = G.exams[0].score; // 最新一筆（G.exams 用 unshift 加入）
+  document.getElementById('stat-grid').innerHTML = `
+    <div class="stat-c"><div class="v" style="color:var(--blue)">${n}</div><div class="l">已完成模擬考</div></div>
+    <div class="stat-c"><div class="v" style="color:var(--green)">${best}</div><div class="l">最佳成績</div></div>
+    <div class="stat-c"><div class="v" style="color:var(--orange)">${avg}</div><div class="l">平均成績</div></div>
+    <div class="stat-c"><div class="v" style="color:var(--violet)">${latest}</div><div class="l">最近成績</div></div>`;
+
+  // 章節累積：跨歷次考試合計各章節答對 / 總數
+  const chAgg = {};
+  G.exams.forEach(e=>{
+    Object.keys(e.chStat||{}).forEach(ch=>{
+      chAgg[ch] = chAgg[ch] || {ok:0, tot:0};
+      chAgg[ch].ok += e.chStat[ch].ok;
+      chAgg[ch].tot += e.chStat[ch].tot;
+    });
+  });
+  let chHtml = '';
+  CHS.forEach(c=>{
+    const s = chAgg[c.id] || {ok:0, tot:0};
+    const pct = s.tot ? Math.round(s.ok / s.tot * 100) : 0;
+    chHtml += `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span>${c.icon} 第${c.id}章 ${c.name}</span><span><strong>${s.ok}/${s.tot}</strong> (${s.tot?pct+'%':'—'})</span></div><div class="pbar"><div class="pbar-fill" style="width:${pct}%;background:${pct>=80?'var(--green)':pct>=60?'var(--orange)':'var(--red)'}"></div></div></div>`;
+  });
+  document.getElementById('ch-bars').innerHTML = chHtml;
+
+  document.getElementById('exam-hist-stats').innerHTML = `<div class="card">` + G.exams.map((e,i)=>{
+    const d = new Date(e.ts);
+    return `<div style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:10px;background:var(--bg);margin-bottom:6px"><div><div style="font-weight:700;font-size:14px">${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}</div><div style="font-size:11px;color:var(--dim);margin-top:2px">${e.n} 題　答對 ${e.ok} 題</div></div><div style="font-size:24px;font-weight:800;color:${e.score>=80?'var(--green)':e.score>=60?'var(--orange)':'var(--red)'}">${e.score}<span style="font-size:11px;font-weight:600;color:var(--dim);margin-left:2px">分</span></div></div>`;
+  }).join('') + '</div>';
+}
+
+/* ============ TOAST ============ */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2400);
+}
+
+/* ============ 頁面載入後自動初始化（無需輸入姓名） ============ */
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', autoInit);
+}else{
+  autoInit();
+}
+</script>
+
+<!-- ═══════════════════════════════════════════════════════════════════════
+     📊 訪客分析工具（任選其一或多選，把對應的 token/ID 填上即可）
+     ═══════════════════════════════════════════════════════════════════════ -->
+
+<!-- ─────────────────────────────────────────────────
+     【推薦】Cloudflare Web Analytics — 免費、不需 cookie、無流量上限
+     設定步驟：
+       1. 註冊 https://www.cloudflare.com/web-analytics/
+       2. 新增 site → 填上你的 GitHub Pages 網址
+       3. 把下面 PASTE_YOUR_CLOUDFLARE_TOKEN_HERE 替換成它給你的 token
+       4. 把這段註解 <!-- 移除（解除註解）
+     ───────────────────────────────────────────────── -->
+<!--
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js'
+        data-cf-beacon='{"token": "PASTE_YOUR_CLOUDFLARE_TOKEN_HERE"}'></script>
+-->
+
+<!-- ─────────────────────────────────────────────────
+     【選用】Google Analytics 4 — 詳細資料、需訪客同意 cookie
+     設定步驟：
+       1. 註冊 https://analytics.google.com/
+       2. 建立資源 → 拿到 Measurement ID (G-XXXXXXXXXX)
+       3. 把下面兩處 G-XXXXXXXXXX 替換成你的 ID
+       4. 解除註解
+     ───────────────────────────────────────────────── -->
+<!--
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
+-->
+
+</body>
+</html>
